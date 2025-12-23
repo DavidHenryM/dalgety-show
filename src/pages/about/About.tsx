@@ -1,6 +1,6 @@
 import { Grid, Paper, Typography } from "@mui/material";
-import { Background } from "../components/Background";
-import cow1 from '../assets/images/gallery/Cow_1.jpg'
+import { Background } from "../../components/Background";
+import cow1 from '../../assets/images/gallery/Cow_1.jpg'
 
 export default function About(props: {sideBarWidth: number}) {
   return (

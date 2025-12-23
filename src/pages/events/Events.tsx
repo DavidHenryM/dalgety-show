@@ -1,5 +1,5 @@
 import { Paper } from "@mui/material";
-import { events } from "../data/events";
+import { events } from "../../data/events";
 
 export default function Events(props: {sideBarWidth: number}) {
   return (

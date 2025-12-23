@@ -1,6 +1,6 @@
-import sheepJudging from '../assets/images/gallery/Sheep_6.jpg'
-import noDogs from '../assets/images/noDogs.png'
-import { Background } from "../components/Background";
+import sheepJudging from '../../assets/images/gallery/Sheep_6.jpg'
+import noDogs from '../../assets/images/noDogs.png'
+import { Background } from "../../components/Background";
 import { Card, CardContent, CardMedia, Grid, Paper, Typography } from "@mui/material";
 
 export default function Home(props: {sideBarWidth: number}){

@@ -1,8 +1,8 @@
 import { Container, Grid, Typography } from "@mui/material";
-import ContactCard from "../components/ContactCard";
-import { contacts } from "../data/contacts"
-import { Background } from "../components/Background";
-import cow1 from "../assets/images/gallery/Cow_1.jpg"
+import ContactCard from "../../components/ContactCard";
+import { contacts } from "../../data/contacts"
+import { Background } from "../../components/Background";
+import cow1 from "../../assets/images/gallery/Cow_1.jpg"
 
 export default function Contact(props: {sideBarWidth: number}){
   return (
