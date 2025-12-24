@@ -4,6 +4,7 @@ export interface NavItem {
   label: string;
   path: string;
   Icon: FC
+  Content: FC<any>
 }
 
 export interface EventItem {
