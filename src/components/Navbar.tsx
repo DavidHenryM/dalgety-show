@@ -1,5 +1,5 @@
 import { navigation } from "../data/navigation";
-import { AppBar, Button, Container, Divider, Drawer, IconButton, Link, List, ListItem, ListItemButton, ListItemIcon, Toolbar, Tooltip, Typography} from "@mui/material";
+import { AppBar, Button, Container, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, Toolbar, Tooltip, Typography} from "@mui/material";
 import type { Dispatch } from "react";
 import DarkModeIcon from '@mui/icons-material/DarkMode'
 import LightModeIcon from '@mui/icons-material/LightMode'
@@ -21,7 +21,7 @@ export default function Navbar(props: {drawerWidth: number, darkModeActive: bool
           The Dalgety Show
         </Typography>
 
-        {navigation.map((item, index) => (
+        {/* {navigation.map((item, index) => (
           <Button key={`button${index}`}>
             <Link
               color="textPrimary"         
@@ -30,7 +30,7 @@ export default function Navbar(props: {drawerWidth: number, darkModeActive: bool
               href={item.path}>{item.label}
             </Link>
           </Button> 
-        ))}
+        ))} */}
         <Tooltip title="Click to see change theme">
           {
             props.darkModeActive ?
