@@ -8,7 +8,7 @@ export default defineConfig(({ command }) => {
   if (command === 'serve') {
     base = '/' // Dev server path
   }
-  base = '/'
+
   return { 
     base: base,
     plugins: [react()],
