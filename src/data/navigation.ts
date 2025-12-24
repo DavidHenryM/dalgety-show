@@ -6,13 +6,20 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import CollectionsIcon from '@mui/icons-material/Collections';
 import ContactMailIcon from '@mui/icons-material/ContactMail';
 import CardMembershipIcon from '@mui/icons-material/CardMembership';
+import Home from "../pages/home/Home";
+import Events from "../pages/events/Events";
+import Schedule from "../pages/schedule/Schedule";
+import Membership from "../pages/membership/Membership";
+import Gallery from "../pages/gallery/Gallery";
+import About from "../pages/about/About";
+import Contact from "../pages/contact/Contact";
 
 export const navigation: NavItem[] = [
-  { label: "HOME", path: "/", Icon: HomeIcon},
-  { label: "EVENTS", path: "/events", Icon: EmojiEventsIcon},
-  { label: "SCHEDULE", path: "/schedule", Icon: CalendarMonthIcon},
-  { label: "MEMBERSHIP", path: "/membership", Icon: CardMembershipIcon },
-  { label: "GALLERY", path: "/gallery", Icon: CollectionsIcon },
-  { label: "CONTACT", path: "/contact",  Icon: ContactMailIcon},
-  { label: "ABOUT", path: "/about", Icon: InfoIcon },
+  { label: "HOME", path: "../home/", Icon: HomeIcon, Content: Home},
+  { label: "EVENTS", path: "../events/", Icon: EmojiEventsIcon, Content: Events},
+  { label: "SCHEDULE", path: "../schedule/", Icon: CalendarMonthIcon, Content: Schedule},
+  { label: "MEMBERSHIP", path: "../membership/", Icon: CardMembershipIcon , Content: Membership},
+  { label: "GALLERY", path: "../gallery/", Icon: CollectionsIcon , Content: Gallery},
+  { label: "CONTACT", path: "../contact/",  Icon: ContactMailIcon, Content: Contact},
+  { label: "ABOUT", path: "../about/", Icon: InfoIcon, Content: About},
 ];
