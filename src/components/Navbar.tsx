@@ -7,7 +7,13 @@ import logo from '../assets/images/Dalgety Show V2.png'
 import { CountDownCard } from "./CountDownCard";
 import { getNextShowDate } from "../utils";
 
-export default function Navbar(props: {drawerWidth: number, mobile: boolean, darkModeActive: boolean, setDarkModeActive: Dispatch<React.SetStateAction<boolean>>}) {
+export default function Navbar(props: {
+  drawerWidth: number, 
+  mobile: boolean, 
+  darkModeActive: boolean, 
+  setDarkModeActive: Dispatch<React.SetStateAction<boolean>>, 
+  setContentString: Dispatch<React.SetStateAction<string>>}) {
+
   const drawerWidth = props.drawerWidth
   return (
     <>
@@ -59,7 +65,7 @@ export default function Navbar(props: {drawerWidth: number, mobile: boolean, dar
         <List>
           {navigation.map((nav) => (
             <ListItem key={nav.label} disablePadding>
-              <ListItemButton href={nav.path}>
+              <ListItemButton onClick={()=>(props.setContentString(nav.label))}>
                 <ListItemIcon>
                   <nav.Icon/>
                 </ListItemIcon>
