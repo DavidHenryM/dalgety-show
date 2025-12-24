@@ -13,10 +13,25 @@ import { ThemeProvider } from "@emotion/react";
 import { useEffect, useState } from "react";
 import type { Theme } from "@mui/material";
 import { lightTheme, darkTheme } from "./styles/theme";
+import { useWindowSize } from "./hooks";
 
 const App: React.FC = () => {
   const [theme, setTheme] = useState<Theme>(lightTheme)
   const [darkModeActive, setDarkModeActive] = useState<boolean>(false)
+  const [sideBarWidth, setSideBarWidth] = useState<number>(240)
+  const [mobileActive, setMobileActive] = useState<boolean>(false)
+
+  const windowSize = useWindowSize()
+
+  useEffect(()=>{
+    if(windowSize.width >= 800){
+      setSideBarWidth(240)
+      setMobileActive(false)
+    } else {
+      setSideBarWidth(50)
+      setMobileActive(true)
+    }
+  },[windowSize])
 
   useEffect(()=>{
     if(darkModeActive){
@@ -26,12 +41,11 @@ const App: React.FC = () => {
     }
   },[darkModeActive])
 
-  const sideBarWidth = 240
 
   return (
     <>
       <ThemeProvider theme={theme}>
-        <Navbar drawerWidth={sideBarWidth} setDarkModeActive={setDarkModeActive} darkModeActive={darkModeActive}/>
+        <Navbar drawerWidth={sideBarWidth} mobile={mobileActive} setDarkModeActive={setDarkModeActive} darkModeActive={darkModeActive}/>
         <Routes>
           <Route path="/" element={<Home sideBarWidth={sideBarWidth}/>} />
           <Route path="/about" element={<About sideBarWidth={sideBarWidth}/>} />
