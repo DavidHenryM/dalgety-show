@@ -15,13 +15,16 @@ export default defineConfig(({  }) => {
     build: {
     rollupOptions: {
       input: {
-        home: resolve(__dirname, 'index.html'),
-        events: resolve(__dirname, 'src/pages/events/index.html'),
-        schedule: resolve(__dirname, 'src/pages/schedule/index.html'),
-        membership: resolve(__dirname, 'src/pages/membership/index.html'),
-        gallery: resolve(__dirname, 'src/pages/gallery/index.html'),
-        contact: resolve(__dirname, 'src/pages/contact/index.html'),
-        about: resolve(__dirname, 'src/pages/about/index.html'),
+        home: resolve(__dirname, './home/index.html'),
+        events: resolve(__dirname, './events/index.html'),
+        schedule: resolve(__dirname, './schedule/index.html'),
+        membership: resolve(__dirname, './membership/index.html'),
+        gallery: resolve(__dirname, './gallery/index.html'),
+        contact: resolve(__dirname, './contact/index.html'),
+        about: resolve(__dirname, './about/index.html'),
+      },
+      output:{
+
       }
     }
   }
