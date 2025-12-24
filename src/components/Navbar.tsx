@@ -48,6 +48,7 @@ export default function Navbar(props: {drawerWidth: number, mobile: boolean, dar
           sx: {
             backgroundColor: "secondary.main", // Or any custom hex/color
             color: "primary.main",               // Sets text color
+            scrollbarWidth: 'none',
           }
         }}}
         variant="permanent"
