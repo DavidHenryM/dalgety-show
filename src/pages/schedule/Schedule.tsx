@@ -17,7 +17,7 @@ export default function Schedule(props: {sideBarWidth: number}){
   const [numPages, setNumPages] = useState<number>();
   const [pageNumber, setPageNumber] = useState<number>(1);
 
-  const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
+  const handlePageChange = (_event: React.ChangeEvent<unknown>, value: number) => {
     setPageNumber(value);
   };
 
@@ -36,22 +36,22 @@ export default function Schedule(props: {sideBarWidth: number}){
 
   return (
     <>
-    <Background image={horseJump2}/>
-    <Grid container spacing={2} padding={2} sx={{ml: `${props.sideBarWidth}px`, mt: "25px", justifyContent: "center"}}>
-      <Grid size={5} alignItems={"center"}>
-        <Paper sx={{ml: `${props.sideBarWidth}px`, justifyItems: "center"}}>
-          <Document file={horseSchedule2025} onLoadSuccess={onDocumentLoadSuccess}>
-            <Page pageNumber={pageNumber} />
-          </Document>
-        </Paper>
-      </Grid>
-      <Grid>
-                <Stack spacing={2}>
-        <Typography>Page: {pageNumber}</Typography>
-        <Pagination count={numPages} page={pageNumber} onChange={handlePageChange} />
-      </Stack>
-      </Grid>
-</Grid>
+      <Background image={horseJump2}/>
+        <Grid container spacing={2} padding={2} sx={{ml: `${props.sideBarWidth}px`, mt: "25px", justifyContent: "center"}}>
+          <Grid size={5} alignItems={"center"}>
+            <Paper sx={{ml: `${props.sideBarWidth}px`, justifyItems: "center"}}>
+              <Document file={horseSchedule2025} onLoadSuccess={onDocumentLoadSuccess}>
+                <Page pageNumber={pageNumber} />
+              </Document>
+            </Paper>
+          </Grid>
+          <Grid>
+            <Stack spacing={2}>
+              <Typography>Page: {pageNumber}</Typography>
+              <Pagination count={numPages} page={pageNumber} onChange={handlePageChange} />
+            </Stack>
+          </Grid>
+        </Grid>
     </>
   );
 };
