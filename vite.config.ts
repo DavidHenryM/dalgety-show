@@ -3,11 +3,11 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
 
-export default defineConfig(({ command }) => {
+export default defineConfig(({  }) => {
   let base = '/dalgety-show/'
-  if (command === 'serve') {
-    base = '/' // Dev server path
-  }
+  // if (command === 'serve') {
+  //   base = '/' // Dev server path
+  // }
 
   return { 
     base: base,

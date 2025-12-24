@@ -1,5 +1,5 @@
 import { navigation } from "../data/navigation";
-import { AppBar, Button, Container, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, Toolbar, Tooltip, Typography} from "@mui/material";
+import { AppBar, Container, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, Toolbar, Tooltip, Typography} from "@mui/material";
 import type { Dispatch } from "react";
 import DarkModeIcon from '@mui/icons-material/DarkMode'
 import LightModeIcon from '@mui/icons-material/LightMode'
@@ -7,7 +7,7 @@ import logo from '../assets/images/Dalgety Show V2.png'
 import { CountDownCard } from "./CountDownCard";
 import { getNextShowDate } from "../utils";
 
-export default function Navbar(props: {drawerWidth: number, darkModeActive: boolean, setDarkModeActive: Dispatch<React.SetStateAction<boolean>>}) {
+export default function Navbar(props: {drawerWidth: number, mobile: boolean, darkModeActive: boolean, setDarkModeActive: Dispatch<React.SetStateAction<boolean>>}) {
   const drawerWidth = props.drawerWidth
   return (
     <>
@@ -20,17 +20,6 @@ export default function Navbar(props: {drawerWidth: number, darkModeActive: bool
         >
           The Dalgety Show
         </Typography>
-
-        {/* {navigation.map((item, index) => (
-          <Button key={`button${index}`}>
-            <Link
-              color="textPrimary"         
-              underline="hover"
-              key={item.path}
-              href={item.path}>{item.label}
-            </Link>
-          </Button> 
-        ))} */}
         <Tooltip title="Click to see change theme">
           {
             props.darkModeActive ?
@@ -61,7 +50,6 @@ export default function Navbar(props: {drawerWidth: number, darkModeActive: bool
             color: "primary.main",               // Sets text color
           }
         }}}
-       
         variant="permanent"
         anchor="left"
       >
@@ -74,15 +62,17 @@ export default function Navbar(props: {drawerWidth: number, darkModeActive: bool
                 <ListItemIcon>
                   <nav.Icon/>
                 </ListItemIcon>
-                <Typography variant="h6">{nav.label}
-                </Typography>
+                {props.mobile ? <></>:
+                <Typography variant="h6">
+                  {nav.label}
+                </Typography>}
               </ListItemButton>
             </ListItem>
           ))}
         </List>
         <Divider />
         <Container sx={{alignItems: "flex-end", marginTop: 'auto', marginBottom: 2}}>
-          <CountDownCard countDownTo={getNextShowDate()}/>
+          <CountDownCard countDownTo={getNextShowDate()} mobileActive={props.mobile}/>
         </Container>
       </Drawer>
     </>
