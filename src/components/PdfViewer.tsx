@@ -1,12 +1,16 @@
-import { Paper, Pagination, Stack } from "@mui/material";
+import { Paper, Pagination, Stack, IconButton } from "@mui/material";
 import { Document, Page } from 'react-pdf';
 import { pdfjs } from 'react-pdf';
 import { useState } from "react";
+import DownloadIcon from '@mui/icons-material/Download';
+import { splitFilePath } from "../utils";
 
 export function PdfViewer(props: {sideBarWidth: number, pdfFilePath: string}){
   const [numPages, setNumPages] = useState<number>();
   const [pageNumber, setPageNumber] = useState<number>(1);
 
+  const [directory, fileName] = splitFilePath(props.pdfFilePath)
+  console.log(directory, fileName)
   const handlePageChange = (_event: React.ChangeEvent<unknown>, value: number) => {
     setPageNumber(value);
   };
@@ -42,7 +46,9 @@ export function PdfViewer(props: {sideBarWidth: number, pdfFilePath: string}){
                   backgroundColor: 'primary.main', // Optional: background for active page
                 },
               }}/>
-          {/* </Stack> */}
+            <IconButton aria-label="delete" size="small" component="a" href={props.pdfFilePath} download={fileName}>
+              <DownloadIcon fontSize="inherit" />
+            </IconButton>
         </Paper>
       </Stack>
     </Paper>

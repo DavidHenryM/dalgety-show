@@ -71,3 +71,10 @@ function getSecondSundayOfMarch(year: number) {
   return date;
 }
 
+export function splitFilePath(fullPath: string): [string,string]{
+    // Find the last index of the directory separator
+  const lastSlash = fullPath.lastIndexOf('/');
+  const directory = fullPath.substring(0, lastSlash); // "/users/joe"
+  const fileName = fullPath.substring(lastSlash + 1); // "notes.txt"
+  return [directory, fileName]
+}
