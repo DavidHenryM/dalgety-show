@@ -1,0 +1,1 @@
+export const drawerWidth = {sm: "0px", md: "50px", lg: "240px"}
