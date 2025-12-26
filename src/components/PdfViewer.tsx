@@ -7,19 +7,17 @@ import { splitFilePath } from "../utils";
 import { drawerWidth } from "../styles/settings";
 
 export function PdfViewer(props: {pdfFilePath: string}){
-  const [numPages, setNumPages] = useState<number>();
-  const [pageNumber, setPageNumber] = useState<number>(1);
-
-  const [directory, fileName] = splitFilePath(props.pdfFilePath)
-  console.log(directory, fileName)
+  const [numPages, setNumPages] = useState<number>()
+  const [pageNumber, setPageNumber] = useState<number>(1)
+ 
   const handlePageChange = (_event: React.ChangeEvent<unknown>, value: number) => {
     setPageNumber(value);
-  };
+  }
 
   pdfjs.GlobalWorkerOptions.workerSrc = new URL(
     'pdfjs-dist/build/pdf.worker.min.mjs',
     import.meta.url,
-  ).toString();
+  ).toString()
 
   function onDocumentLoadSuccess({ numPages }: { numPages: number }): void {
     setNumPages(numPages);
@@ -58,7 +56,12 @@ export function PdfViewer(props: {pdfFilePath: string}){
                   backgroundColor: 'primary.main', // Optional: background for active page
                 },
               }}/>
-            <IconButton aria-label="delete" size="small" component="a" href={props.pdfFilePath} download={fileName}>
+            <IconButton 
+              aria-label="download" 
+              size="small" 
+              component="a" 
+              href={props.pdfFilePath} 
+              download={splitFilePath(props.pdfFilePath)[1]}>
               <DownloadIcon fontSize="inherit" />
             </IconButton>
         </Paper>
