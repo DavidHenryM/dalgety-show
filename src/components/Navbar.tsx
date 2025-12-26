@@ -1,11 +1,10 @@
 import { navigation } from "../data/navigation";
-import { AppBar, Container, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, Toolbar, Tooltip, Typography} from "@mui/material";
-import type { Dispatch } from "react";
-import DarkModeIcon from '@mui/icons-material/DarkMode'
-import LightModeIcon from '@mui/icons-material/LightMode'
+import { Container, Divider, Drawer, List, ListItem, ListItemButton, ListItemIcon, Tooltip, Typography} from "@mui/material";
+import { useState, type Dispatch } from "react";
 import logo from '../assets/images/Dalgety Show V2.png'
 import { CountDownCard } from "./CountDownCard";
 import { getNextShowDate } from "../utils";
+import { drawerWidth } from "../styles/settings";
 
 export default function Navbar(props: {
   windowMargins: {ml: number, mb: number} 
@@ -13,40 +12,19 @@ export default function Navbar(props: {
   darkModeActive: boolean, 
   setDarkModeActive: Dispatch<React.SetStateAction<boolean>>, 
   setContentString: Dispatch<React.SetStateAction<string>>}) {
-
-  const drawerWidth = props.windowMargins.ml
+  const [drawerOpen, setDrawerOpen] = useState(true)
   return (
     <>
-    <AppBar component="nav" position="static" sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}>
-      <Toolbar >
-        <Typography
-          variant="h6"
-          component="div"
-          sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
-        >
-          The Dalgety Show
-        </Typography>
-        <Tooltip title="Click to see change theme">
-          {
-            props.darkModeActive ?
-              <IconButton onClick={() => props.setDarkModeActive(false)}>
-                <LightModeIcon />
-              </IconButton>
-              :
-              <IconButton onClick={() => props.setDarkModeActive(true)}>
-                <DarkModeIcon />
-              </IconButton>
-          }
-        </Tooltip>
-      </Toolbar>
-    </AppBar>
-    <Drawer
+      <Drawer
         sx={{
-          width: drawerWidth,
           display: 'flex', flexDirection: 'column',
           flexShrink: 0,
           '& .MuiDrawer-paper': {
-            width: drawerWidth,
+            width: {
+              sm: drawerWidth.sm, 
+              md: drawerWidth.md, 
+              lg: drawerWidth.lg
+            },
             boxSizing: 'border-box',
           },
         }}
@@ -57,8 +35,9 @@ export default function Navbar(props: {
             scrollbarWidth: 'none',
           }
         }}}
-        variant="permanent"
+        variant="persistent"
         anchor="left"
+        open={drawerOpen}
       >
         <Divider />
         <img src={logo}/>
@@ -70,7 +49,7 @@ export default function Navbar(props: {
                   <ListItemIcon>
                     <nav.Icon/>
                   </ListItemIcon>
-                  {props.mobile ? <></>:
+                    {props.mobile ? <></>:
                   <Typography variant="h6">
                     {nav.label}
                   </Typography>}
@@ -81,10 +60,12 @@ export default function Navbar(props: {
         </List>
         <Divider />
         <Container sx={{alignItems: "flex-end", marginTop: 'auto', marginBottom: 2}}>
-          <CountDownCard countDownTo={getNextShowDate()} mobileActive={props.mobile}/>
+          <CountDownCard countDownTo={getNextShowDate()}/>
         </Container>
       </Drawer>
     </>
   )
 }
+
+
 
