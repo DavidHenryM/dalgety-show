@@ -5,19 +5,19 @@ import cow1 from '../../assets/images/gallery/Cow_1.jpg'
 export default function About(props: {sideBarWidth: number}) {
   return (
     <>
-    <Background image={cow1} />
-      <Grid container spacing={2} sx={{p:10, ml: `${props.sideBarWidth}px`}}>
-      <Grid size={3}>
+      <Background image={cow1} />
+      <Grid container spacing={2} sx={{p:{sm: 1, md: 2, lg: 10}, ml: `${props.sideBarWidth}px`}}>
+        <Grid size={12}>
+          <Paper sx={{p:2}}>
+            <Typography variant="h4">The Show</Typography>
+            <Typography>The Dalgety Show has been running for over a century and showcases
+              livestock, horses, produce, crafts, and rural skills.</Typography>
+          </Paper>
+      </Grid>
+      <Grid size={12}>
         <Paper sx={{p:2}}>
-          <Typography variant="h4">The Show</Typography>
-          <Typography>The Dalgety Show has been running for over a century and showcases
-            livestock, horses, produce, crafts, and rural skills.</Typography>
-        </Paper>
-    </Grid>
-    <Grid size={6}>
-      <Paper sx={{p:2}}>
-        <Typography variant="h4">The Capital</Typography>
-        <Typography>
+          <Typography variant="h4">The Capital</Typography>
+          <Typography>
           {
             `Over 100 years ago, in 1904, it was gazetted in Federal Parliament that the town of Dalgety would become the site for the Capital City of Australia. Dalgety was a popular choice at the time due to it being exactly halfway between Sydney and Melbourne and a suitable distance inland to avoid attack from the sea!! The senators came and “bathed in the river” and a decision was made in favour of the town. Extracts from a Sydney newspaper of the time say “Our representative, who has photographed every one of the sites, and who has been over practically every corner of the Commonwealth, is one of the enthusiasts with regard to Dalgety.”
 
@@ -31,7 +31,7 @@ export default function About(props: {sideBarWidth: number}) {
 `}</Typography>
 </Paper>
 </Grid>
-    <Grid size={6}>
+    <Grid size={12}>
       <Paper sx={{p:2}}>
         <Typography variant="h4">The Town</Typography>
         <Typography>

@@ -7,8 +7,8 @@ export default function Home(props: {sideBarWidth: number}){
   return (
     <>
       <Background image={sheepJudging}/>
-      <Grid container spacing={2} padding={2} sx={{ml: `${props.sideBarWidth}px`, mt: "25px", justifyContent: "center"}}>
-        <Grid size={8} alignItems={"center"}>
+      <Grid container spacing={2} padding={2} sx={{p:{sm: 1, md: 2, lg: 10}, ml: `${props.sideBarWidth}px`, mt: "25px", justifyContent: "center"}}>
+        <Grid size={12} alignItems={"center"}>
           <Paper  sx={{p:2, backgroundColor:"secondary.main",  justifyItems: "center"}}>
             <Typography variant='h3' sx={{color: "primary.main"}}>The 82nd Annual Dalgety Show</Typography>
             <Typography variant='h4' sx={{color: "primary.main"}}>Live Well, Farm Well</Typography>
@@ -26,7 +26,7 @@ export default function Home(props: {sideBarWidth: number}){
             </Typography>
           </Paper>
           </Grid>
-          <Grid size={2}>
+          <Grid size={4}>
             <Card sx={{p:2, backgroundColor:"secondary.main"}}>
               <CardMedia 
                 sx={{ height: 200, width: 150, justifySelf:"center"}}

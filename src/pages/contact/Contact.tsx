@@ -14,7 +14,7 @@ export default function Contact(props: {sideBarWidth: number}){
           { 
             contacts.map((contact, index)=>{
               return (
-                <Grid sx={{p: 2}} size={4}>
+                <Grid sx={{p: {sm: 0, md:2}}} size={{sm: 12, md:6, lg:4}}>
                   <ContactCard key={index} contact={contact}/>
                 </Grid>
             )
