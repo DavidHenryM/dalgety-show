@@ -1,16 +1,19 @@
-import { Divider, Paper, Tooltip, Typography } from "@mui/material";
+import { Divider, Paper, Tooltip, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { useEffect, useState } from "react";
 import { dateDiffInDays, getDateString } from "../utils";
 
-export function CountDownCard(props: {countDownTo: Date, mobileActive: boolean}){
+export function CountDownCard(props: {countDownTo: Date}){
   const [daysRemaining, setDaysRemaining] = useState<number>()
   
   useEffect(()=>{
     const today = new Date()
     setDaysRemaining(dateDiffInDays(today, props.countDownTo))
   },[])
+  
+  const theme = useTheme();
+  const isMediumDown = useMediaQuery(theme.breakpoints.down('lg'));
 
-  if (props.mobileActive){
+  if (isMediumDown){
     return (
       <Tooltip title={`${daysRemaining} days until the next show`}>
         <Typography justifySelf="center" variant="h4">{daysRemaining}</Typography>
