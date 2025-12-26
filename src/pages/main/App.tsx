@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import type { Theme } from "@mui/material";
 import { lightTheme, darkTheme } from "../../styles/theme";
 import { useWindowSize } from "../../hooks";
+import { TopBar } from "../../components/TopBar";
 
 const App: React.FC = () => {
   const [theme, setTheme] = useState<Theme>(lightTheme)
@@ -21,8 +22,6 @@ const App: React.FC = () => {
   const [windowMargins, setWidowMargins] = useState<{ml: number, mb: number}>({ml: 240, mb: 100})
   const [mobileActive, setMobileActive] = useState<boolean>(false)
   const [contentString, setContentString] = useState<string>("HOME")
-
-
   const windowSize = useWindowSize()
 
   useEffect(()=>{
@@ -47,6 +46,7 @@ const App: React.FC = () => {
   return (
     <>
       <ThemeProvider theme={theme}>
+        <TopBar title={contentString} darkModeActive={darkModeActive} setDarkModeActive={setDarkModeActive}/>
         <Navbar windowMargins={windowMargins} mobile={mobileActive} setDarkModeActive={setDarkModeActive} darkModeActive={darkModeActive} setContentString={setContentString}/>
         { 
           contentString == "HOME" ? <Home windowMargins={windowMargins}/> : 
