@@ -8,13 +8,13 @@ import { CountDownCard } from "./CountDownCard";
 import { getNextShowDate } from "../utils";
 
 export default function Navbar(props: {
-  drawerWidth: number, 
+  windowMargins: {ml: number, mb: number} 
   mobile: boolean, 
   darkModeActive: boolean, 
   setDarkModeActive: Dispatch<React.SetStateAction<boolean>>, 
   setContentString: Dispatch<React.SetStateAction<string>>}) {
 
-  const drawerWidth = props.drawerWidth
+  const drawerWidth = props.windowMargins.ml
   return (
     <>
     <AppBar component="nav" position="static" sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}>

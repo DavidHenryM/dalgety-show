@@ -4,10 +4,10 @@ import { contacts } from "../../data/contacts"
 import { Background } from "../../components/Background";
 import cow1 from "../../assets/images/gallery/Cow_1.jpg"
 
-export default function Contact(props: {sideBarWidth: number}){
+export default function Contact(props: {windowMargins: {ml: number, mb: number}}){
   return (
 
-    <Container sx={{ml: `${props.sideBarWidth}px`}}>
+    <Container sx={{ml: `${props.windowMargins.ml}px`}}>
       <Background image={cow1}/>
       <Typography variant="h3" justifySelf={"center"} sx={{p:2}}>Contact</Typography>
       <Grid container spacing={1}>

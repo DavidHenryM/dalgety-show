@@ -3,11 +3,11 @@ import noDogs from '../../assets/images/noDogs.png'
 import { Background } from "../../components/Background";
 import { Card, CardContent, CardMedia, Grid, Paper, Typography } from "@mui/material";
 
-export default function Home(props: {sideBarWidth: number}){
+export default function Home(props: {windowMargins: {ml: number, mb: number}}){
   return (
     <>
       <Background image={sheepJudging}/>
-      <Grid container spacing={2} padding={2} sx={{p:{sm: 1, md: 2, lg: 10}, ml: `${props.sideBarWidth}px`, mt: "25px", justifyContent: "center"}}>
+      <Grid container spacing={2} padding={2} sx={{p:{sm: 1, md: 2, lg: 10}, ml: `${props.windowMargins.ml}px`, mb: `${props.windowMargins.mb}px`, mt: "25px", justifyContent: "center"}}>
         <Grid size={12} alignItems={"center"}>
           <Paper  sx={{p:2, backgroundColor:"secondary.main",  justifyItems: "center"}}>
             <Typography variant='h3' sx={{color: "primary.main"}}>The 82nd Annual Dalgety Show</Typography>

@@ -1,8 +1,8 @@
 import { ImageList, ImageListItem, Paper } from "@mui/material";
 
-export default function Gallery(props: {images: string[], sideBarWidth: number,}){
+export default function Gallery(props: {images: string[], windowMargins: {ml: number, mb: number}}){
   return (
-    <Paper sx={{ml: `${props.sideBarWidth}px`}}>
+    <Paper sx={{ml: `${props.windowMargins.ml}px`}}>
       <ImageList  cols={3} >
         {props.images.map((item) => (
           <ImageListItem key={item}>

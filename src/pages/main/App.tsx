@@ -18,7 +18,7 @@ import { useWindowSize } from "../../hooks";
 const App: React.FC = () => {
   const [theme, setTheme] = useState<Theme>(lightTheme)
   const [darkModeActive, setDarkModeActive] = useState<boolean>(false)
-  const [sideBarWidth, setSideBarWidth] = useState<number>(240)
+  const [windowMargins, setWidowMargins] = useState<{ml: number, mb: number}>({ml: 240, mb: 100})
   const [mobileActive, setMobileActive] = useState<boolean>(false)
   const [contentString, setContentString] = useState<string>("HOME")
 
@@ -27,10 +27,10 @@ const App: React.FC = () => {
 
   useEffect(()=>{
     if(windowSize.width >= 800){
-      setSideBarWidth(240)
+      setWidowMargins({ml: 240, mb: windowMargins.mb})
       setMobileActive(false)
     } else {
-      setSideBarWidth(50)
+      setWidowMargins({ml: 50, mb: windowMargins.mb})
       setMobileActive(true)
     }
   },[windowSize])
@@ -47,16 +47,16 @@ const App: React.FC = () => {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <Navbar drawerWidth={sideBarWidth} mobile={mobileActive} setDarkModeActive={setDarkModeActive} darkModeActive={darkModeActive} setContentString={setContentString}/>
+        <Navbar windowMargins={windowMargins} mobile={mobileActive} setDarkModeActive={setDarkModeActive} darkModeActive={darkModeActive} setContentString={setContentString}/>
         { 
-          contentString == "HOME" ? <Home sideBarWidth={sideBarWidth}/> : 
-          contentString == "ABOUT" ? <About sideBarWidth={sideBarWidth}/> :
-          contentString == "EVENTS" ? <Events sideBarWidth={sideBarWidth}/> :
-          contentString == "SCHEDULE" ? <Schedule sideBarWidth={sideBarWidth}/> :
-          contentString == "GALLERY" ? <Gallery sideBarWidth={sideBarWidth} images={galleryImages}/> :
-          contentString == "CONTACT" ? <Contact sideBarWidth={sideBarWidth}/> :
-          contentString == "MEMBERSHIP" ? <Membership sideBarWidth={sideBarWidth}/> :
-          <Home sideBarWidth={sideBarWidth}/>
+          contentString == "HOME" ? <Home windowMargins={windowMargins}/> : 
+          contentString == "ABOUT" ? <About windowMargins={windowMargins}/> :
+          contentString == "EVENTS" ? <Events windowMargins={windowMargins}/> :
+          contentString == "SCHEDULE" ? <Schedule windowMargins={windowMargins}/> :
+          contentString == "GALLERY" ? <Gallery windowMargins={windowMargins} images={galleryImages}/> :
+          contentString == "CONTACT" ? <Contact windowMargins={windowMargins}/> :
+          contentString == "MEMBERSHIP" ? <Membership windowMargins={windowMargins}/> :
+          <Home windowMargins={windowMargins}/>
         }
         <Footer />
       </ThemeProvider>

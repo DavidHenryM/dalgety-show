@@ -2,11 +2,11 @@ import { Grid, Paper, Typography } from "@mui/material";
 import { Background } from "../../components/Background";
 import cow1 from '../../assets/images/gallery/Cow_1.jpg'
 
-export default function About(props: {sideBarWidth: number}) {
+export default function About(props: {windowMargins: {ml: number,mb: number}}) {
   return (
     <>
       <Background image={cow1} />
-      <Grid container spacing={2} sx={{p:{sm: 1, md: 2, lg: 10}, ml: `${props.sideBarWidth}px`}}>
+      <Grid container spacing={2} sx={{p:{sm: 1, md: 2, lg: 10}, ml: `${props.windowMargins.ml}px`}}>
         <Grid size={12}>
           <Paper sx={{p:2}}>
             <Typography variant="h4">The Show</Typography>
@@ -54,8 +54,7 @@ export default function About(props: {sideBarWidth: number}) {
         </Typography>
       </Paper>
       </Grid>
-</Grid>
-        </>
-
+    </Grid>
+  </>
   );
 }

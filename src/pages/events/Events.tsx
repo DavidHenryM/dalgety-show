@@ -1,9 +1,9 @@
 import { Paper } from "@mui/material";
 import { events } from "../../data/events";
 
-export default function Events(props: {sideBarWidth: number}) {
+export default function Events(props: {windowMargins: {ml: number, mb: number}}) {
   return (
-    <Paper sx={{ml: `${props.sideBarWidth}px`}}>
+    <Paper sx={{ml: `${props.windowMargins.ml}px`}}>
     <section className="container mx-auto px-6 py-12">
       <h2 className="text-4xl font-bold text-center mb-10">
         What's On

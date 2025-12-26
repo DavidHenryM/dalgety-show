@@ -1,8 +1,8 @@
 import { Paper } from "@mui/material";
 
-export default function Membership(props: {sideBarWidth: number}){
+export default function Membership(props: {windowMargins: {ml: number, mb: number}}){
   return (
-    <Paper sx={{ml: `${props.sideBarWidth}px`}}>
+    <Paper sx={{ml: `${props.windowMargins.ml}px`}}>
     <section className="container mx-auto px-6 py-12">
       <h2 className="text-3xl font-bold mb-6">Membership</h2>
       <p className="text-lg text-gray-700">
