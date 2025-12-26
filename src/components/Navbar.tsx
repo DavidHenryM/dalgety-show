@@ -65,15 +65,17 @@ export default function Navbar(props: {
         <List>
           {navigation.map((nav) => (
             <ListItem key={nav.label} disablePadding>
-              <ListItemButton onClick={()=>(props.setContentString(nav.label))}>
-                <ListItemIcon>
-                  <nav.Icon/>
-                </ListItemIcon>
-                {props.mobile ? <></>:
-                <Typography variant="h6">
-                  {nav.label}
-                </Typography>}
-              </ListItemButton>
+              <Tooltip title={nav.label}>
+                <ListItemButton onClick={()=>(props.setContentString(nav.label))}>
+                  <ListItemIcon>
+                    <nav.Icon/>
+                  </ListItemIcon>
+                  {props.mobile ? <></>:
+                  <Typography variant="h6">
+                    {nav.label}
+                  </Typography>}
+                </ListItemButton>
+              </Tooltip>
             </ListItem>
           ))}
         </List>
