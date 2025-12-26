@@ -1,5 +1,5 @@
 import { Paper } from "@mui/material";
-import { drawerWidth } from "../../styles/settings";
+import { drawerWidth, footerHeight } from "../../styles/settings";
 
 export default function Membership(){
   return (
@@ -9,7 +9,8 @@ export default function Membership(){
           sm: drawerWidth.sm,
           md: drawerWidth.md,
           lg: drawerWidth.lg
-        } 
+        },
+        mb: footerHeight
       }}
     >
     <section className="container mx-auto px-6 py-12">

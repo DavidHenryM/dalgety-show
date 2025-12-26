@@ -3,7 +3,7 @@ import ContactCard from "../../components/ContactCard";
 import { contacts } from "../../data/contacts"
 import { Background } from "../../components/Background";
 import cow1 from "../../assets/images/gallery/Cow_1.jpg"
-import { drawerWidth } from "../../styles/settings";
+import { drawerWidth, footerHeight } from "../../styles/settings";
 
 export default function Contact(){
   return (
@@ -14,7 +14,8 @@ export default function Contact(){
           sm: drawerWidth.sm,
           md: drawerWidth.md,
           lg: drawerWidth.lg
-        }
+        },
+        mb: footerHeight
       }}
     >
       <Background image={cow1}/>

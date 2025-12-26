@@ -2,7 +2,7 @@ import sheepJudging from '../../assets/images/gallery/Sheep_6.jpg'
 import noDogs from '../../assets/images/noDogs.png'
 import { Background } from "../../components/Background";
 import { Card, CardContent, CardMedia, Grid, Paper, Typography } from "@mui/material";
-import { drawerWidth } from '../../styles/settings';
+import { drawerWidth, footerHeight } from '../../styles/settings';
 
 export default function Home(){
   return (
@@ -22,7 +22,12 @@ export default function Home(){
             sm: drawerWidth.sm,
             md: drawerWidth.md,
             lg: drawerWidth.lg
-          }, mt: "25px", justifyContent: "center"}}>
+          }, 
+          mt: "25px", 
+          mb: footerHeight,
+          justifyContent: "center"
+        }}
+      >
         <Grid size={12} alignItems={"center"}>
           <Paper  sx={{p:2, backgroundColor:"secondary.main",  justifyItems: "center"}}>
             <Typography variant='h3' sx={{color: "primary.main"}}>The 82nd Annual Dalgety Show</Typography>
@@ -41,7 +46,7 @@ export default function Home(){
             </Typography>
           </Paper>
           </Grid>
-          <Grid size={4}>
+          <Grid size={{sm: 12, md: 6, lg: 4}}>
             <Card sx={{p:2, backgroundColor:"secondary.main"}}>
               <CardMedia 
                 sx={{ height: 200, width: 150, justifySelf:"center"}}

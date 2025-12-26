@@ -1,5 +1,5 @@
 import { ImageList, ImageListItem, Paper } from "@mui/material";
-import { drawerWidth } from "../../styles/settings";
+import { drawerWidth, footerHeight } from "../../styles/settings";
 
 export default function Gallery(props: {images: string[]}){
   return (
@@ -9,7 +9,8 @@ export default function Gallery(props: {images: string[]}){
           sm: drawerWidth.sm,
           md: drawerWidth.md,
           lg: drawerWidth.lg
-        } 
+        },
+        mb: footerHeight
       }}
     >
       <ImageList  cols={3} >

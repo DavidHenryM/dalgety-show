@@ -1,6 +1,6 @@
 import { Paper } from "@mui/material";
 import { events } from "../../data/events";
-import { drawerWidth } from "../../styles/settings";
+import { drawerWidth, footerHeight } from "../../styles/settings";
 
 export default function Events() {
   return (
@@ -10,7 +10,8 @@ export default function Events() {
           sm: drawerWidth.sm,
           md: drawerWidth.md,
           lg: drawerWidth.lg
-        }
+        },
+        mb: footerHeight
       }}
     >
     <section className="container mx-auto px-6 py-12">

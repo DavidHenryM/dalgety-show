@@ -1,8 +1,9 @@
 import { AppBar, Grid, Paper, Typography } from "@mui/material";
+import { footerHeight } from "../styles/settings";
 
 const Footer: React.FC = () => {
   return (
-    <AppBar position="fixed" color="primary" sx={{ maxHeight: 100, top:"auto", bottom: 0, }}>
+    <AppBar position="fixed" color="primary" sx={{ maxHeight: footerHeight, top:"auto", bottom: 0, }}>
       <Grid
         container
         direction="row"

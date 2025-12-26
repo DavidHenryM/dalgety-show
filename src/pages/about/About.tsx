@@ -1,7 +1,7 @@
 import { Grid, Paper, Typography } from "@mui/material";
 import { Background } from "../../components/Background";
 import cow1 from '../../assets/images/gallery/Cow_1.jpg'
-import { drawerWidth } from "../../styles/settings";
+import { drawerWidth, footerHeight } from "../../styles/settings";
 
 export default function About() {
   return (
@@ -20,7 +20,10 @@ export default function About() {
             sm: drawerWidth.sm,
             md: drawerWidth.md,
             lg: drawerWidth.lg
-          }}}>
+          },
+          mb: footerHeight
+        }}
+      >
         <Grid size={12}>
           <Paper sx={{p:2}}>
             <Typography variant="h4">The Show</Typography>
