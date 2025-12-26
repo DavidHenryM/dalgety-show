@@ -1,10 +1,27 @@
-import { AppBar, IconButton, Toolbar, Tooltip, Typography } from "@mui/material";
+import { AppBar, IconButton, Toolbar, Tooltip, Typography, useMediaQuery, useTheme } from "@mui/material";
 import DarkModeIcon from '@mui/icons-material/DarkMode'
 import LightModeIcon from '@mui/icons-material/LightMode'
+import MenuIcon from '@mui/icons-material/Menu';
 import { drawerWidth } from "../styles/settings";
-import type { Dispatch } from "react";
+import { useEffect, type Dispatch } from "react";
 
-export function TopBar(props: {title: string, darkModeActive: boolean, setDarkModeActive: Dispatch<React.SetStateAction<boolean>>}){
+export function TopBar(
+  props: {
+    title: string, 
+    darkModeActive: boolean, 
+    setDarkModeActive: Dispatch<React.SetStateAction<boolean>>, 
+    drawerOpen: boolean, 
+    setDrawerOpen: Dispatch<React.SetStateAction<boolean>>
+  })
+{
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
+  useEffect(()=>{
+    if(!isMobile){
+      props.setDrawerOpen(true)
+    }
+  },[isMobile])
   return (
     <AppBar 
       component="nav" 
@@ -21,7 +38,12 @@ export function TopBar(props: {title: string, darkModeActive: boolean, setDarkMo
           lg: drawerWidth.lg
           }
       }}>
-      <Toolbar >
+      <Toolbar>
+        {isMobile ? 
+        <IconButton onClick={()=>(props.setDrawerOpen(!props.drawerOpen))}>  
+          <MenuIcon/>
+        </IconButton> 
+        : <></>}
         <Typography
           variant="h6"
           component="div"
