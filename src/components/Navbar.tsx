@@ -34,6 +34,7 @@ export default function Navbar(props: {
           flexShrink: 0,
           '& .MuiDrawer-paper': {
             width: {
+              xs: drawerWidth.xsDrawerOpen,
               sm: drawerWidth.smDrawerOpen, 
               md: drawerWidth.md, 
               lg: drawerWidth.lg
