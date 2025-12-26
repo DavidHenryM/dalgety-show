@@ -33,7 +33,7 @@ const App: React.FC = () => {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <TopBar title={contentString} darkModeActive={darkModeActive} setDarkModeActive={setDarkModeActive} drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen}/>
+        <TopBar title={`${contentString} | The Dalgety Show`} darkModeActive={darkModeActive} setDarkModeActive={setDarkModeActive} drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen}/>
         <Navbar drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} setDarkModeActive={setDarkModeActive} darkModeActive={darkModeActive} setContentString={setContentString}/>
         { 
           contentString == "HOME" ? <Home/> : 
