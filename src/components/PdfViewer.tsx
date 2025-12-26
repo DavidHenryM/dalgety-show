@@ -4,8 +4,9 @@ import { pdfjs } from 'react-pdf';
 import { useState } from "react";
 import DownloadIcon from '@mui/icons-material/Download';
 import { splitFilePath } from "../utils";
+import { drawerWidth } from "../styles/settings";
 
-export function PdfViewer(props: {windowMargins: {ml: number, mb: number}, pdfFilePath: string}){
+export function PdfViewer(props: {pdfFilePath: string}){
   const [numPages, setNumPages] = useState<number>();
   const [pageNumber, setPageNumber] = useState<number>(1);
 
@@ -25,7 +26,18 @@ export function PdfViewer(props: {windowMargins: {ml: number, mb: number}, pdfFi
   }
 
   return (
-    <Paper sx={{ml: `${props.windowMargins.ml}px`, justifySelf: "center", width: "fit-content", backgroundColor: "secondary.main"}}>
+    <Paper 
+      sx={{
+        ml: {
+          sm: drawerWidth.sm,
+          md: drawerWidth.md,
+          lg: drawerWidth.lg
+        }, 
+        justifySelf: "center", 
+        width: "fit-content", 
+        backgroundColor: "secondary.main"
+      }}
+    >
       <Stack direction={"column"} alignItems="center" p={2} spacing={2}>
         <Paper elevation={8}>
           <Document file={props.pdfFilePath} onLoadSuccess={onDocumentLoadSuccess}>

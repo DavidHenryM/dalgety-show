@@ -1,9 +1,18 @@
 import { Paper } from "@mui/material";
 import { events } from "../../data/events";
+import { drawerWidth } from "../../styles/settings";
 
-export default function Events(props: {windowMargins: {ml: number, mb: number}}) {
+export default function Events() {
   return (
-    <Paper sx={{ml: `${props.windowMargins.ml}px`}}>
+    <Paper 
+      sx={{
+        ml: {
+          sm: drawerWidth.sm,
+          md: drawerWidth.md,
+          lg: drawerWidth.lg
+        }
+      }}
+    >
     <section className="container mx-auto px-6 py-12">
       <h2 className="text-4xl font-bold text-center mb-10">
         What's On

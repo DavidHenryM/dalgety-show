@@ -1,12 +1,26 @@
 import { Grid, Paper, Typography } from "@mui/material";
 import { Background } from "../../components/Background";
 import cow1 from '../../assets/images/gallery/Cow_1.jpg'
+import { drawerWidth } from "../../styles/settings";
 
-export default function About(props: {windowMargins: {ml: number,mb: number}}) {
+export default function About() {
   return (
     <>
       <Background image={cow1} />
-      <Grid container spacing={2} sx={{p:{sm: 1, md: 2, lg: 10}, ml: `${props.windowMargins.ml}px`}}>
+      <Grid 
+        container 
+        spacing={2} 
+        sx={{
+          p: {
+            sm: 1, 
+            md: 2, 
+            lg: 10
+          }, 
+          ml: {
+            sm: drawerWidth.sm,
+            md: drawerWidth.md,
+            lg: drawerWidth.lg
+          }}}>
         <Grid size={12}>
           <Paper sx={{p:2}}>
             <Typography variant="h4">The Show</Typography>

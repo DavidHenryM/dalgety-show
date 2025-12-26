@@ -4,7 +4,7 @@ import { Background } from "../../components/Background";
 import { Card, CardContent, CardMedia, Grid, Paper, Typography } from "@mui/material";
 import { drawerWidth } from '../../styles/settings';
 
-export default function Home(props: {windowMargins: {ml: number, mb: number}}){
+export default function Home(){
   return (
     <>
       <Background image={sheepJudging}/>
@@ -22,7 +22,7 @@ export default function Home(props: {windowMargins: {ml: number, mb: number}}){
             sm: drawerWidth.sm,
             md: drawerWidth.md,
             lg: drawerWidth.lg
-          }, mb: `${props.windowMargins.mb}px`, mt: "25px", justifyContent: "center"}}>
+          }, mt: "25px", justifyContent: "center"}}>
         <Grid size={12} alignItems={"center"}>
           <Paper  sx={{p:2, backgroundColor:"secondary.main",  justifyItems: "center"}}>
             <Typography variant='h3' sx={{color: "primary.main"}}>The 82nd Annual Dalgety Show</Typography>

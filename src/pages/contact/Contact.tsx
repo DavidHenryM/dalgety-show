@@ -3,11 +3,20 @@ import ContactCard from "../../components/ContactCard";
 import { contacts } from "../../data/contacts"
 import { Background } from "../../components/Background";
 import cow1 from "../../assets/images/gallery/Cow_1.jpg"
+import { drawerWidth } from "../../styles/settings";
 
-export default function Contact(props: {windowMargins: {ml: number, mb: number}}){
+export default function Contact(){
   return (
 
-    <Container sx={{ml: `${props.windowMargins.ml}px`}}>
+    <Container 
+      sx={{
+        ml: {
+          sm: drawerWidth.sm,
+          md: drawerWidth.md,
+          lg: drawerWidth.lg
+        }
+      }}
+    >
       <Background image={cow1}/>
       <Typography variant="h3" justifySelf={"center"} sx={{p:2}}>Contact</Typography>
       <Grid container spacing={1}>

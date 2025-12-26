@@ -1,8 +1,17 @@
 import { ImageList, ImageListItem, Paper } from "@mui/material";
+import { drawerWidth } from "../../styles/settings";
 
-export default function Gallery(props: {images: string[], windowMargins: {ml: number, mb: number}}){
+export default function Gallery(props: {images: string[]}){
   return (
-    <Paper sx={{ml: `${props.windowMargins.ml}px`}}>
+    <Paper 
+      sx={{
+        ml: {
+          sm: drawerWidth.sm,
+          md: drawerWidth.md,
+          lg: drawerWidth.lg
+        } 
+      }}
+    >
       <ImageList  cols={3} >
         {props.images.map((item) => (
           <ImageListItem key={item}>

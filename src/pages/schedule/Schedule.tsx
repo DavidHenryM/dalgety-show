@@ -6,11 +6,11 @@ import { PdfViewer } from "../../components/PdfViewer";
 
 
 
-export default function Schedule(props: {windowMargins: {ml: number, mb: number}}){
+export default function Schedule(){
   return (
     <>
       <Background image={horseJump2}/>
-      <PdfViewer windowMargins={props.windowMargins} pdfFilePath={horseSchedule2025}/>
+      <PdfViewer pdfFilePath={horseSchedule2025}/>
     </>
   )
 }
