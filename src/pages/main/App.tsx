@@ -9,11 +9,13 @@ import Schedule from "../schedule/Schedule";
 import Gallery from "../gallery/Gallery";
 import Contact from "../contact/Contact";
 import Membership from "../membership/Membership";
+import Sponsors from "../sponsors/Sponsors";
 import { ThemeProvider } from "@emotion/react";
 import { useEffect, useState } from "react";
 import type { Theme } from "@mui/material";
 import { lightTheme, darkTheme } from "../../styles/theme";
 import { TopBar } from "../../components/TopBar";
+
 
 const App: React.FC = () => {
   const [theme, setTheme] = useState<Theme>(lightTheme)
@@ -43,6 +45,7 @@ const App: React.FC = () => {
           contentString == "GALLERY" ? <Gallery images={galleryImages}/> :
           contentString == "CONTACT" ? <Contact/> :
           contentString == "MEMBERSHIP" ? <Membership/> :
+          contentString == "SPONSORS" ? <Sponsors/> :
           <Home/>
         }
         <Footer />
