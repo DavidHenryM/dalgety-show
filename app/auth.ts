@@ -7,9 +7,15 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(prisma),
   providers: [
     Nodemailer({
-      server: process.env.EMAIL_SERVER,
+      server: {
+        host: process.env.EMAIL_HOST,
+        port: Number(process.env.EMAIL_PORT),
+        auth: {
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASSWORD
+        },
+      },
       from: process.env.EMAIL_FROM,
-      apiKey: process.env.EMAIL_API_KEY
     })]
 })
 
