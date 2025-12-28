@@ -11,6 +11,8 @@ import { darkTheme, lightTheme } from "./theme";
 import { TopBar } from './components/TopBar';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import { SessionProvider } from "next-auth/react"
+
 
 const arvo = Arvo({
   variable: "--font-arvo",
@@ -43,12 +45,14 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${arvo.variable} antialiased`}>
         <AppRouterCacheProvider>
-          <ThemeProvider theme={theme}>      
-            <TopBar title={`${contentString} | The Dalgety Show`} darkModeActive={darkModeActive} setDarkModeActive={setDarkModeActive} drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen}/>
-            <Navbar drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} setDarkModeActive={setDarkModeActive} darkModeActive={darkModeActive} setContentString={setContentString}/>
-              {children}
-            <Footer />
-          </ThemeProvider>
+          <SessionProvider>
+            <ThemeProvider theme={theme}>      
+              <TopBar title={`${contentString} | The Dalgety Show`} darkModeActive={darkModeActive} setDarkModeActive={setDarkModeActive} drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen}/>
+              <Navbar drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} setDarkModeActive={setDarkModeActive} darkModeActive={darkModeActive} setContentString={setContentString}/>
+                {children}
+              <Footer />
+            </ThemeProvider>
+          </SessionProvider>
         </AppRouterCacheProvider>
       </body>
     </html>

@@ -7,7 +7,6 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { drawerWidth } from "../settings";
 import { useEffect, type Dispatch } from "react";
 import { SignInButton } from "./SignInButton";
-import SignupForm from "../ui/signup-form";
 import UserAvatar from "./UserAvatar";
 
 export function TopBar(
@@ -71,7 +70,7 @@ export function TopBar(
               </IconButton>
           }
         </Tooltip>
-        {/* <UserAvatar/> */}
+        <UserAvatar/>
       </Toolbar>
     </AppBar>
   )
