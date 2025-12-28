@@ -1,17 +1,10 @@
 
-import { signIn } from "../auth"
+import { Button } from "@mui/material"
 import { serverSignIn } from "../serverSignIn"
  
 export function LoginButton() {
   return (
-    <form
-      action={async (formData) => {
-        serverSignIn()
-        
-      }}
-    >
-      <input type="text" name="email" placeholder="Email" />
-      <button type="submit">Signin with Sendgrid</button>
-    </form>
+
+      <Button variant="outlined" onClick={serverSignIn}>Sign In</Button>
   )
 }

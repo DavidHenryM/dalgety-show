@@ -6,6 +6,8 @@ import LightModeIcon from '@mui/icons-material/LightMode'
 import MenuIcon from '@mui/icons-material/Menu';
 import { drawerWidth } from "../settings";
 import { useEffect, type Dispatch } from "react";
+import { LoginButton } from "./LoginButton";
+import SignupForm from "../ui/signup-form";
 
 export function TopBar(
   props: {
@@ -54,6 +56,8 @@ export function TopBar(
         >
           {props.title}
         </Typography>
+        <LoginButton/>
+        {/* <SignupForm/> */}
         <Tooltip title={props.darkModeActive ? "Change to Light Mode" : "Change to Dark Mode"}>
           {
             props.darkModeActive ?
