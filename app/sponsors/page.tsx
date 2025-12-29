@@ -1,11 +1,13 @@
-import { Divider, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Toolbar, Typography } from "@mui/material";
+'use client'
+
+import { Button, Container, Divider, Grid, Link, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Toolbar, Typography } from "@mui/material";
 import { drawerWidth, footerHeight } from "../settings"
 import { Background } from "../components/Background";
 import sheepJudging from '../images/gallery/Sheep_6.jpg'
 import { BulletList } from "../components/BulletList";
 
-
 export default function Sponsors(){
+
   return (
     <>
       <Background image={sheepJudging}/>
@@ -71,7 +73,7 @@ export default function Sponsors(){
             </Typography>
           </Paper>
         </Grid>
-        <Grid size={6} spacing={2}>
+        <Grid size={12} spacing={2}>
           <Paper sx={{p: 2, backgroundColor: "secondary.main"}} elevation={8}>
             <Toolbar sx={{ backgroundColor: "cornflowerblue", justifyContent: "center"}}>
               <Typography variant="h4">Dalgety Show Sponsorship Packages</Typography>
@@ -87,7 +89,7 @@ export default function Sponsors(){
                 </TableHead>
                 <TableBody>
                   <TableRow sx={{ backgroundColor: "gainsboro"}}>
-                    <TableCell align="center"><Typography variant="h5">Platnium</Typography></TableCell>
+                    <TableCell align="center"><Link href="/sponsors/sponsor"><Button variant="contained"><Typography variant="h5">Platnium</Typography></Button></Link></TableCell>
                     <TableCell align="center"><Typography variant="h5">$2,000+</Typography></TableCell>
                     <TableCell align="left">
                       <BulletList listItems={
@@ -104,7 +106,7 @@ export default function Sponsors(){
                     </TableCell>
                   </TableRow>
                   <TableRow sx={{ backgroundColor: "lemonchiffon"}}>
-                    <TableCell align="center"><Typography variant="h5">Gold</Typography></TableCell>
+                    <TableCell align="center"><Button variant="contained"><Typography variant="h5">Gold</Typography></Button></TableCell>
                     <TableCell align="center"><Typography variant="h5">$1,000 - $1,999</Typography></TableCell>
                     <TableCell align="left">
                       <BulletList listItems={
@@ -120,7 +122,7 @@ export default function Sponsors(){
                     </TableCell>
                   </TableRow>
                   <TableRow sx={{ backgroundColor: "silver"}}>
-                    <TableCell align="center"><Typography variant="h5">Silver</Typography></TableCell>
+                    <TableCell align="center"><Button variant="contained"><Typography variant="h5">Silver</Typography></Button></TableCell>
                     <TableCell align="center"><Typography variant="h5">$500 - $999</Typography></TableCell>
                     <TableCell align="left">
                       <BulletList listItems={
@@ -136,7 +138,7 @@ export default function Sponsors(){
                     </TableCell>
                   </TableRow>
                   <TableRow sx={{ backgroundColor: "goldenrod" }}>
-                    <TableCell align="center"><Typography variant="h5">Bronze</Typography></TableCell>
+                    <TableCell align="center"><Button variant="contained"><Typography variant="h5">Bronze</Typography></Button></TableCell>
                     <TableCell align="center"><Typography variant="h5">$250 - $499</Typography></TableCell>
                     <TableCell align="left">
                       <BulletList listItems={
@@ -150,7 +152,7 @@ export default function Sponsors(){
                     </TableCell>
                   </TableRow>
                   <TableRow sx={{ backgroundColor: "mediumseagreen" }}>
-                    <TableCell align="center"><Typography variant="h5">Section</Typography></TableCell>
+                    <TableCell align="center"><Button variant="contained"><Typography variant="h5">Section</Typography></Button></TableCell>
                     <TableCell align="center"><Typography variant="h5">$10 - $249</Typography></TableCell>
                     <TableCell align="left">
                       <BulletList listItems={
@@ -164,6 +166,14 @@ export default function Sponsors(){
                 </TableBody>
               </Table>
             </TableContainer>
+            <Container sx={{ 
+              display: 'flex', 
+              justifyContent: 'center', 
+              alignItems: 'center', 
+              height: 200 // Optional: ensures vertical centering
+            }}>
+              <Button variant="outlined" sx={{p:2}}>Become a Sponsor</Button>
+            </Container>
           </Paper>
         </Grid>
       </Grid>
