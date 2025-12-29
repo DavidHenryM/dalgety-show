@@ -2,11 +2,10 @@
 
 import { Avatar, Tooltip } from "@mui/material"
 import { useSession } from "next-auth/react"
-import womanFarmer from "../images/woman-farmer.png"
+import { SignInButton } from "./SignInButton"
  
 export default function UserAvatar() {
   const { data: session } = useSession()
-  console.log(session)
   if (session?.user){
     const tooltip = `${session.user.email} signed in`
     if (session?.user?.image) {
@@ -29,7 +28,11 @@ export default function UserAvatar() {
       )
     }
   } else{
-    return(<></>)
+    return(
+    <>
+      <SignInButton/>
+    </>
+    )
   }
 }
 
