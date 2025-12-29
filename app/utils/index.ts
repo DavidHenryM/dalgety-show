@@ -78,3 +78,14 @@ export function splitFilePath(fullPath: string): [string,string]{
   const fileName = fullPath.substring(lastSlash + 1); // "notes.txt"
   return [directory, fileName]
 }
+
+export function getRandomIntInclusive(min: number, max: number) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+export function getRandomListItem(list: any[]): any {
+  const listIndex = getRandomIntInclusive(0, list.length-1)
+  return list[listIndex]
+}
