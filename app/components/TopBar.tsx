@@ -1,12 +1,11 @@
 'use client'
 
-import { AppBar, Avatar, IconButton, Toolbar, Tooltip, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { AppBar, IconButton, Toolbar, Tooltip, Typography, useMediaQuery, useTheme } from "@mui/material";
 import DarkModeIcon from '@mui/icons-material/DarkMode'
 import LightModeIcon from '@mui/icons-material/LightMode'
 import MenuIcon from '@mui/icons-material/Menu';
 import { drawerWidth } from "../settings";
 import { useEffect, type Dispatch } from "react";
-import { SignInButton } from "./SignInButton";
 import UserAvatar from "./UserAvatar";
 
 export function TopBar(
@@ -56,7 +55,7 @@ export function TopBar(
         >
           {props.title}
         </Typography>
-        <SignInButton/>
+        
         {/* <SignupForm/> */}
         <Tooltip title={props.darkModeActive ? "Change to Light Mode" : "Change to Dark Mode"}>
           {
