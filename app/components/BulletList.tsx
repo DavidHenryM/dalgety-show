@@ -5,9 +5,9 @@ export function BulletList(props: {listItems: string[]}){
   return (
     <List>
       {
-        props.listItems.map((listItem)=>{
+        props.listItems.map((listItem, index)=>{
           return (
-            <ListItem sx={{ display: 'list-item', paddingLeft: 2 }}>
+            <ListItem key={`bulletListItem${index}`}sx={{ display: 'list-item', paddingLeft: 2 }}>
             <Stack direction="row">
             <ListItemIcon>
               <StarIcon />
