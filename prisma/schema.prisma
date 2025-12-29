@@ -5,8 +5,9 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client"
-  output   = "../app/generated/prisma"
+  provider        = "prisma-client"
+  output          = "../app/generated/prisma"
+  previewFeatures = ["relationJoins"]
 }
 
 datasource db {
@@ -21,7 +22,8 @@ datasource db {
 
 model User {
   id            String          @id @default(cuid())
-  name          String?
+  firstName     String?
+  lastName      String?
   username      String?         @unique
   email         String?         @unique
   emailVerified DateTime?
@@ -44,6 +46,8 @@ model User {
   chiefStewardOfEventSections EventSection[] @relation(name: "eventSectionChiefSteward")
   stewardOfEventSections      EventSection[]
   eventResults                EventResult[]
+
+  memberships Membership[]
 }
 
 model Account {
@@ -108,7 +112,7 @@ model Authenticator {
 
 model Address {
   id           String        @id @default(cuid())
-  unit         Int
+  unit         Int?
   streetNumber Int
   streetName   String
   streetType   String
@@ -123,14 +127,15 @@ model Address {
 }
 
 model Organisation {
-  id                String   @id @default(cuid())
+  id                String        @id @default(cuid())
   name              String
-  billingAddress    Address? @relation(name: "OrgBillingAddress", fields: [billingAddressId], references: [id])
-  billingAddressId  String?  @unique
-  shippingAddress   Address? @relation(name: "OrgShippingAddress", fields: [shippingAddressId], references: [id])
-  shippingAddressId String?  @unique
-  contactPesrson    User?    @relation(fields: [contactPersonId], references: [id])
-  contactPersonId   String?  @unique
+  billingAddress    Address?      @relation(name: "OrgBillingAddress", fields: [billingAddressId], references: [id])
+  billingAddressId  String?       @unique
+  shippingAddress   Address?      @relation(name: "OrgShippingAddress", fields: [shippingAddressId], references: [id])
+  shippingAddressId String?       @unique
+  contactPerson     User?         @relation(fields: [contactPersonId], references: [id])
+  contactPersonId   String?       @unique
+  sponsorships      Sponsorship[]
 }
 
 model EventSection {
@@ -189,10 +194,15 @@ model EventSectionSponsorship {
 }
 
 model Sponsorship {
-  id          String                    @id @default(cuid())
-  package     SponsorshipPackages
-  totalAmount Float
-  section     EventSectionSponsorship[]
+  id             String                    @id @default(cuid())
+  package        SponsorshipPackage        @relation(fields: [packageId], references: [id])
+  packageId      String
+  totalAmount    Float
+  section        EventSectionSponsorship[]
+  showId         String
+  show           Show                      @relation(fields: [showId], references: [id])
+  organisation   Organisation              @relation(fields: [organisationId], references: [id])
+  organisationId String
 }
 
 model Show {
@@ -205,6 +215,23 @@ model Show {
   events  Event[]
 
   eventSections EventSection[]
+  sponsorships  Sponsorship[]
+}
+
+model Membership {
+  id        String   @id @default(cuid())
+  member    User     @relation(fields: [memberId], references: [id])
+  memberId  String
+  startDate DateTime
+  renewDate DateTime
+}
+
+model SponsorshipPackage {
+  id            String                 @id @default(cuid())
+  tier          SponsorshipPackageTier
+  minimumAmount Int
+  maximumAmount Int
+  sponsorships  Sponsorship[]
 }
 
 enum State {
@@ -224,7 +251,7 @@ enum Role {
   OWNER
 }
 
-enum SponsorshipPackages {
+enum SponsorshipPackageTier {
   PLATNIUM
   GOLD
   SILVER
@@ -232,7 +259,7 @@ enum SponsorshipPackages {
   SECTION
 }
 
-enum SponsorshipSections {
+enum SponsorshipSection {
   WOODCHOP
   HORSE_ARENA
   NOVELTY_EVENT
