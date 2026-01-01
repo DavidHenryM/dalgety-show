@@ -1,32 +1,75 @@
 'use client'
 
-import { Divider, FormControl, FormControlLabel, FormLabel, Grid, InputAdornment, InputLabel, OutlinedInput, Radio, RadioGroup, Slider, TextField, Typography } from "@mui/material";
+import { Divider, FormControl, FormControlLabel, FormLabel, Grid, Input, InputAdornment, InputLabel, OutlinedInput, Radio, RadioGroup, Slider, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useSponsorshipPackages } from "../lib/queryHooks";
 import Loading from "../Loading";
 import { SponsorshipPackage, SponsorshipPackageTier } from "../generated/prisma/client";
 
 export function SponsorTheShowForm(props: {email: string | null | undefined}){
-  const [pack, setPack] = useState<SponsorshipPackage | undefined>()
-  const [tier, setTier] = useState<SponsorshipPackageTier>()
-  const [tiers, setTiers] = useState<SponsorshipPackageTier[]>()
   const [packs, loading] = useSponsorshipPackages()
+  const [pack, setPack] = useState<SponsorshipPackage | undefined>()
+  const [selectedTier, setSelectedTier] = useState<SponsorshipPackageTier>("SILVER")
+  const [tiers, setTiers] = useState<SponsorshipPackageTier[]>()
+  const [dollarAmount, SetDollarAmount] = useState<number>(0)
+
+  let maxDollarAmount = 0
+  let minDollarAmount = 0
 
   useEffect(()=>{
     if (!loading){
       let tiersTemp: SponsorshipPackageTier[] = []
       packs.forEach((thispack)=>{
         tiersTemp.push(thispack.tier)
-      })
+      }) 
       setTiers(tiersTemp)
-      console.log(tiers)
+      if (!pack){
+        setPack(packs[2])
+      }
+      if (tiersTemp){
+        setSelectedTier(tiersTemp[0])
+      }
+      maxDollarAmount = Math.max(...packs.map(item => item.maximumAmount))
+      minDollarAmount = Math.min(...packs.map(item => item.minimumAmount))
     }
   },[loading])
 
   const handleTierChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTier((event.target as HTMLInputElement).value as SponsorshipPackageTier)
-    setPack(packs.find(singlePack => singlePack.tier == tier))
+    const newTier = (event.target as HTMLInputElement).value as SponsorshipPackageTier
+    setSelectedTier(newTier)
+    const selectedPack = packs.find((singlePack) => {
+      return singlePack.tier === newTier
+    })
+    setPack(selectedPack)
+    SetDollarAmount(selectedPack.minimumAmount)
+  }
+  const handleSlide = (_event: Event, newValue: number) => {
+    SetDollarAmount(newValue);
   };
+
+  const handleTextDollarAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newAmount = event.target.value === '' ? 0 : Number(event.target.value)
+    SetDollarAmount(newAmount)
+    if (pack){
+      if (
+        (newAmount > pack.maximumAmount || newAmount < pack.minimumAmount)){
+          const newPack = findNewPack(newAmount)
+          if (newPack){
+            setPack(newPack)
+            setSelectedTier(newPack.tier)
+          }
+      }
+    } else {
+      setPack(findNewPack(newAmount))
+    }
+    SetDollarAmount(newAmount)
+  }
+
+  const findNewPack = (dollarAmount: number): any => {
+    return packs.find((testPack)=>{
+      return testPack.minimumAmount <= dollarAmount && testPack.maximumAmount >= dollarAmount
+    })
+  }
 
   return (
     <FormControl>
@@ -77,38 +120,60 @@ export function SponsorTheShowForm(props: {email: string | null | undefined}){
         <Grid size={12} spacing={2} p={2} sx={{justifyItems: "center"}}>
           <Typography variant="h5">Sponsorship</Typography>
         </Grid>
-          {loading ? <Loading/> :
+          {loading || !selectedTier ? <Loading/> :
+          <>
             <Grid size={3}>
               <FormLabel id="demo-radio-buttons-group-label">Sponsorship Package</FormLabel>
               <RadioGroup
-                aria-labelledby="demo-radio-buttons-group-label"
-                value={tier}
-                name="radio-buttons-group"
+                aria-label="sponsor-tier-radio-buttons-group"
+                value={selectedTier}
+                name="sponsor-tier-radio-buttons-group"
                 onChange={handleTierChange}
               >
                 {
                   tiers ?
                   tiers.map((thisTier, index)=>{
-                    // console.log(thispack)
                     return <FormControlLabel key={`radio-pack${index}`} value={thisTier} control={<Radio />} label={thisTier} />
                   }) : <></>
                 }
 
               </RadioGroup>
             </Grid>
-          }
+        {!pack ? <Loading/> :
+        <>
         <Grid size={3}>
           <Slider
+            orientation="vertical"
             aria-label="$ Amount"
             // defaultValue={pack?.minimumAmount}
             getAriaValueText={valuetext}
             valueLabelDisplay="auto"
-            shiftStep={50}
-            step={10}
+            shiftStep={10}
+            step={selectedTier === "PLATNIUM" ? 1000 : 50}
+            min={pack.minimumAmount}
+            max={pack.maximumAmount}
+            value={typeof dollarAmount === 'number' ? dollarAmount : 0}
+            onChange={handleSlide}
             marks
             />
-
         </Grid>
+
+        <Grid size={3}>
+          <FormControl fullWidth sx={{ m: 1 }}>
+            <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
+            <OutlinedInput
+              id="outlined-adornment-amount"
+              startAdornment={<InputAdornment position="start">$</InputAdornment>}
+              label="Dollar Amount"
+              onChange={handleTextDollarAmountChange}
+              value={dollarAmount}
+            />
+          </FormControl>
+        </Grid>
+      </>
+}
+        </>
+          }
       </Grid>
     </FormControl>
   )
