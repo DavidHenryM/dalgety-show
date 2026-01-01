@@ -1,6 +1,6 @@
 'use server'
 
-import { Membership, Sponsorship, SponsorshipPackage, User } from "../generated/prisma/client";
+import { Membership, Show, Sponsorship, SponsorshipPackage, User } from "../generated/prisma/client";
 import { Role } from "../generated/prisma/enums";
 import { prisma } from "./prisma";
 
@@ -74,12 +74,32 @@ export async function getMemberships(): Promise<Partial<Membership>[]>{
 export async function getSponsorshipPackages(): Promise<Partial<SponsorshipPackage>[]>{
   const sponsorshipPackages = await prisma.sponsorshipPackage.findMany({
     select: {
+      id: true,
       tier: true,
       minimumAmount: true,
       maximumAmount: true
     },
   })
   return sponsorshipPackages
+}
+
+export async function getShow(year: number): Promise<Show | null> {
+  const show = await prisma.show.findFirst({
+    where: {
+      year: year
+    }
+  })
+  return show
+}
+
+export async function getOrganisation(name: string, contactPersonId: string){
+  const organisation = prisma.organisation.findFirst({
+    where: {
+        name: name,
+        contactPersonId: contactPersonId
+      }
+  })
+  return organisation
 }
 
 

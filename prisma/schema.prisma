@@ -128,13 +128,13 @@ model Address {
 
 model Organisation {
   id                String        @id @default(cuid())
-  name              String
+  name              String        @unique
   billingAddress    Address?      @relation(name: "OrgBillingAddress", fields: [billingAddressId], references: [id])
   billingAddressId  String?       @unique
   shippingAddress   Address?      @relation(name: "OrgShippingAddress", fields: [shippingAddressId], references: [id])
   shippingAddressId String?       @unique
-  contactPerson     User?         @relation(fields: [contactPersonId], references: [id])
-  contactPersonId   String?       @unique
+  contactPerson     User          @relation(fields: [contactPersonId], references: [id])
+  contactPersonId   String        @unique
   sponsorships      Sponsorship[]
 }
 
