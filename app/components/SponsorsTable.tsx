@@ -10,7 +10,8 @@ export function SponsorsTable(props: {showYear: number, title: string}){
     id: index+1, // Add new property
     orgName: sponsor.organisation.name,
     orgContact: [sponsor.organisation.contactPerson?.firstName, sponsor.organisation.contactPerson?.lastName].join(" "),
-    totalAmount: `$${sponsor.totalAmount.toFixed(2)}`
+    package: sponsor.package.tier,
+    totalAmount: `$${sponsor.totalAmount.toFixed(0)}`
   }));
   console.log(sponsorsWithId)
 
