@@ -25,9 +25,7 @@ export async function signup(state: FormState, formData: FormData) {
   // 3. Insert the user into the database or call an Auth Library's API
   const user = await prisma.user.create({
     data: {
-      name: name,
       email: email,
-      password: hashedPassword
     }
   })
   console.log('Created user:', user)
