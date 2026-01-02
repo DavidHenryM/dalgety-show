@@ -17,7 +17,6 @@ import { Sponsorship, SponsorshipPackage, User } from "../generated/prisma/clien
           if (session.user){
             if (session.user.email){
               getUserRole(session.user.email).then((role)=>{
-                console.log(role)
                 setUserRole(role)
                 setLoading(false)
               })
@@ -38,7 +37,6 @@ import { Sponsorship, SponsorshipPackage, User } from "../generated/prisma/clien
       async function getUsers(){
         if(role){
           getUsersWithRole(role).then((users)=>{
-            console.log(users)
             setUsers(users)
             setLoading(false)
           })

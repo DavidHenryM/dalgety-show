@@ -21,29 +21,28 @@ datasource db {
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 model User {
-  id            String          @id @default(cuid())
-  firstName     String?
-  lastName      String?
-  username      String?         @unique
-  email         String?         @unique
-  emailVerified DateTime?
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
-  Authenticator Authenticator[]
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
-
+  id                          String          @id @default(cuid())
+  firstName                   String?
+  lastName                    String?
+  username                    String?         @unique
+  email                       String?         @unique
+  emailVerified               DateTime?
+  image                       String?
+  accounts                    Account[]
+  sessions                    Session[]
+  Authenticator               Authenticator[]
+  createdAt                   DateTime        @default(now())
+  updatedAt                   DateTime        @updatedAt
   mobileNumber                String?
   landlineNumber              String?
-  billingAddressId            String?        @unique
-  billingAddress              Address?       @relation(name: "UserBillingAddress", fields: [billingAddressId], references: [id])
-  shippingAddressId           String?        @unique
-  shippingAddress             Address?       @relation(name: "UserShippingAddress", fields: [shippingAddressId], references: [id])
+  billingAddressId            String?         @unique
+  billingAddress              Address?        @relation(name: "UserBillingAddress", fields: [billingAddressId], references: [id])
+  shippingAddressId           String?         @unique
+  shippingAddress             Address?        @relation(name: "UserShippingAddress", fields: [shippingAddressId], references: [id])
   addressid                   Int?
   organisation                Organisation[]
-  role                        Role           @default(USER)
-  chiefStewardOfEventSections EventSection[] @relation(name: "eventSectionChiefSteward")
+  role                        Role            @default(USER)
+  chiefStewardOfEventSections EventSection[]  @relation(name: "eventSectionChiefSteward")
   stewardOfEventSections      EventSection[]
   eventResults                EventResult[]
 
@@ -139,28 +138,42 @@ model Organisation {
 }
 
 model EventSection {
-  id                        String                   @id @default(cuid())
+  id                        String                    @id @default(cuid())
   name                      String
+  image                     String?
+  description               String?
+  details                   String?                   @db.Text
+  entryInstructions         String?                   @db.Text
   letter                    String?
-  eventSectionSponsorshipId Int?                     @unique
-  eventSectionSponsorships  EventSectionSponsorship?
+  eventSectionSponsorshipId Int?                      @unique
+  eventSectionSponsorships  EventSectionSponsorship[]
   events                    Event[]
-  show                      Show                     @relation(fields: [showId], references: [id])
+  show                      Show                      @relation(fields: [showId], references: [id])
   showId                    String
-  chiefStewardId            String
-  chiefSteward              User                     @relation(name: "eventSectionChiefSteward", fields: [chiefStewardId], references: [id])
+  chiefStewardId            String?
+  chiefSteward              User?                     @relation(name: "eventSectionChiefSteward", fields: [chiefStewardId], references: [id])
   stewards                  User[]
+  entryClose                DateTime?
+  itemDeliveryStart         DateTime?
+  itemDeliveryEnd           DateTime?
 }
 
 model Event {
-  id        String        @id @unique @default(cuid())
-  name      String
-  section   EventSection  @relation(fields: [sectionId], references: [id])
-  sectionId String
-  category  String?
-  show      Show          @relation(fields: [showId], references: [id])
-  showId    String
-  results   EventResult[]
+  id           String        @id @unique @default(cuid())
+  name         String
+  description  String?
+  image        String?
+  section      EventSection  @relation(fields: [sectionId], references: [id])
+  sectionId    String
+  show         Show          @relation(fields: [showId], references: [id])
+  showId       String
+  results      EventResult[]
+  maximumAge   Int?
+  minimumAge   Int?
+  gender       Gender        @default(OPEN)
+  entryFee     Float?
+  entryFeeTeam Float?
+  prizes       Prize[]
 }
 
 model EventResult {
@@ -173,16 +186,15 @@ model EventResult {
 }
 
 model Prize {
-  id             String      @id @default(cuid())
-  prizeName      String
-  cashPrize      Boolean
-  cashPrizeValue Float
-  trophy         Boolean
-  trophyName     String
-  ribbon         Boolean
-  ribbonName     String
-  eventResultId  String      @unique
-  eventResult    EventResult @relation(fields: [eventResultId], references: [id])
+  id             String       @id @default(cuid())
+  prizeName      String?
+  cashPrizeValue Float?
+  trophyName     String?
+  ribbonName     String?
+  eventResultId  String?      @unique
+  eventResult    EventResult? @relation(fields: [eventResultId], references: [id])
+  event          Event        @relation(fields: [eventId], references: [id])
+  eventId        String
 }
 
 model EventSectionSponsorship {
@@ -272,4 +284,10 @@ enum SponsorshipSection {
   JUNIOR_JUDGING_CATTLE
   SECTION_P_POULTRY
   SECTION_D_FRESH_PRODUCE
+}
+
+enum Gender {
+  WOMEN
+  MEN
+  OPEN
 }

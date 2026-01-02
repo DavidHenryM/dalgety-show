@@ -7,8 +7,6 @@ import { drawerWidth, footerHeight } from '../settings';
 import sheepJudging from '../images/gallery/Sheep_6.jpg'
 import noDogs from '../images/noDogs.png'
 import Image from "next/image";
-import SignupForm from "../ui/signup-form";
-import {LoginButton} from "../components/SignInButton";
 
 export default function Home(){
   return (

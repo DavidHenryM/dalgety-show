@@ -4,7 +4,7 @@ import { Background } from "@/app/components/Background";
 import { SponsorTheShowForm } from "@/app/components/SponsorTheShowForm";
 import { backgroundImages } from "@/app/images/backgrounds";
 import Loading from "@/app/Loading";
-import { serverSignIn } from "@/app/serverSignIn";
+import { serverSignIn } from "@/app/serverSignInOut";
 import { drawerWidth, footerHeight } from "@/app/settings";
 import { Grid, Paper } from "@mui/material";
 import { useSession } from "next-auth/react";
