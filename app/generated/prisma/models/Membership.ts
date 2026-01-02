@@ -183,7 +183,6 @@ export type MembershipOrderByWithRelationInput = {
   startDate?: Prisma.SortOrder
   renewDate?: Prisma.SortOrder
   member?: Prisma.UserOrderByWithRelationInput
-  _relevance?: Prisma.MembershipOrderByRelevanceInput
 }
 
 export type MembershipWhereUniqueInput = Prisma.AtLeast<{
@@ -273,12 +272,6 @@ export type MembershipListRelationFilter = {
 
 export type MembershipOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type MembershipOrderByRelevanceInput = {
-  fields: Prisma.MembershipOrderByRelevanceFieldEnum | Prisma.MembershipOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type MembershipCountOrderByAggregateInput = {
@@ -426,7 +419,21 @@ export type MembershipSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   member?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["membership"]>
 
+export type MembershipSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  memberId?: boolean
+  startDate?: boolean
+  renewDate?: boolean
+  member?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["membership"]>
 
+export type MembershipSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  memberId?: boolean
+  startDate?: boolean
+  renewDate?: boolean
+  member?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["membership"]>
 
 export type MembershipSelectScalar = {
   id?: boolean
@@ -437,6 +444,12 @@ export type MembershipSelectScalar = {
 
 export type MembershipOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "memberId" | "startDate" | "renewDate", ExtArgs["result"]["membership"]>
 export type MembershipInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  member?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type MembershipIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  member?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type MembershipIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   member?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 
@@ -568,6 +581,30 @@ export interface MembershipDelegate<ExtArgs extends runtime.Types.Extensions.Int
   createMany<T extends MembershipCreateManyArgs>(args?: Prisma.SelectSubset<T, MembershipCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many Memberships and returns the data saved in the database.
+   * @param {MembershipCreateManyAndReturnArgs} args - Arguments to create many Memberships.
+   * @example
+   * // Create many Memberships
+   * const membership = await prisma.membership.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many Memberships and only return the `id`
+   * const membershipWithIdOnly = await prisma.membership.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends MembershipCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, MembershipCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MembershipPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a Membership.
    * @param {MembershipDeleteArgs} args - Arguments to delete one Membership.
    * @example
@@ -630,6 +667,36 @@ export interface MembershipDelegate<ExtArgs extends runtime.Types.Extensions.Int
    * 
    */
   updateMany<T extends MembershipUpdateManyArgs>(args: Prisma.SelectSubset<T, MembershipUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more Memberships and returns the data updated in the database.
+   * @param {MembershipUpdateManyAndReturnArgs} args - Arguments to update many Memberships.
+   * @example
+   * // Update many Memberships
+   * const membership = await prisma.membership.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more Memberships and only return the `id`
+   * const membershipWithIdOnly = await prisma.membership.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends MembershipUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, MembershipUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MembershipPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one Membership.
@@ -1063,6 +1130,29 @@ export type MembershipCreateManyArgs<ExtArgs extends runtime.Types.Extensions.In
 }
 
 /**
+ * Membership createManyAndReturn
+ */
+export type MembershipCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Membership
+   */
+  select?: Prisma.MembershipSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Membership
+   */
+  omit?: Prisma.MembershipOmit<ExtArgs> | null
+  /**
+   * The data used to create many Memberships.
+   */
+  data: Prisma.MembershipCreateManyInput | Prisma.MembershipCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MembershipIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * Membership update
  */
 export type MembershipUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1105,6 +1195,36 @@ export type MembershipUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.In
    * Limit how many Memberships to update.
    */
   limit?: number
+}
+
+/**
+ * Membership updateManyAndReturn
+ */
+export type MembershipUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Membership
+   */
+  select?: Prisma.MembershipSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Membership
+   */
+  omit?: Prisma.MembershipOmit<ExtArgs> | null
+  /**
+   * The data used to update Memberships.
+   */
+  data: Prisma.XOR<Prisma.MembershipUpdateManyMutationInput, Prisma.MembershipUncheckedUpdateManyInput>
+  /**
+   * Filter which Memberships to update
+   */
+  where?: Prisma.MembershipWhereInput
+  /**
+   * Limit how many Memberships to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MembershipIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

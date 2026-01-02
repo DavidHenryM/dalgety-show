@@ -243,7 +243,6 @@ export type ShowOrderByWithRelationInput = {
   events?: Prisma.EventOrderByRelationAggregateInput
   eventSections?: Prisma.EventSectionOrderByRelationAggregateInput
   sponsorships?: Prisma.SponsorshipOrderByRelationAggregateInput
-  _relevance?: Prisma.ShowOrderByRelevanceInput
 }
 
 export type ShowWhereUniqueInput = Prisma.AtLeast<{
@@ -365,12 +364,6 @@ export type ShowUncheckedUpdateManyInput = {
 export type ShowScalarRelationFilter = {
   is?: Prisma.ShowWhereInput
   isNot?: Prisma.ShowWhereInput
-}
-
-export type ShowOrderByRelevanceInput = {
-  fields: Prisma.ShowOrderByRelevanceFieldEnum | Prisma.ShowOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type ShowCountOrderByAggregateInput = {
@@ -694,7 +687,23 @@ export type ShowSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   _count?: boolean | Prisma.ShowCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["show"]>
 
+export type ShowSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  year?: boolean
+  number?: boolean
+  tagLine?: boolean
+  start?: boolean
+  finish?: boolean
+}, ExtArgs["result"]["show"]>
 
+export type ShowSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  year?: boolean
+  number?: boolean
+  tagLine?: boolean
+  start?: boolean
+  finish?: boolean
+}, ExtArgs["result"]["show"]>
 
 export type ShowSelectScalar = {
   id?: boolean
@@ -712,6 +721,8 @@ export type ShowInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   sponsorships?: boolean | Prisma.Show$sponsorshipsArgs<ExtArgs>
   _count?: boolean | Prisma.ShowCountOutputTypeDefaultArgs<ExtArgs>
 }
+export type ShowIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type ShowIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $ShowPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Show"
@@ -845,6 +856,30 @@ export interface ShowDelegate<ExtArgs extends runtime.Types.Extensions.InternalA
   createMany<T extends ShowCreateManyArgs>(args?: Prisma.SelectSubset<T, ShowCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many Shows and returns the data saved in the database.
+   * @param {ShowCreateManyAndReturnArgs} args - Arguments to create many Shows.
+   * @example
+   * // Create many Shows
+   * const show = await prisma.show.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many Shows and only return the `id`
+   * const showWithIdOnly = await prisma.show.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends ShowCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, ShowCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ShowPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a Show.
    * @param {ShowDeleteArgs} args - Arguments to delete one Show.
    * @example
@@ -907,6 +942,36 @@ export interface ShowDelegate<ExtArgs extends runtime.Types.Extensions.InternalA
    * 
    */
   updateMany<T extends ShowUpdateManyArgs>(args: Prisma.SelectSubset<T, ShowUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more Shows and returns the data updated in the database.
+   * @param {ShowUpdateManyAndReturnArgs} args - Arguments to update many Shows.
+   * @example
+   * // Update many Shows
+   * const show = await prisma.show.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more Shows and only return the `id`
+   * const showWithIdOnly = await prisma.show.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends ShowUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, ShowUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ShowPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one Show.
@@ -1344,6 +1409,25 @@ export type ShowCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 /**
+ * Show createManyAndReturn
+ */
+export type ShowCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Show
+   */
+  select?: Prisma.ShowSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Show
+   */
+  omit?: Prisma.ShowOmit<ExtArgs> | null
+  /**
+   * The data used to create many Shows.
+   */
+  data: Prisma.ShowCreateManyInput | Prisma.ShowCreateManyInput[]
+  skipDuplicates?: boolean
+}
+
+/**
  * Show update
  */
 export type ShowUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1374,6 +1458,32 @@ export type ShowUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
  * Show updateMany
  */
 export type ShowUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * The data used to update Shows.
+   */
+  data: Prisma.XOR<Prisma.ShowUpdateManyMutationInput, Prisma.ShowUncheckedUpdateManyInput>
+  /**
+   * Filter which Shows to update
+   */
+  where?: Prisma.ShowWhereInput
+  /**
+   * Limit how many Shows to update.
+   */
+  limit?: number
+}
+
+/**
+ * Show updateManyAndReturn
+ */
+export type ShowUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Show
+   */
+  select?: Prisma.ShowSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Show
+   */
+  omit?: Prisma.ShowOmit<ExtArgs> | null
   /**
    * The data used to update Shows.
    */

@@ -221,7 +221,6 @@ export type SponsorshipPackageOrderByWithRelationInput = {
   minimumAmount?: Prisma.SortOrder
   maximumAmount?: Prisma.SortOrder
   sponsorships?: Prisma.SponsorshipOrderByRelationAggregateInput
-  _relevance?: Prisma.SponsorshipPackageOrderByRelevanceInput
 }
 
 export type SponsorshipPackageWhereUniqueInput = Prisma.AtLeast<{
@@ -313,12 +312,6 @@ export type SponsorshipPackageUncheckedUpdateManyInput = {
 export type SponsorshipPackageScalarRelationFilter = {
   is?: Prisma.SponsorshipPackageWhereInput
   isNot?: Prisma.SponsorshipPackageWhereInput
-}
-
-export type SponsorshipPackageOrderByRelevanceInput = {
-  fields: Prisma.SponsorshipPackageOrderByRelevanceFieldEnum | Prisma.SponsorshipPackageOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type SponsorshipPackageCountOrderByAggregateInput = {
@@ -454,7 +447,19 @@ export type SponsorshipPackageSelect<ExtArgs extends runtime.Types.Extensions.In
   _count?: boolean | Prisma.SponsorshipPackageCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["sponsorshipPackage"]>
 
+export type SponsorshipPackageSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  tier?: boolean
+  minimumAmount?: boolean
+  maximumAmount?: boolean
+}, ExtArgs["result"]["sponsorshipPackage"]>
 
+export type SponsorshipPackageSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  tier?: boolean
+  minimumAmount?: boolean
+  maximumAmount?: boolean
+}, ExtArgs["result"]["sponsorshipPackage"]>
 
 export type SponsorshipPackageSelectScalar = {
   id?: boolean
@@ -468,6 +473,8 @@ export type SponsorshipPackageInclude<ExtArgs extends runtime.Types.Extensions.I
   sponsorships?: boolean | Prisma.SponsorshipPackage$sponsorshipsArgs<ExtArgs>
   _count?: boolean | Prisma.SponsorshipPackageCountOutputTypeDefaultArgs<ExtArgs>
 }
+export type SponsorshipPackageIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type SponsorshipPackageIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $SponsorshipPackagePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "SponsorshipPackage"
@@ -597,6 +604,30 @@ export interface SponsorshipPackageDelegate<ExtArgs extends runtime.Types.Extens
   createMany<T extends SponsorshipPackageCreateManyArgs>(args?: Prisma.SelectSubset<T, SponsorshipPackageCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many SponsorshipPackages and returns the data saved in the database.
+   * @param {SponsorshipPackageCreateManyAndReturnArgs} args - Arguments to create many SponsorshipPackages.
+   * @example
+   * // Create many SponsorshipPackages
+   * const sponsorshipPackage = await prisma.sponsorshipPackage.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many SponsorshipPackages and only return the `id`
+   * const sponsorshipPackageWithIdOnly = await prisma.sponsorshipPackage.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends SponsorshipPackageCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, SponsorshipPackageCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SponsorshipPackagePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a SponsorshipPackage.
    * @param {SponsorshipPackageDeleteArgs} args - Arguments to delete one SponsorshipPackage.
    * @example
@@ -659,6 +690,36 @@ export interface SponsorshipPackageDelegate<ExtArgs extends runtime.Types.Extens
    * 
    */
   updateMany<T extends SponsorshipPackageUpdateManyArgs>(args: Prisma.SelectSubset<T, SponsorshipPackageUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more SponsorshipPackages and returns the data updated in the database.
+   * @param {SponsorshipPackageUpdateManyAndReturnArgs} args - Arguments to update many SponsorshipPackages.
+   * @example
+   * // Update many SponsorshipPackages
+   * const sponsorshipPackage = await prisma.sponsorshipPackage.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more SponsorshipPackages and only return the `id`
+   * const sponsorshipPackageWithIdOnly = await prisma.sponsorshipPackage.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends SponsorshipPackageUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, SponsorshipPackageUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SponsorshipPackagePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one SponsorshipPackage.
@@ -1092,6 +1153,25 @@ export type SponsorshipPackageCreateManyArgs<ExtArgs extends runtime.Types.Exten
 }
 
 /**
+ * SponsorshipPackage createManyAndReturn
+ */
+export type SponsorshipPackageCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SponsorshipPackage
+   */
+  select?: Prisma.SponsorshipPackageSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the SponsorshipPackage
+   */
+  omit?: Prisma.SponsorshipPackageOmit<ExtArgs> | null
+  /**
+   * The data used to create many SponsorshipPackages.
+   */
+  data: Prisma.SponsorshipPackageCreateManyInput | Prisma.SponsorshipPackageCreateManyInput[]
+  skipDuplicates?: boolean
+}
+
+/**
  * SponsorshipPackage update
  */
 export type SponsorshipPackageUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1122,6 +1202,32 @@ export type SponsorshipPackageUpdateArgs<ExtArgs extends runtime.Types.Extension
  * SponsorshipPackage updateMany
  */
 export type SponsorshipPackageUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * The data used to update SponsorshipPackages.
+   */
+  data: Prisma.XOR<Prisma.SponsorshipPackageUpdateManyMutationInput, Prisma.SponsorshipPackageUncheckedUpdateManyInput>
+  /**
+   * Filter which SponsorshipPackages to update
+   */
+  where?: Prisma.SponsorshipPackageWhereInput
+  /**
+   * Limit how many SponsorshipPackages to update.
+   */
+  limit?: number
+}
+
+/**
+ * SponsorshipPackage updateManyAndReturn
+ */
+export type SponsorshipPackageUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SponsorshipPackage
+   */
+  select?: Prisma.SponsorshipPackageSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the SponsorshipPackage
+   */
+  omit?: Prisma.SponsorshipPackageOmit<ExtArgs> | null
   /**
    * The data used to update SponsorshipPackages.
    */

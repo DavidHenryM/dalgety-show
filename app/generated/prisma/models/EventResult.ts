@@ -178,7 +178,6 @@ export type EventResultOrderByWithRelationInput = {
   prize?: Prisma.PrizeOrderByWithRelationInput
   event?: Prisma.EventOrderByWithRelationInput
   winner?: Prisma.UserOrderByRelationAggregateInput
-  _relevance?: Prisma.EventResultOrderByRelevanceInput
 }
 
 export type EventResultWhereUniqueInput = Prisma.AtLeast<{
@@ -268,12 +267,6 @@ export type EventResultListRelationFilter = {
 
 export type EventResultOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type EventResultOrderByRelevanceInput = {
-  fields: Prisma.EventResultOrderByRelevanceFieldEnum | Prisma.EventResultOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type EventResultCountOrderByAggregateInput = {
@@ -608,7 +601,19 @@ export type EventResultSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   _count?: boolean | Prisma.EventResultCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["eventResult"]>
 
+export type EventResultSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  prizeId?: boolean
+  eventId?: boolean
+  event?: boolean | Prisma.EventDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["eventResult"]>
 
+export type EventResultSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  prizeId?: boolean
+  eventId?: boolean
+  event?: boolean | Prisma.EventDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["eventResult"]>
 
 export type EventResultSelectScalar = {
   id?: boolean
@@ -622,6 +627,12 @@ export type EventResultInclude<ExtArgs extends runtime.Types.Extensions.Internal
   event?: boolean | Prisma.EventDefaultArgs<ExtArgs>
   winner?: boolean | Prisma.EventResult$winnerArgs<ExtArgs>
   _count?: boolean | Prisma.EventResultCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type EventResultIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  event?: boolean | Prisma.EventDefaultArgs<ExtArgs>
+}
+export type EventResultIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  event?: boolean | Prisma.EventDefaultArgs<ExtArgs>
 }
 
 export type $EventResultPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -753,6 +764,30 @@ export interface EventResultDelegate<ExtArgs extends runtime.Types.Extensions.In
   createMany<T extends EventResultCreateManyArgs>(args?: Prisma.SelectSubset<T, EventResultCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many EventResults and returns the data saved in the database.
+   * @param {EventResultCreateManyAndReturnArgs} args - Arguments to create many EventResults.
+   * @example
+   * // Create many EventResults
+   * const eventResult = await prisma.eventResult.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many EventResults and only return the `id`
+   * const eventResultWithIdOnly = await prisma.eventResult.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends EventResultCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, EventResultCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EventResultPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a EventResult.
    * @param {EventResultDeleteArgs} args - Arguments to delete one EventResult.
    * @example
@@ -815,6 +850,36 @@ export interface EventResultDelegate<ExtArgs extends runtime.Types.Extensions.In
    * 
    */
   updateMany<T extends EventResultUpdateManyArgs>(args: Prisma.SelectSubset<T, EventResultUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more EventResults and returns the data updated in the database.
+   * @param {EventResultUpdateManyAndReturnArgs} args - Arguments to update many EventResults.
+   * @example
+   * // Update many EventResults
+   * const eventResult = await prisma.eventResult.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more EventResults and only return the `id`
+   * const eventResultWithIdOnly = await prisma.eventResult.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends EventResultUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, EventResultUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EventResultPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one EventResult.
@@ -1249,6 +1314,29 @@ export type EventResultCreateManyArgs<ExtArgs extends runtime.Types.Extensions.I
 }
 
 /**
+ * EventResult createManyAndReturn
+ */
+export type EventResultCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the EventResult
+   */
+  select?: Prisma.EventResultSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the EventResult
+   */
+  omit?: Prisma.EventResultOmit<ExtArgs> | null
+  /**
+   * The data used to create many EventResults.
+   */
+  data: Prisma.EventResultCreateManyInput | Prisma.EventResultCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EventResultIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * EventResult update
  */
 export type EventResultUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1291,6 +1379,36 @@ export type EventResultUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.I
    * Limit how many EventResults to update.
    */
   limit?: number
+}
+
+/**
+ * EventResult updateManyAndReturn
+ */
+export type EventResultUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the EventResult
+   */
+  select?: Prisma.EventResultSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the EventResult
+   */
+  omit?: Prisma.EventResultOmit<ExtArgs> | null
+  /**
+   * The data used to update EventResults.
+   */
+  data: Prisma.XOR<Prisma.EventResultUpdateManyMutationInput, Prisma.EventResultUncheckedUpdateManyInput>
+  /**
+   * Filter which EventResults to update
+   */
+  where?: Prisma.EventResultWhereInput
+  /**
+   * Limit how many EventResults to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EventResultIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

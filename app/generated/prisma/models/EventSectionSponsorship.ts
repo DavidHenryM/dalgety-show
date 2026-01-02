@@ -210,7 +210,6 @@ export type EventSectionSponsorshipOrderByWithRelationInput = {
   amount?: Prisma.SortOrder
   section?: Prisma.EventSectionOrderByWithRelationInput
   sponsorships?: Prisma.SponsorshipOrderByRelationAggregateInput
-  _relevance?: Prisma.EventSectionSponsorshipOrderByRelevanceInput
 }
 
 export type EventSectionSponsorshipWhereUniqueInput = Prisma.AtLeast<{
@@ -297,12 +296,6 @@ export type EventSectionSponsorshipListRelationFilter = {
 
 export type EventSectionSponsorshipOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type EventSectionSponsorshipOrderByRelevanceInput = {
-  fields: Prisma.EventSectionSponsorshipOrderByRelevanceFieldEnum | Prisma.EventSectionSponsorshipOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type EventSectionSponsorshipCountOrderByAggregateInput = {
@@ -579,7 +572,19 @@ export type EventSectionSponsorshipSelect<ExtArgs extends runtime.Types.Extensio
   _count?: boolean | Prisma.EventSectionSponsorshipCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["eventSectionSponsorship"]>
 
+export type EventSectionSponsorshipSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  sectionId?: boolean
+  amount?: boolean
+  section?: boolean | Prisma.EventSectionDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["eventSectionSponsorship"]>
 
+export type EventSectionSponsorshipSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  sectionId?: boolean
+  amount?: boolean
+  section?: boolean | Prisma.EventSectionDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["eventSectionSponsorship"]>
 
 export type EventSectionSponsorshipSelectScalar = {
   id?: boolean
@@ -592,6 +597,12 @@ export type EventSectionSponsorshipInclude<ExtArgs extends runtime.Types.Extensi
   section?: boolean | Prisma.EventSectionDefaultArgs<ExtArgs>
   sponsorships?: boolean | Prisma.EventSectionSponsorship$sponsorshipsArgs<ExtArgs>
   _count?: boolean | Prisma.EventSectionSponsorshipCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type EventSectionSponsorshipIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  section?: boolean | Prisma.EventSectionDefaultArgs<ExtArgs>
+}
+export type EventSectionSponsorshipIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  section?: boolean | Prisma.EventSectionDefaultArgs<ExtArgs>
 }
 
 export type $EventSectionSponsorshipPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -722,6 +733,30 @@ export interface EventSectionSponsorshipDelegate<ExtArgs extends runtime.Types.E
   createMany<T extends EventSectionSponsorshipCreateManyArgs>(args?: Prisma.SelectSubset<T, EventSectionSponsorshipCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many EventSectionSponsorships and returns the data saved in the database.
+   * @param {EventSectionSponsorshipCreateManyAndReturnArgs} args - Arguments to create many EventSectionSponsorships.
+   * @example
+   * // Create many EventSectionSponsorships
+   * const eventSectionSponsorship = await prisma.eventSectionSponsorship.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many EventSectionSponsorships and only return the `id`
+   * const eventSectionSponsorshipWithIdOnly = await prisma.eventSectionSponsorship.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends EventSectionSponsorshipCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, EventSectionSponsorshipCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EventSectionSponsorshipPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a EventSectionSponsorship.
    * @param {EventSectionSponsorshipDeleteArgs} args - Arguments to delete one EventSectionSponsorship.
    * @example
@@ -784,6 +819,36 @@ export interface EventSectionSponsorshipDelegate<ExtArgs extends runtime.Types.E
    * 
    */
   updateMany<T extends EventSectionSponsorshipUpdateManyArgs>(args: Prisma.SelectSubset<T, EventSectionSponsorshipUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more EventSectionSponsorships and returns the data updated in the database.
+   * @param {EventSectionSponsorshipUpdateManyAndReturnArgs} args - Arguments to update many EventSectionSponsorships.
+   * @example
+   * // Update many EventSectionSponsorships
+   * const eventSectionSponsorship = await prisma.eventSectionSponsorship.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more EventSectionSponsorships and only return the `id`
+   * const eventSectionSponsorshipWithIdOnly = await prisma.eventSectionSponsorship.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends EventSectionSponsorshipUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, EventSectionSponsorshipUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EventSectionSponsorshipPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one EventSectionSponsorship.
@@ -1217,6 +1282,29 @@ export type EventSectionSponsorshipCreateManyArgs<ExtArgs extends runtime.Types.
 }
 
 /**
+ * EventSectionSponsorship createManyAndReturn
+ */
+export type EventSectionSponsorshipCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the EventSectionSponsorship
+   */
+  select?: Prisma.EventSectionSponsorshipSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the EventSectionSponsorship
+   */
+  omit?: Prisma.EventSectionSponsorshipOmit<ExtArgs> | null
+  /**
+   * The data used to create many EventSectionSponsorships.
+   */
+  data: Prisma.EventSectionSponsorshipCreateManyInput | Prisma.EventSectionSponsorshipCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EventSectionSponsorshipIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * EventSectionSponsorship update
  */
 export type EventSectionSponsorshipUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1259,6 +1347,36 @@ export type EventSectionSponsorshipUpdateManyArgs<ExtArgs extends runtime.Types.
    * Limit how many EventSectionSponsorships to update.
    */
   limit?: number
+}
+
+/**
+ * EventSectionSponsorship updateManyAndReturn
+ */
+export type EventSectionSponsorshipUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the EventSectionSponsorship
+   */
+  select?: Prisma.EventSectionSponsorshipSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the EventSectionSponsorship
+   */
+  omit?: Prisma.EventSectionSponsorshipOmit<ExtArgs> | null
+  /**
+   * The data used to update EventSectionSponsorships.
+   */
+  data: Prisma.XOR<Prisma.EventSectionSponsorshipUpdateManyMutationInput, Prisma.EventSectionSponsorshipUncheckedUpdateManyInput>
+  /**
+   * Filter which EventSectionSponsorships to update
+   */
+  where?: Prisma.EventSectionSponsorshipWhereInput
+  /**
+   * Limit how many EventSectionSponsorships to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EventSectionSponsorshipIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

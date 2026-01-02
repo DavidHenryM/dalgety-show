@@ -306,7 +306,6 @@ export type EventSectionOrderByWithRelationInput = {
   show?: Prisma.ShowOrderByWithRelationInput
   chiefSteward?: Prisma.UserOrderByWithRelationInput
   stewards?: Prisma.UserOrderByRelationAggregateInput
-  _relevance?: Prisma.EventSectionOrderByRelevanceInput
 }
 
 export type EventSectionWhereUniqueInput = Prisma.AtLeast<{
@@ -503,12 +502,6 @@ export type EventSectionListRelationFilter = {
 
 export type EventSectionOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type EventSectionOrderByRelevanceInput = {
-  fields: Prisma.EventSectionOrderByRelevanceFieldEnum | Prisma.EventSectionOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type EventSectionCountOrderByAggregateInput = {
@@ -1353,7 +1346,41 @@ export type EventSectionSelect<ExtArgs extends runtime.Types.Extensions.Internal
   _count?: boolean | Prisma.EventSectionCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["eventSection"]>
 
+export type EventSectionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  name?: boolean
+  image?: boolean
+  description?: boolean
+  details?: boolean
+  entryInstructions?: boolean
+  letter?: boolean
+  eventSectionSponsorshipId?: boolean
+  showId?: boolean
+  chiefStewardId?: boolean
+  entryClose?: boolean
+  itemDeliveryStart?: boolean
+  itemDeliveryEnd?: boolean
+  show?: boolean | Prisma.ShowDefaultArgs<ExtArgs>
+  chiefSteward?: boolean | Prisma.EventSection$chiefStewardArgs<ExtArgs>
+}, ExtArgs["result"]["eventSection"]>
 
+export type EventSectionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  name?: boolean
+  image?: boolean
+  description?: boolean
+  details?: boolean
+  entryInstructions?: boolean
+  letter?: boolean
+  eventSectionSponsorshipId?: boolean
+  showId?: boolean
+  chiefStewardId?: boolean
+  entryClose?: boolean
+  itemDeliveryStart?: boolean
+  itemDeliveryEnd?: boolean
+  show?: boolean | Prisma.ShowDefaultArgs<ExtArgs>
+  chiefSteward?: boolean | Prisma.EventSection$chiefStewardArgs<ExtArgs>
+}, ExtArgs["result"]["eventSection"]>
 
 export type EventSectionSelectScalar = {
   id?: boolean
@@ -1379,6 +1406,14 @@ export type EventSectionInclude<ExtArgs extends runtime.Types.Extensions.Interna
   chiefSteward?: boolean | Prisma.EventSection$chiefStewardArgs<ExtArgs>
   stewards?: boolean | Prisma.EventSection$stewardsArgs<ExtArgs>
   _count?: boolean | Prisma.EventSectionCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type EventSectionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  show?: boolean | Prisma.ShowDefaultArgs<ExtArgs>
+  chiefSteward?: boolean | Prisma.EventSection$chiefStewardArgs<ExtArgs>
+}
+export type EventSectionIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  show?: boolean | Prisma.ShowDefaultArgs<ExtArgs>
+  chiefSteward?: boolean | Prisma.EventSection$chiefStewardArgs<ExtArgs>
 }
 
 export type $EventSectionPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1522,6 +1557,30 @@ export interface EventSectionDelegate<ExtArgs extends runtime.Types.Extensions.I
   createMany<T extends EventSectionCreateManyArgs>(args?: Prisma.SelectSubset<T, EventSectionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many EventSections and returns the data saved in the database.
+   * @param {EventSectionCreateManyAndReturnArgs} args - Arguments to create many EventSections.
+   * @example
+   * // Create many EventSections
+   * const eventSection = await prisma.eventSection.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many EventSections and only return the `id`
+   * const eventSectionWithIdOnly = await prisma.eventSection.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends EventSectionCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, EventSectionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EventSectionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a EventSection.
    * @param {EventSectionDeleteArgs} args - Arguments to delete one EventSection.
    * @example
@@ -1584,6 +1643,36 @@ export interface EventSectionDelegate<ExtArgs extends runtime.Types.Extensions.I
    * 
    */
   updateMany<T extends EventSectionUpdateManyArgs>(args: Prisma.SelectSubset<T, EventSectionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more EventSections and returns the data updated in the database.
+   * @param {EventSectionUpdateManyAndReturnArgs} args - Arguments to update many EventSections.
+   * @example
+   * // Update many EventSections
+   * const eventSection = await prisma.eventSection.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more EventSections and only return the `id`
+   * const eventSectionWithIdOnly = await prisma.eventSection.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends EventSectionUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, EventSectionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EventSectionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one EventSection.
@@ -2030,6 +2119,29 @@ export type EventSectionCreateManyArgs<ExtArgs extends runtime.Types.Extensions.
 }
 
 /**
+ * EventSection createManyAndReturn
+ */
+export type EventSectionCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the EventSection
+   */
+  select?: Prisma.EventSectionSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the EventSection
+   */
+  omit?: Prisma.EventSectionOmit<ExtArgs> | null
+  /**
+   * The data used to create many EventSections.
+   */
+  data: Prisma.EventSectionCreateManyInput | Prisma.EventSectionCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EventSectionIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * EventSection update
  */
 export type EventSectionUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2072,6 +2184,36 @@ export type EventSectionUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.
    * Limit how many EventSections to update.
    */
   limit?: number
+}
+
+/**
+ * EventSection updateManyAndReturn
+ */
+export type EventSectionUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the EventSection
+   */
+  select?: Prisma.EventSectionSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the EventSection
+   */
+  omit?: Prisma.EventSectionOmit<ExtArgs> | null
+  /**
+   * The data used to update EventSections.
+   */
+  data: Prisma.XOR<Prisma.EventSectionUpdateManyMutationInput, Prisma.EventSectionUncheckedUpdateManyInput>
+  /**
+   * Filter which EventSections to update
+   */
+  where?: Prisma.EventSectionWhereInput
+  /**
+   * Limit how many EventSections to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EventSectionIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

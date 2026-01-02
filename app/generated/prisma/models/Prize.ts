@@ -246,7 +246,6 @@ export type PrizeOrderByWithRelationInput = {
   eventId?: Prisma.SortOrder
   eventResult?: Prisma.EventResultOrderByWithRelationInput
   event?: Prisma.EventOrderByWithRelationInput
-  _relevance?: Prisma.PrizeOrderByRelevanceInput
 }
 
 export type PrizeWhereUniqueInput = Prisma.AtLeast<{
@@ -373,12 +372,6 @@ export type PrizeOrderByRelationAggregateInput = {
 export type PrizeNullableScalarRelationFilter = {
   is?: Prisma.PrizeWhereInput | null
   isNot?: Prisma.PrizeWhereInput | null
-}
-
-export type PrizeOrderByRelevanceInput = {
-  fields: Prisma.PrizeOrderByRelevanceFieldEnum | Prisma.PrizeOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type PrizeCountOrderByAggregateInput = {
@@ -652,7 +645,29 @@ export type PrizeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   event?: boolean | Prisma.EventDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["prize"]>
 
+export type PrizeSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  prizeName?: boolean
+  cashPrizeValue?: boolean
+  trophyName?: boolean
+  ribbonName?: boolean
+  eventResultId?: boolean
+  eventId?: boolean
+  eventResult?: boolean | Prisma.Prize$eventResultArgs<ExtArgs>
+  event?: boolean | Prisma.EventDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["prize"]>
 
+export type PrizeSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  prizeName?: boolean
+  cashPrizeValue?: boolean
+  trophyName?: boolean
+  ribbonName?: boolean
+  eventResultId?: boolean
+  eventId?: boolean
+  eventResult?: boolean | Prisma.Prize$eventResultArgs<ExtArgs>
+  event?: boolean | Prisma.EventDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["prize"]>
 
 export type PrizeSelectScalar = {
   id?: boolean
@@ -666,6 +681,14 @@ export type PrizeSelectScalar = {
 
 export type PrizeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "prizeName" | "cashPrizeValue" | "trophyName" | "ribbonName" | "eventResultId" | "eventId", ExtArgs["result"]["prize"]>
 export type PrizeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  eventResult?: boolean | Prisma.Prize$eventResultArgs<ExtArgs>
+  event?: boolean | Prisma.EventDefaultArgs<ExtArgs>
+}
+export type PrizeIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  eventResult?: boolean | Prisma.Prize$eventResultArgs<ExtArgs>
+  event?: boolean | Prisma.EventDefaultArgs<ExtArgs>
+}
+export type PrizeIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   eventResult?: boolean | Prisma.Prize$eventResultArgs<ExtArgs>
   event?: boolean | Prisma.EventDefaultArgs<ExtArgs>
 }
@@ -802,6 +825,30 @@ export interface PrizeDelegate<ExtArgs extends runtime.Types.Extensions.Internal
   createMany<T extends PrizeCreateManyArgs>(args?: Prisma.SelectSubset<T, PrizeCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many Prizes and returns the data saved in the database.
+   * @param {PrizeCreateManyAndReturnArgs} args - Arguments to create many Prizes.
+   * @example
+   * // Create many Prizes
+   * const prize = await prisma.prize.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many Prizes and only return the `id`
+   * const prizeWithIdOnly = await prisma.prize.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends PrizeCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, PrizeCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PrizePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a Prize.
    * @param {PrizeDeleteArgs} args - Arguments to delete one Prize.
    * @example
@@ -864,6 +911,36 @@ export interface PrizeDelegate<ExtArgs extends runtime.Types.Extensions.Internal
    * 
    */
   updateMany<T extends PrizeUpdateManyArgs>(args: Prisma.SelectSubset<T, PrizeUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more Prizes and returns the data updated in the database.
+   * @param {PrizeUpdateManyAndReturnArgs} args - Arguments to update many Prizes.
+   * @example
+   * // Update many Prizes
+   * const prize = await prisma.prize.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more Prizes and only return the `id`
+   * const prizeWithIdOnly = await prisma.prize.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends PrizeUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, PrizeUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PrizePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one Prize.
@@ -1301,6 +1378,29 @@ export type PrizeCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
 }
 
 /**
+ * Prize createManyAndReturn
+ */
+export type PrizeCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Prize
+   */
+  select?: Prisma.PrizeSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Prize
+   */
+  omit?: Prisma.PrizeOmit<ExtArgs> | null
+  /**
+   * The data used to create many Prizes.
+   */
+  data: Prisma.PrizeCreateManyInput | Prisma.PrizeCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PrizeIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * Prize update
  */
 export type PrizeUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1343,6 +1443,36 @@ export type PrizeUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Limit how many Prizes to update.
    */
   limit?: number
+}
+
+/**
+ * Prize updateManyAndReturn
+ */
+export type PrizeUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Prize
+   */
+  select?: Prisma.PrizeSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Prize
+   */
+  omit?: Prisma.PrizeOmit<ExtArgs> | null
+  /**
+   * The data used to update Prizes.
+   */
+  data: Prisma.XOR<Prisma.PrizeUpdateManyMutationInput, Prisma.PrizeUncheckedUpdateManyInput>
+  /**
+   * Filter which Prizes to update
+   */
+  where?: Prisma.PrizeWhereInput
+  /**
+   * Limit how many Prizes to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PrizeIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
