@@ -1,8 +1,8 @@
 import "dotenv/config";
-import { PrismaMariaDb } from '@prisma/adapter-mariadb';
+import { PrismaPg } from '@prisma/adapter-pg'
 import { PrismaClient } from '../generated/prisma/client';
 
-const adapter = new PrismaMariaDb(`${process.env.DATABASE_URL}`)
+const adapter = new PrismaPg({connectionString: `${process.env.DATABASE_URL}`})
 //   {
 //   host: process.env.DATABASE_HOST,
 //   user: process.env.DATABASE_USER,
