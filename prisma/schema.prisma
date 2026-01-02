@@ -1,0 +1,293 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider        = "prisma-client"
+  output          = "../app/generated/prisma"
+  previewFeatures = ["relationJoins"]
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+model User {
+  id                          String          @id @default(cuid())
+  firstName                   String?
+  lastName                    String?
+  username                    String?         @unique
+  email                       String?         @unique
+  emailVerified               DateTime?
+  image                       String?
+  accounts                    Account[]
+  sessions                    Session[]
+  Authenticator               Authenticator[]
+  createdAt                   DateTime        @default(now())
+  updatedAt                   DateTime        @updatedAt
+  mobileNumber                String?
+  landlineNumber              String?
+  billingAddressId            String?         @unique
+  billingAddress              Address?        @relation(name: "UserBillingAddress", fields: [billingAddressId], references: [id])
+  shippingAddressId           String?         @unique
+  shippingAddress             Address?        @relation(name: "UserShippingAddress", fields: [shippingAddressId], references: [id])
+  addressid                   Int?
+  organisation                Organisation[]
+  role                        Role            @default(USER)
+  chiefStewardOfEventSections EventSection[]  @relation(name: "eventSectionChiefSteward")
+  stewardOfEventSections      EventSection[]
+  eventResults                EventResult[]
+
+  memberships Membership[]
+}
+
+model Account {
+  id                       String  @id @default(cuid())
+  userId                   String  @unique
+  type                     String
+  provider                 String
+  providerAccountId        String
+  refresh_token            String? @db.Text
+  access_token             String? @db.Text
+  expires_at               Int?
+  token_type               String?
+  scope                    String?
+  id_token                 String? @db.Text
+  session_state            String?
+  refresh_token_expires_in Int?
+  user                     User?   @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// Optional for WebAuthn support
+model Authenticator {
+  credentialID         String  @unique
+  userId               String
+  providerAccountId    String
+  credentialPublicKey  String
+  counter              Int
+  credentialDeviceType String
+  credentialBackedUp   Boolean
+  transports           String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([userId, credentialID])
+}
+
+model Address {
+  id           String        @id @default(cuid())
+  unit         Int?
+  streetNumber Int
+  streetName   String
+  streetType   String
+  suburb       String
+  state        State
+  country      String
+  postCode     Int
+  billingUser  User?         @relation(name: "UserBillingAddress")
+  shippingUser User?         @relation(name: "UserShippingAddress")
+  billingOrg   Organisation? @relation(name: "OrgBillingAddress")
+  shippingOrg  Organisation? @relation(name: "OrgShippingAddress")
+}
+
+model Organisation {
+  id                String        @id @default(cuid())
+  name              String        @unique
+  billingAddress    Address?      @relation(name: "OrgBillingAddress", fields: [billingAddressId], references: [id])
+  billingAddressId  String?       @unique
+  shippingAddress   Address?      @relation(name: "OrgShippingAddress", fields: [shippingAddressId], references: [id])
+  shippingAddressId String?       @unique
+  contactPerson     User          @relation(fields: [contactPersonId], references: [id])
+  contactPersonId   String        @unique
+  sponsorships      Sponsorship[]
+}
+
+model EventSection {
+  id                        String                    @id @default(cuid())
+  name                      String
+  image                     String?
+  description               String?
+  details                   String?                   @db.Text
+  entryInstructions         String?                   @db.Text
+  letter                    String?
+  eventSectionSponsorshipId Int?                      @unique
+  eventSectionSponsorships  EventSectionSponsorship[]
+  events                    Event[]
+  show                      Show                      @relation(fields: [showId], references: [id])
+  showId                    String
+  chiefStewardId            String?
+  chiefSteward              User?                     @relation(name: "eventSectionChiefSteward", fields: [chiefStewardId], references: [id])
+  stewards                  User[]
+  entryClose                DateTime?
+  itemDeliveryStart         DateTime?
+  itemDeliveryEnd           DateTime?
+}
+
+model Event {
+  id           String        @id @unique @default(cuid())
+  name         String
+  description  String?
+  image        String?
+  section      EventSection  @relation(fields: [sectionId], references: [id])
+  sectionId    String
+  show         Show          @relation(fields: [showId], references: [id])
+  showId       String
+  results      EventResult[]
+  maximumAge   Int?
+  minimumAge   Int?
+  gender       Gender        @default(OPEN)
+  entryFee     Float?
+  entryFeeTeam Float?
+  prizes       Prize[]
+}
+
+model EventResult {
+  id      String  @id @unique @default(cuid())
+  prize   Prize?
+  prizeId String?
+  event   Event   @relation(fields: [eventId], references: [id])
+  eventId String
+  winner  User[]
+}
+
+model Prize {
+  id             String       @id @default(cuid())
+  prizeName      String?
+  cashPrizeValue Float?
+  trophyName     String?
+  ribbonName     String?
+  eventResultId  String?      @unique
+  eventResult    EventResult? @relation(fields: [eventResultId], references: [id])
+  event          Event        @relation(fields: [eventId], references: [id])
+  eventId        String
+}
+
+model EventSectionSponsorship {
+  id           String        @id @default(cuid())
+  sectionId    String        @unique
+  section      EventSection  @relation(fields: [sectionId], references: [id])
+  amount       Float
+  sponsorships Sponsorship[]
+}
+
+model Sponsorship {
+  id             String                    @id @default(cuid())
+  package        SponsorshipPackage        @relation(fields: [packageId], references: [id])
+  packageId      String
+  totalAmount    Float
+  section        EventSectionSponsorship[]
+  showId         String
+  show           Show                      @relation(fields: [showId], references: [id])
+  organisation   Organisation              @relation(fields: [organisationId], references: [id])
+  organisationId String
+}
+
+model Show {
+  id      String   @id @default(cuid())
+  year    Int      @unique
+  number  Int
+  tagLine String
+  start   DateTime
+  finish  DateTime
+  events  Event[]
+
+  eventSections EventSection[]
+  sponsorships  Sponsorship[]
+}
+
+model Membership {
+  id        String   @id @default(cuid())
+  member    User     @relation(fields: [memberId], references: [id])
+  memberId  String
+  startDate DateTime
+  renewDate DateTime
+}
+
+model SponsorshipPackage {
+  id            String                 @id @default(cuid())
+  tier          SponsorshipPackageTier
+  minimumAmount Int
+  maximumAmount Int
+  sponsorships  Sponsorship[]
+}
+
+enum State {
+  ACT
+  NSW
+  QLD
+  VIC
+  SA
+  NT
+  WA
+  TAS
+}
+
+enum Role {
+  SITE_ADMIN
+  USER
+  OWNER
+}
+
+enum SponsorshipPackageTier {
+  PLATNIUM
+  GOLD
+  SILVER
+  BRONZE
+  SECTION
+}
+
+enum SponsorshipSection {
+  WOODCHOP
+  HORSE_ARENA
+  NOVELTY_EVENT
+  YARD_DOG_TRIALS
+  STOCKMANS_CHALLENGE
+  SECTION_C_STUD_CATTLE
+  SECTION_B_MERINO_SHEEP
+  SECTION_B1_MERINO_WOOL
+  SECTION_C1_COMMERCIAL_CATTLE
+  JUNIOR_JUDGING_CATTLE
+  SECTION_P_POULTRY
+  SECTION_D_FRESH_PRODUCE
+}
+
+enum Gender {
+  WOMEN
+  MEN
+  OPEN
+}
