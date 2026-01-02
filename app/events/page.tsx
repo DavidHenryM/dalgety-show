@@ -6,7 +6,7 @@ import { Background } from "../components/Background";
 import { backgroundImages } from "../images/backgrounds";
 import { Dispatch, forwardRef, SetStateAction, useEffect, useState } from "react";
 import { getEvents, getEventSections, GetEventSectionsResult, GetEventsResult, getSectionEvents, getShow } from "../lib/queries";
-import { getNextShowDate } from "../utils";
+import { getDateString, getNextShowDate } from "../utils";
 import Loading from "../Loading";
 import { Event, EventSection, Show } from "../generated/prisma/client";
 import { TransitionProps } from "@mui/material/transitions";
@@ -170,10 +170,13 @@ function EventDialog(props: {open: boolean, setOpen: Dispatch<SetStateAction<boo
           <Divider/>
 
           {props.section?.entryInstructions?.split("\\n").map((line, index)=>{
-            console.log(line, index)
-            return (<DialogContentText component={"a"} key={`line-${index}`} variant="subtitle2" color="primary.main">{line}</DialogContentText>)
+            return (<DialogContentText key={`line-${index}`} variant="subtitle2" color="primary.main">{line}</DialogContentText>)
           })}
-          
+          { props.section?.entryClose ?
+            <DialogContentText variant="subtitle2" color="primary.main">
+              {`Entires close on ${getDateString(props.section.entryClose)}`}
+            </DialogContentText> : <></>
+          }
         </Stack>
       </DialogContent>
       <DialogActions>
