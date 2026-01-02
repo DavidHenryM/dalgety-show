@@ -10,7 +10,7 @@
     "lint": "eslint"
   },
   "overrides": {
-    "nodemailer": "7.0.12"
+    "nodemailer": "$nodemailer"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.1",
