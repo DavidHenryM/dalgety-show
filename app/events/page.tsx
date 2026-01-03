@@ -12,7 +12,7 @@ export default function Events(){
     setLoading(true)
     getShow(getNextShowDate().getFullYear()).then((show)=>{
       if(show){
-        redirect(`events/${show.year}`)
+        redirect(`/events/${show.year}`)
       }
       setLoading(false)
     })

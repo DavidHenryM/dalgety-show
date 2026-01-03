@@ -28,7 +28,6 @@ export default function RootLayout({
 }>) {
   const [theme, setTheme] = useState<Theme>(lightTheme)
   const [darkModeActive, setDarkModeActive] = useState<boolean>(false)
-  const [contentString, setContentString] = useState<string>("HOME")
   const [drawerOpen, setDrawerOpen] = useState(true)
 
   
@@ -47,8 +46,8 @@ export default function RootLayout({
         <AppRouterCacheProvider>
           <SessionProvider>
             <ThemeProvider theme={theme}>      
-              <TopBar title={`${contentString} | The Dalgety Show`} darkModeActive={darkModeActive} setDarkModeActive={setDarkModeActive} drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen}/>
-              <Navbar drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} setDarkModeActive={setDarkModeActive} darkModeActive={darkModeActive} setContentString={setContentString}/>
+              <TopBar darkModeActive={darkModeActive} setDarkModeActive={setDarkModeActive} drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen}/>
+              <Navbar drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} setDarkModeActive={setDarkModeActive} darkModeActive={darkModeActive}/>
                 {children}
               <Footer />
             </ThemeProvider>

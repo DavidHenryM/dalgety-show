@@ -18,13 +18,17 @@ import { useUserRole } from "../lib/queryHooks";
 export default function Navbar(props: {
   drawerOpen: boolean, 
   darkModeActive: boolean, 
-  setDarkModeActive: Dispatch<React.SetStateAction<boolean>>, 
-  setContentString: Dispatch<React.SetStateAction<string>>,
+  setDarkModeActive: Dispatch<React.SetStateAction<boolean>>,
   setDrawerOpen: Dispatch<React.SetStateAction<boolean>>
 }) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [role, loading] = useUserRole()
+  useEffect(()=>{
+    if (isMobile){
+      props.setDrawerOpen(false)
+    }
+  },[isMobile])
 
 
   function handleMenuClick(menuLabel: string){

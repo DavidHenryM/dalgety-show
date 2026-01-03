@@ -1,24 +1,35 @@
 'use client'
 
-import { AppBar, IconButton, Toolbar, Tooltip, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { AppBar, Box, Breadcrumbs, IconButton, Link, Toolbar, Tooltip, Typography, useMediaQuery, useTheme } from "@mui/material";
 import DarkModeIcon from '@mui/icons-material/DarkMode'
 import LightModeIcon from '@mui/icons-material/LightMode'
 import MenuIcon from '@mui/icons-material/Menu';
 import { drawerWidth } from "../settings";
-import { useEffect, type Dispatch } from "react";
+import { useEffect, useState, type Dispatch } from "react";
 import UserAvatar from "./UserAvatar";
+import { usePathname } from 'next/navigation'
 
 export function TopBar(
   props: {
-    title: string, 
     darkModeActive: boolean, 
     setDarkModeActive: Dispatch<React.SetStateAction<boolean>>, 
     drawerOpen: boolean, 
     setDrawerOpen: Dispatch<React.SetStateAction<boolean>>
   })
 {
+  const pathname = usePathname()
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const [paths, setPaths] = useState<string[]>([])
+  useEffect(()=>{
+    if (pathname == "/"){
+      setPaths(["/HOME"])
+    } else {
+      setPaths(pathname.split("/"))
+    }
+
+
+  },[pathname])
 
   useEffect(()=>{
     if(!isMobile){
@@ -53,8 +64,17 @@ export function TopBar(
           sx={{ flexGrow: 1 }}
           color="secondary"
         >
-          {props.title}
+          The Dalgety Show 
         </Typography>
+        <Breadcrumbs sx={{ '& ol': { justifyContent: 'left' }, color: "secondary.main", flexGrow: 1500 }}>
+        {
+        paths.map((directory, index, pathsArray)=>{
+          return(
+            <Link variant="h6" href={pathsArray.slice(0, index + 1).join('/')} color="secondary">{directory.replaceAll("/","").replaceAll("%20", " ").toLowerCase()}</Link>
+          )
+        })}
+        </Breadcrumbs>
+        
         
         {/* <SignupForm/> */}
         <Tooltip title={props.darkModeActive ? "Change to Light Mode" : "Change to Dark Mode"}>
