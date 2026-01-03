@@ -9,7 +9,7 @@ import ContactMailIcon from '@mui/icons-material/ContactMail';
 import CardMembershipIcon from '@mui/icons-material/CardMembership';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import Home from "../home/page";
-import Events from "../events/page";
+import Events from "../events/[year]/page";
 import Schedule from "../schedule/page";
 import Membership from "../membership/page";
 import Gallery from "../gallery/page";

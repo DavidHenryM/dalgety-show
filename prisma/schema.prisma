@@ -144,6 +144,7 @@ model EventSection {
   description               String?
   details                   String?                   @db.Text
   entryInstructions         String?                   @db.Text
+  entryEmail  String?
   letter                    String?
   eventSectionSponsorshipId Int?
   eventSectionSponsorships  EventSectionSponsorship[]

@@ -1760,6 +1760,7 @@ export const EventSectionScalarFieldEnum = {
   description: 'description',
   details: 'details',
   entryInstructions: 'entryInstructions',
+  entryEmail: 'entryEmail',
   letter: 'letter',
   eventSectionSponsorshipId: 'eventSectionSponsorshipId',
   showId: 'showId',

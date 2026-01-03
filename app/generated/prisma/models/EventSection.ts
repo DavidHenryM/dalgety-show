@@ -41,6 +41,7 @@ export type EventSectionMinAggregateOutputType = {
   description: string | null
   details: string | null
   entryInstructions: string | null
+  entryEmail: string | null
   letter: string | null
   eventSectionSponsorshipId: number | null
   showId: string | null
@@ -57,6 +58,7 @@ export type EventSectionMaxAggregateOutputType = {
   description: string | null
   details: string | null
   entryInstructions: string | null
+  entryEmail: string | null
   letter: string | null
   eventSectionSponsorshipId: number | null
   showId: string | null
@@ -73,6 +75,7 @@ export type EventSectionCountAggregateOutputType = {
   description: number
   details: number
   entryInstructions: number
+  entryEmail: number
   letter: number
   eventSectionSponsorshipId: number
   showId: number
@@ -99,6 +102,7 @@ export type EventSectionMinAggregateInputType = {
   description?: true
   details?: true
   entryInstructions?: true
+  entryEmail?: true
   letter?: true
   eventSectionSponsorshipId?: true
   showId?: true
@@ -115,6 +119,7 @@ export type EventSectionMaxAggregateInputType = {
   description?: true
   details?: true
   entryInstructions?: true
+  entryEmail?: true
   letter?: true
   eventSectionSponsorshipId?: true
   showId?: true
@@ -131,6 +136,7 @@ export type EventSectionCountAggregateInputType = {
   description?: true
   details?: true
   entryInstructions?: true
+  entryEmail?: true
   letter?: true
   eventSectionSponsorshipId?: true
   showId?: true
@@ -234,6 +240,7 @@ export type EventSectionGroupByOutputType = {
   description: string | null
   details: string | null
   entryInstructions: string | null
+  entryEmail: string | null
   letter: string | null
   eventSectionSponsorshipId: number | null
   showId: string
@@ -273,6 +280,7 @@ export type EventSectionWhereInput = {
   description?: Prisma.StringNullableFilter<"EventSection"> | string | null
   details?: Prisma.StringNullableFilter<"EventSection"> | string | null
   entryInstructions?: Prisma.StringNullableFilter<"EventSection"> | string | null
+  entryEmail?: Prisma.StringNullableFilter<"EventSection"> | string | null
   letter?: Prisma.StringNullableFilter<"EventSection"> | string | null
   eventSectionSponsorshipId?: Prisma.IntNullableFilter<"EventSection"> | number | null
   showId?: Prisma.StringFilter<"EventSection"> | string
@@ -294,6 +302,7 @@ export type EventSectionOrderByWithRelationInput = {
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   details?: Prisma.SortOrderInput | Prisma.SortOrder
   entryInstructions?: Prisma.SortOrderInput | Prisma.SortOrder
+  entryEmail?: Prisma.SortOrderInput | Prisma.SortOrder
   letter?: Prisma.SortOrderInput | Prisma.SortOrder
   eventSectionSponsorshipId?: Prisma.SortOrderInput | Prisma.SortOrder
   showId?: Prisma.SortOrder
@@ -318,6 +327,7 @@ export type EventSectionWhereUniqueInput = Prisma.AtLeast<{
   description?: Prisma.StringNullableFilter<"EventSection"> | string | null
   details?: Prisma.StringNullableFilter<"EventSection"> | string | null
   entryInstructions?: Prisma.StringNullableFilter<"EventSection"> | string | null
+  entryEmail?: Prisma.StringNullableFilter<"EventSection"> | string | null
   letter?: Prisma.StringNullableFilter<"EventSection"> | string | null
   eventSectionSponsorshipId?: Prisma.IntNullableFilter<"EventSection"> | number | null
   showId?: Prisma.StringFilter<"EventSection"> | string
@@ -339,6 +349,7 @@ export type EventSectionOrderByWithAggregationInput = {
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   details?: Prisma.SortOrderInput | Prisma.SortOrder
   entryInstructions?: Prisma.SortOrderInput | Prisma.SortOrder
+  entryEmail?: Prisma.SortOrderInput | Prisma.SortOrder
   letter?: Prisma.SortOrderInput | Prisma.SortOrder
   eventSectionSponsorshipId?: Prisma.SortOrderInput | Prisma.SortOrder
   showId?: Prisma.SortOrder
@@ -363,6 +374,7 @@ export type EventSectionScalarWhereWithAggregatesInput = {
   description?: Prisma.StringNullableWithAggregatesFilter<"EventSection"> | string | null
   details?: Prisma.StringNullableWithAggregatesFilter<"EventSection"> | string | null
   entryInstructions?: Prisma.StringNullableWithAggregatesFilter<"EventSection"> | string | null
+  entryEmail?: Prisma.StringNullableWithAggregatesFilter<"EventSection"> | string | null
   letter?: Prisma.StringNullableWithAggregatesFilter<"EventSection"> | string | null
   eventSectionSponsorshipId?: Prisma.IntNullableWithAggregatesFilter<"EventSection"> | number | null
   showId?: Prisma.StringWithAggregatesFilter<"EventSection"> | string
@@ -379,6 +391,7 @@ export type EventSectionCreateInput = {
   description?: string | null
   details?: string | null
   entryInstructions?: string | null
+  entryEmail?: string | null
   letter?: string | null
   eventSectionSponsorshipId?: number | null
   entryClose?: Date | string | null
@@ -398,6 +411,7 @@ export type EventSectionUncheckedCreateInput = {
   description?: string | null
   details?: string | null
   entryInstructions?: string | null
+  entryEmail?: string | null
   letter?: string | null
   eventSectionSponsorshipId?: number | null
   showId: string
@@ -417,6 +431,7 @@ export type EventSectionUpdateInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   details?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   entryInstructions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  entryEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   letter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   eventSectionSponsorshipId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   entryClose?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -436,6 +451,7 @@ export type EventSectionUncheckedUpdateInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   details?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   entryInstructions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  entryEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   letter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   eventSectionSponsorshipId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   showId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -455,6 +471,7 @@ export type EventSectionCreateManyInput = {
   description?: string | null
   details?: string | null
   entryInstructions?: string | null
+  entryEmail?: string | null
   letter?: string | null
   eventSectionSponsorshipId?: number | null
   showId: string
@@ -471,6 +488,7 @@ export type EventSectionUpdateManyMutationInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   details?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   entryInstructions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  entryEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   letter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   eventSectionSponsorshipId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   entryClose?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -485,6 +503,7 @@ export type EventSectionUncheckedUpdateManyInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   details?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   entryInstructions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  entryEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   letter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   eventSectionSponsorshipId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   showId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -511,6 +530,7 @@ export type EventSectionCountOrderByAggregateInput = {
   description?: Prisma.SortOrder
   details?: Prisma.SortOrder
   entryInstructions?: Prisma.SortOrder
+  entryEmail?: Prisma.SortOrder
   letter?: Prisma.SortOrder
   eventSectionSponsorshipId?: Prisma.SortOrder
   showId?: Prisma.SortOrder
@@ -531,6 +551,7 @@ export type EventSectionMaxOrderByAggregateInput = {
   description?: Prisma.SortOrder
   details?: Prisma.SortOrder
   entryInstructions?: Prisma.SortOrder
+  entryEmail?: Prisma.SortOrder
   letter?: Prisma.SortOrder
   eventSectionSponsorshipId?: Prisma.SortOrder
   showId?: Prisma.SortOrder
@@ -547,6 +568,7 @@ export type EventSectionMinOrderByAggregateInput = {
   description?: Prisma.SortOrder
   details?: Prisma.SortOrder
   entryInstructions?: Prisma.SortOrder
+  entryEmail?: Prisma.SortOrder
   letter?: Prisma.SortOrder
   eventSectionSponsorshipId?: Prisma.SortOrder
   showId?: Prisma.SortOrder
@@ -722,6 +744,7 @@ export type EventSectionCreateWithoutChiefStewardInput = {
   description?: string | null
   details?: string | null
   entryInstructions?: string | null
+  entryEmail?: string | null
   letter?: string | null
   eventSectionSponsorshipId?: number | null
   entryClose?: Date | string | null
@@ -740,6 +763,7 @@ export type EventSectionUncheckedCreateWithoutChiefStewardInput = {
   description?: string | null
   details?: string | null
   entryInstructions?: string | null
+  entryEmail?: string | null
   letter?: string | null
   eventSectionSponsorshipId?: number | null
   showId: string
@@ -768,6 +792,7 @@ export type EventSectionCreateWithoutStewardsInput = {
   description?: string | null
   details?: string | null
   entryInstructions?: string | null
+  entryEmail?: string | null
   letter?: string | null
   eventSectionSponsorshipId?: number | null
   entryClose?: Date | string | null
@@ -786,6 +811,7 @@ export type EventSectionUncheckedCreateWithoutStewardsInput = {
   description?: string | null
   details?: string | null
   entryInstructions?: string | null
+  entryEmail?: string | null
   letter?: string | null
   eventSectionSponsorshipId?: number | null
   showId: string
@@ -828,6 +854,7 @@ export type EventSectionScalarWhereInput = {
   description?: Prisma.StringNullableFilter<"EventSection"> | string | null
   details?: Prisma.StringNullableFilter<"EventSection"> | string | null
   entryInstructions?: Prisma.StringNullableFilter<"EventSection"> | string | null
+  entryEmail?: Prisma.StringNullableFilter<"EventSection"> | string | null
   letter?: Prisma.StringNullableFilter<"EventSection"> | string | null
   eventSectionSponsorshipId?: Prisma.IntNullableFilter<"EventSection"> | number | null
   showId?: Prisma.StringFilter<"EventSection"> | string
@@ -860,6 +887,7 @@ export type EventSectionCreateWithoutEventsInput = {
   description?: string | null
   details?: string | null
   entryInstructions?: string | null
+  entryEmail?: string | null
   letter?: string | null
   eventSectionSponsorshipId?: number | null
   entryClose?: Date | string | null
@@ -878,6 +906,7 @@ export type EventSectionUncheckedCreateWithoutEventsInput = {
   description?: string | null
   details?: string | null
   entryInstructions?: string | null
+  entryEmail?: string | null
   letter?: string | null
   eventSectionSponsorshipId?: number | null
   showId: string
@@ -912,6 +941,7 @@ export type EventSectionUpdateWithoutEventsInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   details?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   entryInstructions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  entryEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   letter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   eventSectionSponsorshipId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   entryClose?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -930,6 +960,7 @@ export type EventSectionUncheckedUpdateWithoutEventsInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   details?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   entryInstructions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  entryEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   letter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   eventSectionSponsorshipId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   showId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -948,6 +979,7 @@ export type EventSectionCreateWithoutEventSectionSponsorshipsInput = {
   description?: string | null
   details?: string | null
   entryInstructions?: string | null
+  entryEmail?: string | null
   letter?: string | null
   eventSectionSponsorshipId?: number | null
   entryClose?: Date | string | null
@@ -966,6 +998,7 @@ export type EventSectionUncheckedCreateWithoutEventSectionSponsorshipsInput = {
   description?: string | null
   details?: string | null
   entryInstructions?: string | null
+  entryEmail?: string | null
   letter?: string | null
   eventSectionSponsorshipId?: number | null
   showId: string
@@ -1000,6 +1033,7 @@ export type EventSectionUpdateWithoutEventSectionSponsorshipsInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   details?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   entryInstructions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  entryEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   letter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   eventSectionSponsorshipId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   entryClose?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1018,6 +1052,7 @@ export type EventSectionUncheckedUpdateWithoutEventSectionSponsorshipsInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   details?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   entryInstructions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  entryEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   letter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   eventSectionSponsorshipId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   showId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1036,6 +1071,7 @@ export type EventSectionCreateWithoutShowInput = {
   description?: string | null
   details?: string | null
   entryInstructions?: string | null
+  entryEmail?: string | null
   letter?: string | null
   eventSectionSponsorshipId?: number | null
   entryClose?: Date | string | null
@@ -1054,6 +1090,7 @@ export type EventSectionUncheckedCreateWithoutShowInput = {
   description?: string | null
   details?: string | null
   entryInstructions?: string | null
+  entryEmail?: string | null
   letter?: string | null
   eventSectionSponsorshipId?: number | null
   chiefStewardId?: string | null
@@ -1098,6 +1135,7 @@ export type EventSectionCreateManyChiefStewardInput = {
   description?: string | null
   details?: string | null
   entryInstructions?: string | null
+  entryEmail?: string | null
   letter?: string | null
   eventSectionSponsorshipId?: number | null
   showId: string
@@ -1113,6 +1151,7 @@ export type EventSectionUpdateWithoutChiefStewardInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   details?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   entryInstructions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  entryEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   letter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   eventSectionSponsorshipId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   entryClose?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1131,6 +1170,7 @@ export type EventSectionUncheckedUpdateWithoutChiefStewardInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   details?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   entryInstructions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  entryEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   letter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   eventSectionSponsorshipId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   showId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1149,6 +1189,7 @@ export type EventSectionUncheckedUpdateManyWithoutChiefStewardInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   details?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   entryInstructions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  entryEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   letter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   eventSectionSponsorshipId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   showId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1164,6 +1205,7 @@ export type EventSectionUpdateWithoutStewardsInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   details?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   entryInstructions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  entryEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   letter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   eventSectionSponsorshipId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   entryClose?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1182,6 +1224,7 @@ export type EventSectionUncheckedUpdateWithoutStewardsInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   details?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   entryInstructions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  entryEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   letter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   eventSectionSponsorshipId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   showId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1200,6 +1243,7 @@ export type EventSectionUncheckedUpdateManyWithoutStewardsInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   details?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   entryInstructions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  entryEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   letter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   eventSectionSponsorshipId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   showId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1216,6 +1260,7 @@ export type EventSectionCreateManyShowInput = {
   description?: string | null
   details?: string | null
   entryInstructions?: string | null
+  entryEmail?: string | null
   letter?: string | null
   eventSectionSponsorshipId?: number | null
   chiefStewardId?: string | null
@@ -1231,6 +1276,7 @@ export type EventSectionUpdateWithoutShowInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   details?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   entryInstructions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  entryEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   letter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   eventSectionSponsorshipId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   entryClose?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1249,6 +1295,7 @@ export type EventSectionUncheckedUpdateWithoutShowInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   details?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   entryInstructions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  entryEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   letter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   eventSectionSponsorshipId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   chiefStewardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1267,6 +1314,7 @@ export type EventSectionUncheckedUpdateManyWithoutShowInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   details?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   entryInstructions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  entryEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   letter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   eventSectionSponsorshipId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   chiefStewardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1331,6 +1379,7 @@ export type EventSectionSelect<ExtArgs extends runtime.Types.Extensions.Internal
   description?: boolean
   details?: boolean
   entryInstructions?: boolean
+  entryEmail?: boolean
   letter?: boolean
   eventSectionSponsorshipId?: boolean
   showId?: boolean
@@ -1353,6 +1402,7 @@ export type EventSectionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   description?: boolean
   details?: boolean
   entryInstructions?: boolean
+  entryEmail?: boolean
   letter?: boolean
   eventSectionSponsorshipId?: boolean
   showId?: boolean
@@ -1371,6 +1421,7 @@ export type EventSectionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   description?: boolean
   details?: boolean
   entryInstructions?: boolean
+  entryEmail?: boolean
   letter?: boolean
   eventSectionSponsorshipId?: boolean
   showId?: boolean
@@ -1389,6 +1440,7 @@ export type EventSectionSelectScalar = {
   description?: boolean
   details?: boolean
   entryInstructions?: boolean
+  entryEmail?: boolean
   letter?: boolean
   eventSectionSponsorshipId?: boolean
   showId?: boolean
@@ -1398,7 +1450,7 @@ export type EventSectionSelectScalar = {
   itemDeliveryEnd?: boolean
 }
 
-export type EventSectionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "image" | "description" | "details" | "entryInstructions" | "letter" | "eventSectionSponsorshipId" | "showId" | "chiefStewardId" | "entryClose" | "itemDeliveryStart" | "itemDeliveryEnd", ExtArgs["result"]["eventSection"]>
+export type EventSectionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "image" | "description" | "details" | "entryInstructions" | "entryEmail" | "letter" | "eventSectionSponsorshipId" | "showId" | "chiefStewardId" | "entryClose" | "itemDeliveryStart" | "itemDeliveryEnd", ExtArgs["result"]["eventSection"]>
 export type EventSectionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   eventSectionSponsorships?: boolean | Prisma.EventSection$eventSectionSponsorshipsArgs<ExtArgs>
   events?: boolean | Prisma.EventSection$eventsArgs<ExtArgs>
@@ -1432,6 +1484,7 @@ export type $EventSectionPayload<ExtArgs extends runtime.Types.Extensions.Intern
     description: string | null
     details: string | null
     entryInstructions: string | null
+    entryEmail: string | null
     letter: string | null
     eventSectionSponsorshipId: number | null
     showId: string
@@ -1873,6 +1926,7 @@ export interface EventSectionFieldRefs {
   readonly description: Prisma.FieldRef<"EventSection", 'String'>
   readonly details: Prisma.FieldRef<"EventSection", 'String'>
   readonly entryInstructions: Prisma.FieldRef<"EventSection", 'String'>
+  readonly entryEmail: Prisma.FieldRef<"EventSection", 'String'>
   readonly letter: Prisma.FieldRef<"EventSection", 'String'>
   readonly eventSectionSponsorshipId: Prisma.FieldRef<"EventSection", 'Int'>
   readonly showId: Prisma.FieldRef<"EventSection", 'String'>

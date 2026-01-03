@@ -146,6 +146,20 @@ export async function getEventSections(showId: string): Promise<EventSection[]> 
   }
 }
 
+export async function getEventSectionByName(name: string, showId: string): Promise<EventSection | null> {
+  const events = prisma.eventSection.findFirst({
+    where: {
+      showId: showId,
+      name: name
+    }
+  })
+  if (events){
+    return events
+  } else {
+    return null
+  }
+}
+
 export type GetEventSectionsResult = {
   id: string;
   image: string | null;
@@ -198,11 +212,34 @@ export type GetOrganisationsResult = {
     } | null;
   }
 
+  export async function getSectionEventsAndPrizes(sectionId: string){
+    const sectionEvents = await prisma.event.findMany({
+      where: {
+        sectionId: sectionId
+      },
+      include: {
+        prizes: true
+      }
+    })
+    return sectionEvents
+  }
+
   export async function getSectionEvents(sectionId: string){
     const sectionEvents = await prisma.event.findMany({
       where: {
         sectionId: sectionId
       }
+    })
+    return sectionEvents
+  }
+
+  export async function getSectionEventsbySectionName(sectionName: string): Promise<Event[]>{
+    const sectionEvents = await prisma.event.findMany({
+      where: {
+        section: {
+            name: sectionName
+          }
+        }
     })
     return sectionEvents
   }
