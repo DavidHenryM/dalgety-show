@@ -31,8 +31,7 @@ export default function Navbar(props: {
   },[isMobile])
 
 
-  function handleMenuClick(menuLabel: string){
-    props.setContentString(menuLabel)
+  function handleMenuClick(){
     if (isMobile){
       props.setDrawerOpen(false)
     }
@@ -84,7 +83,7 @@ export default function Navbar(props: {
             <ListItem key={nav.label} disablePadding>
               <Tooltip title={nav.label}>
                 <Link href={`/${nav.label.toLocaleLowerCase()}`}>
-                <ListItemButton onClick={()=>(handleMenuClick(nav.label))}>
+                <ListItemButton onClick={()=>(handleMenuClick())}>
                   <ListItemIcon>
                     <nav.Icon/>
                   </ListItemIcon>
@@ -105,7 +104,7 @@ export default function Navbar(props: {
             <ListItem key={nav.label} disablePadding>
               <Tooltip title={nav.label}>
                 <Link href={`/${nav.label.toLocaleLowerCase()}`}>
-                <ListItemButton onClick={()=>(handleMenuClick(nav.label))}>
+                <ListItemButton onClick={()=>(handleMenuClick())}>
                   <ListItemIcon>
                     <nav.Icon/>
                   </ListItemIcon>

@@ -10,6 +10,7 @@ import { createOrganisation, createSponsorship, updateUserName } from "../lib/mu
 import { OrganisationCreateInput, SponsorshipCreateInput, UserCreateNestedOneWithoutOrganisationInput } from "../generated/prisma/models";
 import { getOrganisation, getShow } from "../lib/queries";
 import { getNextShowDate } from "../utils";
+import Waiting from "./Waiting";
 
 export function SponsorTheShowForm(props: {email: string | null | undefined}){
   const [packs, loading] = useSponsorshipPackages()
@@ -18,6 +19,7 @@ export function SponsorTheShowForm(props: {email: string | null | undefined}){
   const [tiers, setTiers] = useState<SponsorshipPackageTier[]>()
   const [dollarAmount, SetDollarAmount] = useState<number>(0)
   const { control, handleSubmit } = useForm();
+  const [submitting, setSubmitting] = useState(false)
   
   let maxDollarAmount = 0
   let minDollarAmount = 0
@@ -41,6 +43,7 @@ export function SponsorTheShowForm(props: {email: string | null | undefined}){
   },[loading])
   
   const onSubmit = (data: any) => {
+    setSubmitting(true)
     let email = props.email ? props.email : ""
 
     updateUserName(email, data.firstName, data.lastName).then((updatedUser)=>{
@@ -52,8 +55,6 @@ export function SponsorTheShowForm(props: {email: string | null | undefined}){
           }
         }
       }
-
-
       getOrganisation(data.organisation, updatedUser.id).then((organisation)=>{
         getShow(getNextShowDate().getFullYear()).then((nextShow)=>{
 
@@ -87,7 +88,7 @@ export function SponsorTheShowForm(props: {email: string | null | undefined}){
         }
       })
     })
-  })
+  }).finally(()=>setSubmitting(false))
   }
 
 
@@ -129,10 +130,11 @@ export function SponsorTheShowForm(props: {email: string | null | undefined}){
   }
 
 
-
   return (
+  
     <form onSubmit={handleSubmit(onSubmit)}>
-      <FormControl>
+      <Waiting open={submitting} message={"Submitting your sponsorship"}/>
+      <FormControl disabled={submitting}>
         <Grid container spacing={5} sx={{margin:2}}>
           <Grid size={12} spacing={2} p={2} sx={{justifyItems: "center"}}>
             <Typography variant="h4">Sponsor The Show</Typography>
