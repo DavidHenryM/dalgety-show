@@ -5,7 +5,7 @@ import { CountDownCard } from "./CountDownCard";
 import { getNextShowDate } from "../utils";
 import { drawerWidth } from "../settings";
 import CloseIcon from '@mui/icons-material/Close';
-import logo from '../images/Dalgety Show V2.png'
+import logo from '../images/dalgety-show-logo.png'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useSession } from "next-auth/react";
