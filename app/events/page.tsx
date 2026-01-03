@@ -92,7 +92,7 @@ export default function Events() {
 
                 return(
                 <Grid size={{sm: 12, md: 6, lg: 3}} key={`event-section-${index}`}>
-                  <Card sx={{ maxWidth: 345, backgroundColor: "secondary.main" }} elevation={8}>
+                  <Card sx={{ width: 345, backgroundColor: "secondary.main" }} elevation={8}>
                     <CardMedia
                       sx={{ height: 140 }}
                       image={section.image ? section.image : ""}
