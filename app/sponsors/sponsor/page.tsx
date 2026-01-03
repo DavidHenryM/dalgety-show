@@ -2,6 +2,7 @@
 
 import { Background } from "@/app/components/Background";
 import { SponsorTheShowForm } from "@/app/components/SponsorTheShowForm";
+import Waiting from "@/app/components/Waiting";
 import { backgroundImages } from "@/app/images/backgrounds";
 import Loading from "@/app/Loading";
 import { serverSignIn } from "@/app/serverSignInOut";
@@ -42,9 +43,10 @@ export default function SponsorTheShow(){
           mb: footerHeight
         }}
       >
-        <Grid size={12} spacing={2} p={2}>
-          <Paper>
-            { status === "loading" ? <Loading/> : <SponsorTheShowForm email={session?.user?.email}/>}
+        <Grid size={12} spacing={2} p={2} sx={{justifyItems:"center"}}>
+          <Paper sx={{p:2}}>
+            <Waiting message="loading" open={status === "loading"}/>
+            <SponsorTheShowForm email={session?.user?.email}/>
           </Paper>
         </Grid>
       </Grid>
