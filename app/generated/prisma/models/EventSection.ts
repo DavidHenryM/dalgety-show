@@ -310,7 +310,6 @@ export type EventSectionOrderByWithRelationInput = {
 
 export type EventSectionWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  eventSectionSponsorshipId?: number
   AND?: Prisma.EventSectionWhereInput | Prisma.EventSectionWhereInput[]
   OR?: Prisma.EventSectionWhereInput[]
   NOT?: Prisma.EventSectionWhereInput | Prisma.EventSectionWhereInput[]
@@ -320,6 +319,7 @@ export type EventSectionWhereUniqueInput = Prisma.AtLeast<{
   details?: Prisma.StringNullableFilter<"EventSection"> | string | null
   entryInstructions?: Prisma.StringNullableFilter<"EventSection"> | string | null
   letter?: Prisma.StringNullableFilter<"EventSection"> | string | null
+  eventSectionSponsorshipId?: Prisma.IntNullableFilter<"EventSection"> | number | null
   showId?: Prisma.StringFilter<"EventSection"> | string
   chiefStewardId?: Prisma.StringNullableFilter<"EventSection"> | string | null
   entryClose?: Prisma.DateTimeNullableFilter<"EventSection"> | Date | string | null
@@ -330,7 +330,7 @@ export type EventSectionWhereUniqueInput = Prisma.AtLeast<{
   show?: Prisma.XOR<Prisma.ShowScalarRelationFilter, Prisma.ShowWhereInput>
   chiefSteward?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   stewards?: Prisma.UserListRelationFilter
-}, "id" | "eventSectionSponsorshipId">
+}, "id">
 
 export type EventSectionOrderByWithAggregationInput = {
   id?: Prisma.SortOrder

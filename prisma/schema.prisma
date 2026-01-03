@@ -145,7 +145,7 @@ model EventSection {
   details                   String?                   @db.Text
   entryInstructions         String?                   @db.Text
   letter                    String?
-  eventSectionSponsorshipId Int?                      @unique
+  eventSectionSponsorshipId Int?
   eventSectionSponsorships  EventSectionSponsorship[]
   events                    Event[]
   show                      Show                      @relation(fields: [showId], references: [id])
