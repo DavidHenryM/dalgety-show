@@ -1657,7 +1657,8 @@ export const UserScalarFieldEnum = {
   billingAddressId: 'billingAddressId',
   shippingAddressId: 'shippingAddressId',
   addressid: 'addressid',
-  role: 'role'
+  role: 'role',
+  officialRole: 'officialRole'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -1947,6 +1948,20 @@ export type EnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel
  * Reference to a field of type 'Role[]'
  */
 export type ListEnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role[]'>
+    
+
+
+/**
+ * Reference to a field of type 'OfficialRole'
+ */
+export type EnumOfficialRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OfficialRole'>
+    
+
+
+/**
+ * Reference to a field of type 'OfficialRole[]'
+ */
+export type ListEnumOfficialRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OfficialRole[]'>
     
 
 

@@ -68,3 +68,16 @@ export const Gender = {
 } as const
 
 export type Gender = (typeof Gender)[keyof typeof Gender]
+
+
+export const OfficialRole = {
+  PRESIDENT: 'PRESIDENT',
+  VICE_PRESIDENT: 'VICE_PRESIDENT',
+  SECRETARY: 'SECRETARY',
+  ENTRY_SECRETARY: 'ENTRY_SECRETARY',
+  TREASURER: 'TREASURER',
+  PUBLICITY_OFFICER: 'PUBLICITY_OFFICER',
+  STALL_COORDINATOR: 'STALL_COORDINATOR'
+} as const
+
+export type OfficialRole = (typeof OfficialRole)[keyof typeof OfficialRole]

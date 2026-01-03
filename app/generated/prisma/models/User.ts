@@ -50,6 +50,7 @@ export type UserMinAggregateOutputType = {
   shippingAddressId: string | null
   addressid: number | null
   role: $Enums.Role | null
+  officialRole: $Enums.OfficialRole | null
 }
 
 export type UserMaxAggregateOutputType = {
@@ -68,6 +69,7 @@ export type UserMaxAggregateOutputType = {
   shippingAddressId: string | null
   addressid: number | null
   role: $Enums.Role | null
+  officialRole: $Enums.OfficialRole | null
 }
 
 export type UserCountAggregateOutputType = {
@@ -86,6 +88,7 @@ export type UserCountAggregateOutputType = {
   shippingAddressId: number
   addressid: number
   role: number
+  officialRole: number
   _all: number
 }
 
@@ -114,6 +117,7 @@ export type UserMinAggregateInputType = {
   shippingAddressId?: true
   addressid?: true
   role?: true
+  officialRole?: true
 }
 
 export type UserMaxAggregateInputType = {
@@ -132,6 +136,7 @@ export type UserMaxAggregateInputType = {
   shippingAddressId?: true
   addressid?: true
   role?: true
+  officialRole?: true
 }
 
 export type UserCountAggregateInputType = {
@@ -150,6 +155,7 @@ export type UserCountAggregateInputType = {
   shippingAddressId?: true
   addressid?: true
   role?: true
+  officialRole?: true
   _all?: true
 }
 
@@ -255,6 +261,7 @@ export type UserGroupByOutputType = {
   shippingAddressId: string | null
   addressid: number | null
   role: $Enums.Role
+  officialRole: $Enums.OfficialRole | null
   _count: UserCountAggregateOutputType | null
   _avg: UserAvgAggregateOutputType | null
   _sum: UserSumAggregateOutputType | null
@@ -296,6 +303,7 @@ export type UserWhereInput = {
   shippingAddressId?: Prisma.StringNullableFilter<"User"> | string | null
   addressid?: Prisma.IntNullableFilter<"User"> | number | null
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
+  officialRole?: Prisma.EnumOfficialRoleNullableFilter<"User"> | $Enums.OfficialRole | null
   accounts?: Prisma.AccountListRelationFilter
   sessions?: Prisma.SessionListRelationFilter
   Authenticator?: Prisma.AuthenticatorListRelationFilter
@@ -324,6 +332,7 @@ export type UserOrderByWithRelationInput = {
   shippingAddressId?: Prisma.SortOrderInput | Prisma.SortOrder
   addressid?: Prisma.SortOrderInput | Prisma.SortOrder
   role?: Prisma.SortOrder
+  officialRole?: Prisma.SortOrderInput | Prisma.SortOrder
   accounts?: Prisma.AccountOrderByRelationAggregateInput
   sessions?: Prisma.SessionOrderByRelationAggregateInput
   Authenticator?: Prisma.AuthenticatorOrderByRelationAggregateInput
@@ -355,6 +364,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   landlineNumber?: Prisma.StringNullableFilter<"User"> | string | null
   addressid?: Prisma.IntNullableFilter<"User"> | number | null
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
+  officialRole?: Prisma.EnumOfficialRoleNullableFilter<"User"> | $Enums.OfficialRole | null
   accounts?: Prisma.AccountListRelationFilter
   sessions?: Prisma.SessionListRelationFilter
   Authenticator?: Prisma.AuthenticatorListRelationFilter
@@ -383,6 +393,7 @@ export type UserOrderByWithAggregationInput = {
   shippingAddressId?: Prisma.SortOrderInput | Prisma.SortOrder
   addressid?: Prisma.SortOrderInput | Prisma.SortOrder
   role?: Prisma.SortOrder
+  officialRole?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
   _avg?: Prisma.UserAvgOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
@@ -409,6 +420,7 @@ export type UserScalarWhereWithAggregatesInput = {
   shippingAddressId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   addressid?: Prisma.IntNullableWithAggregatesFilter<"User"> | number | null
   role?: Prisma.EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
+  officialRole?: Prisma.EnumOfficialRoleNullableWithAggregatesFilter<"User"> | $Enums.OfficialRole | null
 }
 
 export type UserCreateInput = {
@@ -425,6 +437,7 @@ export type UserCreateInput = {
   landlineNumber?: string | null
   addressid?: number | null
   role?: $Enums.Role
+  officialRole?: $Enums.OfficialRole | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   Authenticator?: Prisma.AuthenticatorCreateNestedManyWithoutUserInput
@@ -453,6 +466,7 @@ export type UserUncheckedCreateInput = {
   shippingAddressId?: string | null
   addressid?: number | null
   role?: $Enums.Role
+  officialRole?: $Enums.OfficialRole | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   Authenticator?: Prisma.AuthenticatorUncheckedCreateNestedManyWithoutUserInput
@@ -477,6 +491,7 @@ export type UserUpdateInput = {
   landlineNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressid?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  officialRole?: Prisma.NullableEnumOfficialRoleFieldUpdateOperationsInput | $Enums.OfficialRole | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   Authenticator?: Prisma.AuthenticatorUpdateManyWithoutUserNestedInput
@@ -505,6 +520,7 @@ export type UserUncheckedUpdateInput = {
   shippingAddressId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressid?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  officialRole?: Prisma.NullableEnumOfficialRoleFieldUpdateOperationsInput | $Enums.OfficialRole | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   Authenticator?: Prisma.AuthenticatorUncheckedUpdateManyWithoutUserNestedInput
@@ -531,6 +547,7 @@ export type UserCreateManyInput = {
   shippingAddressId?: string | null
   addressid?: number | null
   role?: $Enums.Role
+  officialRole?: $Enums.OfficialRole | null
 }
 
 export type UserUpdateManyMutationInput = {
@@ -547,6 +564,7 @@ export type UserUpdateManyMutationInput = {
   landlineNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressid?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  officialRole?: Prisma.NullableEnumOfficialRoleFieldUpdateOperationsInput | $Enums.OfficialRole | null
 }
 
 export type UserUncheckedUpdateManyInput = {
@@ -565,6 +583,7 @@ export type UserUncheckedUpdateManyInput = {
   shippingAddressId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressid?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  officialRole?: Prisma.NullableEnumOfficialRoleFieldUpdateOperationsInput | $Enums.OfficialRole | null
 }
 
 export type UserCountOrderByAggregateInput = {
@@ -583,6 +602,7 @@ export type UserCountOrderByAggregateInput = {
   shippingAddressId?: Prisma.SortOrder
   addressid?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  officialRole?: Prisma.SortOrder
 }
 
 export type UserAvgOrderByAggregateInput = {
@@ -605,6 +625,7 @@ export type UserMaxOrderByAggregateInput = {
   shippingAddressId?: Prisma.SortOrder
   addressid?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  officialRole?: Prisma.SortOrder
 }
 
 export type UserMinOrderByAggregateInput = {
@@ -623,6 +644,7 @@ export type UserMinOrderByAggregateInput = {
   shippingAddressId?: Prisma.SortOrder
   addressid?: Prisma.SortOrder
   role?: Prisma.SortOrder
+  officialRole?: Prisma.SortOrder
 }
 
 export type UserSumOrderByAggregateInput = {
@@ -675,6 +697,10 @@ export type NullableIntFieldUpdateOperationsInput = {
 
 export type EnumRoleFieldUpdateOperationsInput = {
   set?: $Enums.Role
+}
+
+export type NullableEnumOfficialRoleFieldUpdateOperationsInput = {
+  set?: $Enums.OfficialRole | null
 }
 
 export type UserCreateNestedOneWithoutAccountsInput = {
@@ -919,6 +945,7 @@ export type UserCreateWithoutAccountsInput = {
   landlineNumber?: string | null
   addressid?: number | null
   role?: $Enums.Role
+  officialRole?: $Enums.OfficialRole | null
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   Authenticator?: Prisma.AuthenticatorCreateNestedManyWithoutUserInput
   billingAddress?: Prisma.AddressCreateNestedOneWithoutBillingUserInput
@@ -946,6 +973,7 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   shippingAddressId?: string | null
   addressid?: number | null
   role?: $Enums.Role
+  officialRole?: $Enums.OfficialRole | null
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   Authenticator?: Prisma.AuthenticatorUncheckedCreateNestedManyWithoutUserInput
   organisation?: Prisma.OrganisationUncheckedCreateNestedManyWithoutContactPersonInput
@@ -985,6 +1013,7 @@ export type UserUpdateWithoutAccountsInput = {
   landlineNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressid?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  officialRole?: Prisma.NullableEnumOfficialRoleFieldUpdateOperationsInput | $Enums.OfficialRole | null
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   Authenticator?: Prisma.AuthenticatorUpdateManyWithoutUserNestedInput
   billingAddress?: Prisma.AddressUpdateOneWithoutBillingUserNestedInput
@@ -1012,6 +1041,7 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   shippingAddressId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressid?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  officialRole?: Prisma.NullableEnumOfficialRoleFieldUpdateOperationsInput | $Enums.OfficialRole | null
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   Authenticator?: Prisma.AuthenticatorUncheckedUpdateManyWithoutUserNestedInput
   organisation?: Prisma.OrganisationUncheckedUpdateManyWithoutContactPersonNestedInput
@@ -1035,6 +1065,7 @@ export type UserCreateWithoutSessionsInput = {
   landlineNumber?: string | null
   addressid?: number | null
   role?: $Enums.Role
+  officialRole?: $Enums.OfficialRole | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   Authenticator?: Prisma.AuthenticatorCreateNestedManyWithoutUserInput
   billingAddress?: Prisma.AddressCreateNestedOneWithoutBillingUserInput
@@ -1062,6 +1093,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   shippingAddressId?: string | null
   addressid?: number | null
   role?: $Enums.Role
+  officialRole?: $Enums.OfficialRole | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   Authenticator?: Prisma.AuthenticatorUncheckedCreateNestedManyWithoutUserInput
   organisation?: Prisma.OrganisationUncheckedCreateNestedManyWithoutContactPersonInput
@@ -1101,6 +1133,7 @@ export type UserUpdateWithoutSessionsInput = {
   landlineNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressid?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  officialRole?: Prisma.NullableEnumOfficialRoleFieldUpdateOperationsInput | $Enums.OfficialRole | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   Authenticator?: Prisma.AuthenticatorUpdateManyWithoutUserNestedInput
   billingAddress?: Prisma.AddressUpdateOneWithoutBillingUserNestedInput
@@ -1128,6 +1161,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   shippingAddressId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressid?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  officialRole?: Prisma.NullableEnumOfficialRoleFieldUpdateOperationsInput | $Enums.OfficialRole | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   Authenticator?: Prisma.AuthenticatorUncheckedUpdateManyWithoutUserNestedInput
   organisation?: Prisma.OrganisationUncheckedUpdateManyWithoutContactPersonNestedInput
@@ -1151,6 +1185,7 @@ export type UserCreateWithoutAuthenticatorInput = {
   landlineNumber?: string | null
   addressid?: number | null
   role?: $Enums.Role
+  officialRole?: $Enums.OfficialRole | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   billingAddress?: Prisma.AddressCreateNestedOneWithoutBillingUserInput
@@ -1178,6 +1213,7 @@ export type UserUncheckedCreateWithoutAuthenticatorInput = {
   shippingAddressId?: string | null
   addressid?: number | null
   role?: $Enums.Role
+  officialRole?: $Enums.OfficialRole | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   organisation?: Prisma.OrganisationUncheckedCreateNestedManyWithoutContactPersonInput
@@ -1217,6 +1253,7 @@ export type UserUpdateWithoutAuthenticatorInput = {
   landlineNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressid?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  officialRole?: Prisma.NullableEnumOfficialRoleFieldUpdateOperationsInput | $Enums.OfficialRole | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   billingAddress?: Prisma.AddressUpdateOneWithoutBillingUserNestedInput
@@ -1244,6 +1281,7 @@ export type UserUncheckedUpdateWithoutAuthenticatorInput = {
   shippingAddressId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressid?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  officialRole?: Prisma.NullableEnumOfficialRoleFieldUpdateOperationsInput | $Enums.OfficialRole | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   organisation?: Prisma.OrganisationUncheckedUpdateManyWithoutContactPersonNestedInput
@@ -1267,6 +1305,7 @@ export type UserCreateWithoutBillingAddressInput = {
   landlineNumber?: string | null
   addressid?: number | null
   role?: $Enums.Role
+  officialRole?: $Enums.OfficialRole | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   Authenticator?: Prisma.AuthenticatorCreateNestedManyWithoutUserInput
@@ -1293,6 +1332,7 @@ export type UserUncheckedCreateWithoutBillingAddressInput = {
   shippingAddressId?: string | null
   addressid?: number | null
   role?: $Enums.Role
+  officialRole?: $Enums.OfficialRole | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   Authenticator?: Prisma.AuthenticatorUncheckedCreateNestedManyWithoutUserInput
@@ -1322,6 +1362,7 @@ export type UserCreateWithoutShippingAddressInput = {
   landlineNumber?: string | null
   addressid?: number | null
   role?: $Enums.Role
+  officialRole?: $Enums.OfficialRole | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   Authenticator?: Prisma.AuthenticatorCreateNestedManyWithoutUserInput
@@ -1348,6 +1389,7 @@ export type UserUncheckedCreateWithoutShippingAddressInput = {
   billingAddressId?: string | null
   addressid?: number | null
   role?: $Enums.Role
+  officialRole?: $Enums.OfficialRole | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   Authenticator?: Prisma.AuthenticatorUncheckedCreateNestedManyWithoutUserInput
@@ -1388,6 +1430,7 @@ export type UserUpdateWithoutBillingAddressInput = {
   landlineNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressid?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  officialRole?: Prisma.NullableEnumOfficialRoleFieldUpdateOperationsInput | $Enums.OfficialRole | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   Authenticator?: Prisma.AuthenticatorUpdateManyWithoutUserNestedInput
@@ -1414,6 +1457,7 @@ export type UserUncheckedUpdateWithoutBillingAddressInput = {
   shippingAddressId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressid?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  officialRole?: Prisma.NullableEnumOfficialRoleFieldUpdateOperationsInput | $Enums.OfficialRole | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   Authenticator?: Prisma.AuthenticatorUncheckedUpdateManyWithoutUserNestedInput
@@ -1449,6 +1493,7 @@ export type UserUpdateWithoutShippingAddressInput = {
   landlineNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressid?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  officialRole?: Prisma.NullableEnumOfficialRoleFieldUpdateOperationsInput | $Enums.OfficialRole | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   Authenticator?: Prisma.AuthenticatorUpdateManyWithoutUserNestedInput
@@ -1475,6 +1520,7 @@ export type UserUncheckedUpdateWithoutShippingAddressInput = {
   billingAddressId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressid?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  officialRole?: Prisma.NullableEnumOfficialRoleFieldUpdateOperationsInput | $Enums.OfficialRole | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   Authenticator?: Prisma.AuthenticatorUncheckedUpdateManyWithoutUserNestedInput
@@ -1499,6 +1545,7 @@ export type UserCreateWithoutOrganisationInput = {
   landlineNumber?: string | null
   addressid?: number | null
   role?: $Enums.Role
+  officialRole?: $Enums.OfficialRole | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   Authenticator?: Prisma.AuthenticatorCreateNestedManyWithoutUserInput
@@ -1526,6 +1573,7 @@ export type UserUncheckedCreateWithoutOrganisationInput = {
   shippingAddressId?: string | null
   addressid?: number | null
   role?: $Enums.Role
+  officialRole?: $Enums.OfficialRole | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   Authenticator?: Prisma.AuthenticatorUncheckedCreateNestedManyWithoutUserInput
@@ -1565,6 +1613,7 @@ export type UserUpdateWithoutOrganisationInput = {
   landlineNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressid?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  officialRole?: Prisma.NullableEnumOfficialRoleFieldUpdateOperationsInput | $Enums.OfficialRole | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   Authenticator?: Prisma.AuthenticatorUpdateManyWithoutUserNestedInput
@@ -1592,6 +1641,7 @@ export type UserUncheckedUpdateWithoutOrganisationInput = {
   shippingAddressId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressid?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  officialRole?: Prisma.NullableEnumOfficialRoleFieldUpdateOperationsInput | $Enums.OfficialRole | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   Authenticator?: Prisma.AuthenticatorUncheckedUpdateManyWithoutUserNestedInput
@@ -1615,6 +1665,7 @@ export type UserCreateWithoutChiefStewardOfEventSectionsInput = {
   landlineNumber?: string | null
   addressid?: number | null
   role?: $Enums.Role
+  officialRole?: $Enums.OfficialRole | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   Authenticator?: Prisma.AuthenticatorCreateNestedManyWithoutUserInput
@@ -1642,6 +1693,7 @@ export type UserUncheckedCreateWithoutChiefStewardOfEventSectionsInput = {
   shippingAddressId?: string | null
   addressid?: number | null
   role?: $Enums.Role
+  officialRole?: $Enums.OfficialRole | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   Authenticator?: Prisma.AuthenticatorUncheckedCreateNestedManyWithoutUserInput
@@ -1670,6 +1722,7 @@ export type UserCreateWithoutStewardOfEventSectionsInput = {
   landlineNumber?: string | null
   addressid?: number | null
   role?: $Enums.Role
+  officialRole?: $Enums.OfficialRole | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   Authenticator?: Prisma.AuthenticatorCreateNestedManyWithoutUserInput
@@ -1697,6 +1750,7 @@ export type UserUncheckedCreateWithoutStewardOfEventSectionsInput = {
   shippingAddressId?: string | null
   addressid?: number | null
   role?: $Enums.Role
+  officialRole?: $Enums.OfficialRole | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   Authenticator?: Prisma.AuthenticatorUncheckedCreateNestedManyWithoutUserInput
@@ -1736,6 +1790,7 @@ export type UserUpdateWithoutChiefStewardOfEventSectionsInput = {
   landlineNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressid?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  officialRole?: Prisma.NullableEnumOfficialRoleFieldUpdateOperationsInput | $Enums.OfficialRole | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   Authenticator?: Prisma.AuthenticatorUpdateManyWithoutUserNestedInput
@@ -1763,6 +1818,7 @@ export type UserUncheckedUpdateWithoutChiefStewardOfEventSectionsInput = {
   shippingAddressId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressid?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  officialRole?: Prisma.NullableEnumOfficialRoleFieldUpdateOperationsInput | $Enums.OfficialRole | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   Authenticator?: Prisma.AuthenticatorUncheckedUpdateManyWithoutUserNestedInput
@@ -1807,6 +1863,7 @@ export type UserScalarWhereInput = {
   shippingAddressId?: Prisma.StringNullableFilter<"User"> | string | null
   addressid?: Prisma.IntNullableFilter<"User"> | number | null
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
+  officialRole?: Prisma.EnumOfficialRoleNullableFilter<"User"> | $Enums.OfficialRole | null
 }
 
 export type UserCreateWithoutEventResultsInput = {
@@ -1823,6 +1880,7 @@ export type UserCreateWithoutEventResultsInput = {
   landlineNumber?: string | null
   addressid?: number | null
   role?: $Enums.Role
+  officialRole?: $Enums.OfficialRole | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   Authenticator?: Prisma.AuthenticatorCreateNestedManyWithoutUserInput
@@ -1850,6 +1908,7 @@ export type UserUncheckedCreateWithoutEventResultsInput = {
   shippingAddressId?: string | null
   addressid?: number | null
   role?: $Enums.Role
+  officialRole?: $Enums.OfficialRole | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   Authenticator?: Prisma.AuthenticatorUncheckedCreateNestedManyWithoutUserInput
@@ -1894,6 +1953,7 @@ export type UserCreateWithoutMembershipsInput = {
   landlineNumber?: string | null
   addressid?: number | null
   role?: $Enums.Role
+  officialRole?: $Enums.OfficialRole | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   Authenticator?: Prisma.AuthenticatorCreateNestedManyWithoutUserInput
@@ -1921,6 +1981,7 @@ export type UserUncheckedCreateWithoutMembershipsInput = {
   shippingAddressId?: string | null
   addressid?: number | null
   role?: $Enums.Role
+  officialRole?: $Enums.OfficialRole | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   Authenticator?: Prisma.AuthenticatorUncheckedCreateNestedManyWithoutUserInput
@@ -1960,6 +2021,7 @@ export type UserUpdateWithoutMembershipsInput = {
   landlineNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressid?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  officialRole?: Prisma.NullableEnumOfficialRoleFieldUpdateOperationsInput | $Enums.OfficialRole | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   Authenticator?: Prisma.AuthenticatorUpdateManyWithoutUserNestedInput
@@ -1987,6 +2049,7 @@ export type UserUncheckedUpdateWithoutMembershipsInput = {
   shippingAddressId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressid?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  officialRole?: Prisma.NullableEnumOfficialRoleFieldUpdateOperationsInput | $Enums.OfficialRole | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   Authenticator?: Prisma.AuthenticatorUncheckedUpdateManyWithoutUserNestedInput
@@ -2010,6 +2073,7 @@ export type UserUpdateWithoutStewardOfEventSectionsInput = {
   landlineNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressid?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  officialRole?: Prisma.NullableEnumOfficialRoleFieldUpdateOperationsInput | $Enums.OfficialRole | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   Authenticator?: Prisma.AuthenticatorUpdateManyWithoutUserNestedInput
@@ -2037,6 +2101,7 @@ export type UserUncheckedUpdateWithoutStewardOfEventSectionsInput = {
   shippingAddressId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressid?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  officialRole?: Prisma.NullableEnumOfficialRoleFieldUpdateOperationsInput | $Enums.OfficialRole | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   Authenticator?: Prisma.AuthenticatorUncheckedUpdateManyWithoutUserNestedInput
@@ -2062,6 +2127,7 @@ export type UserUncheckedUpdateManyWithoutStewardOfEventSectionsInput = {
   shippingAddressId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressid?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  officialRole?: Prisma.NullableEnumOfficialRoleFieldUpdateOperationsInput | $Enums.OfficialRole | null
 }
 
 export type UserUpdateWithoutEventResultsInput = {
@@ -2078,6 +2144,7 @@ export type UserUpdateWithoutEventResultsInput = {
   landlineNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressid?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  officialRole?: Prisma.NullableEnumOfficialRoleFieldUpdateOperationsInput | $Enums.OfficialRole | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   Authenticator?: Prisma.AuthenticatorUpdateManyWithoutUserNestedInput
@@ -2105,6 +2172,7 @@ export type UserUncheckedUpdateWithoutEventResultsInput = {
   shippingAddressId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressid?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  officialRole?: Prisma.NullableEnumOfficialRoleFieldUpdateOperationsInput | $Enums.OfficialRole | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   Authenticator?: Prisma.AuthenticatorUncheckedUpdateManyWithoutUserNestedInput
@@ -2130,6 +2198,7 @@ export type UserUncheckedUpdateManyWithoutEventResultsInput = {
   shippingAddressId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressid?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  officialRole?: Prisma.NullableEnumOfficialRoleFieldUpdateOperationsInput | $Enums.OfficialRole | null
 }
 
 
@@ -2242,6 +2311,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   shippingAddressId?: boolean
   addressid?: boolean
   role?: boolean
+  officialRole?: boolean
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   Authenticator?: boolean | Prisma.User$AuthenticatorArgs<ExtArgs>
@@ -2271,6 +2341,7 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   shippingAddressId?: boolean
   addressid?: boolean
   role?: boolean
+  officialRole?: boolean
   billingAddress?: boolean | Prisma.User$billingAddressArgs<ExtArgs>
   shippingAddress?: boolean | Prisma.User$shippingAddressArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
@@ -2291,6 +2362,7 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   shippingAddressId?: boolean
   addressid?: boolean
   role?: boolean
+  officialRole?: boolean
   billingAddress?: boolean | Prisma.User$billingAddressArgs<ExtArgs>
   shippingAddress?: boolean | Prisma.User$shippingAddressArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
@@ -2311,9 +2383,10 @@ export type UserSelectScalar = {
   shippingAddressId?: boolean
   addressid?: boolean
   role?: boolean
+  officialRole?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "firstName" | "lastName" | "username" | "email" | "emailVerified" | "image" | "createdAt" | "updatedAt" | "mobileNumber" | "landlineNumber" | "billingAddressId" | "shippingAddressId" | "addressid" | "role", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "firstName" | "lastName" | "username" | "email" | "emailVerified" | "image" | "createdAt" | "updatedAt" | "mobileNumber" | "landlineNumber" | "billingAddressId" | "shippingAddressId" | "addressid" | "role" | "officialRole", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
@@ -2366,6 +2439,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     shippingAddressId: string | null
     addressid: number | null
     role: $Enums.Role
+    officialRole: $Enums.OfficialRole | null
   }, ExtArgs["result"]["user"]>
   composites: {}
 }
@@ -2814,6 +2888,7 @@ export interface UserFieldRefs {
   readonly shippingAddressId: Prisma.FieldRef<"User", 'String'>
   readonly addressid: Prisma.FieldRef<"User", 'Int'>
   readonly role: Prisma.FieldRef<"User", 'Role'>
+  readonly officialRole: Prisma.FieldRef<"User", 'OfficialRole'>
 }
     
 

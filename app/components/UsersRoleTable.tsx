@@ -15,6 +15,7 @@ export function UsersRoleTable(props: {title: string, role: Role}){
     { field: 'firstName', headerName: 'First name', width: 130 },
     { field: 'lastName', headerName: 'Last name', width: 130 },
     { field: 'email', headerName: 'Email', width: 240 },
+    { field: 'officialRole', headerName: 'Official Role', width: 240 },
   ]
 
   return (
