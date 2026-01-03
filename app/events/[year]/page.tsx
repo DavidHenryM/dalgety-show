@@ -69,14 +69,14 @@ export default function EventsYear({params}: {params: Promise<{ year: string }>}
           <Paper sx={{p:2, backgroundColor: "secondary.main"}}>
             <Typography sx={{p:2}} variant="h4" color="primary.main" justifySelf="center">{`Events ${show?.year ? show?.year : ""}`}</Typography>
             <Divider />
-            <Grid container sx={{p:2}} spacing={5}>
+            <Grid container sx={{p:2}} size={12} spacing={2}>
             { loading ? 
               new Array(12).fill(0).map((item, index)=>{
                 return (
-                  <Grid key={`skeleton-${index}`}size={{sm: 12, md: 6, lg: 3}} >
-                    <Skeleton variant="rectangular" height="200px"/>
-                    <Skeleton variant="text" height="50px"/> 
-                    <Skeleton variant="text" height="50px"/> 
+                  <Grid key={`skeleton-${index}`} size={{sm: 12, md: 12, lg: 8, xl:6}}>
+                    <Skeleton variant="rectangular" height="200px" width="340px"/>
+                    <Skeleton variant="text" height="50px" width="340px"/> 
+                    <Skeleton variant="text" height="50px" width="340px"/> 
                   </Grid>
                 )
               })
@@ -93,7 +93,7 @@ export default function EventsYear({params}: {params: Promise<{ year: string }>}
                 }
 
                 return(
-                <Grid size={{sm: 12, md: 6, lg: 6, xl: 3}} key={`event-section-${index}`}>
+                <Grid size={{sm: 12, md: 6, lg: 6, xl: 4}} key={`event-section-${index}`}>
                   <Card sx={{ width: 345, backgroundColor: "secondary.main" }} elevation={8}>
                     <CardMedia
                       sx={{ height: 140 }}
