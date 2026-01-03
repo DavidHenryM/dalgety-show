@@ -89,3 +89,5 @@ export function getRandomListItem(list: any[]): any {
   const listIndex = getRandomIntInclusive(0, list.length-1)
   return list[listIndex]
 }
+
+export const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));

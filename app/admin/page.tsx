@@ -10,13 +10,14 @@ import { backgroundImages } from "../images/backgrounds"
 import Loading from "../Loading"
 import { UsersRoleTable } from "../components/UsersRoleTable"
 import { SponsorsTable } from "../components/SponsorsTable"
+import Waiting from "../components/Waiting"
 
 export default function Admin(){
   const [role, roleLoading] = useUserRole()
 
   if (roleLoading){
     return (
-      <Loading/>
+      <Waiting message="Authorising..." open={roleLoading}/>
     )
   } else {
     if (role === "SITE_ADMIN"){

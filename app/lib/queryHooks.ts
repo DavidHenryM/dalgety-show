@@ -5,6 +5,7 @@ import { getSponsors, getSponsorshipPackages, getUserRole, getUsersWithRole } fr
 import { Role } from "../generated/prisma/enums"
 import { useSession } from "next-auth/react"
 import { Sponsorship, SponsorshipPackage, User } from "../generated/prisma/client"
+import { sleep } from "../utils"
 
   
   export function useUserRole(): [Role | undefined, boolean] {
@@ -16,16 +17,23 @@ import { Sponsorship, SponsorshipPackage, User } from "../generated/prisma/clien
         if(session){
           if (session.user){
             if (session.user.email){
-              getUserRole(session.user.email).then((role)=>{
-                setUserRole(role)
-                setLoading(false)
+              return getUserRole(session.user.email).then((role)=>{
+                return role
+                
               })
             }
           }
         }
-        setLoading(false)
       }
-    getRole()
+      getRole().then((role)=>{
+        if(role){
+          setUserRole(role)
+        }
+      }).then(()=>{
+        sleep(3000).then(()=>{
+          setLoading(false)
+        })
+      })
     },[session])
     return [userRole, loading]
 }
