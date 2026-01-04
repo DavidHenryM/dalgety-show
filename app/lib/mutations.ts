@@ -1,5 +1,6 @@
 'use server'
 
+import { MembershipType } from "../generated/prisma/enums";
 import { OrganisationCreateInput, SponsorshipCreateInput } from "../generated/prisma/models";
 import { prisma } from "./prisma";
 
@@ -28,4 +29,16 @@ export async function createOrganisation(organisationData: OrganisationCreateInp
     data: organisationData
   })
   return createdOrganisation
+}
+
+export async function createMembership(memberType: MembershipType, cost: number, memberId: string){
+  const membership = await prisma.membership.create({
+    data: {
+      memberId: memberId,
+      cost: cost,
+      type: memberType,
+      applyDate: new Date(),
+    }
+  })
+  return membership
 }
