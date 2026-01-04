@@ -235,8 +235,21 @@ model Membership {
   id        String   @id @default(cuid())
   member    User     @relation(fields: [memberId], references: [id])
   memberId  String
-  startDate DateTime
-  renewDate DateTime
+  startDate DateTime?
+  renewDate DateTime?
+  type MembershipType @default(INDIVIDUAL)
+  cost Float
+  paidDate DateTime?
+  applyDate DateTime
+}
+
+model MembershipPackage {
+  id        String   @id @default(cuid())
+  type MembershipType
+  cost Float
+  validFrom DateTime
+  validTo DateTime?
+  termDays Int
 }
 
 model SponsorshipPackage {
@@ -301,4 +314,9 @@ enum OfficialRole {
   TREASURER
   PUBLICITY_OFFICER
   STALL_COORDINATOR
+}
+
+enum MembershipType {
+  INDIVIDUAL
+  FAMILY
 }
