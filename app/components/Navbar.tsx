@@ -72,7 +72,7 @@ export default function Navbar(props: {
           : <></>
         }
     </Box>
-      <Image src={logo} alt="Dalgety Show"/>
+      <Image loading="eager" src={logo} alt="Dalgety Show"/>
         <List>
           {navigation.map((nav) => (
             <ListItem key={nav.label} disablePadding>
