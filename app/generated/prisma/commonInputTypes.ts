@@ -324,6 +324,23 @@ export type FloatWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedFloatFilter<$PrismaModel>
 }
 
+export type EnumMembershipTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.MembershipType | Prisma.EnumMembershipTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.MembershipType[] | Prisma.ListEnumMembershipTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.MembershipType[] | Prisma.ListEnumMembershipTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumMembershipTypeFilter<$PrismaModel> | $Enums.MembershipType
+}
+
+export type EnumMembershipTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.MembershipType | Prisma.EnumMembershipTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.MembershipType[] | Prisma.ListEnumMembershipTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.MembershipType[] | Prisma.ListEnumMembershipTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumMembershipTypeWithAggregatesFilter<$PrismaModel> | $Enums.MembershipType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumMembershipTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumMembershipTypeFilter<$PrismaModel>
+}
+
 export type EnumSponsorshipPackageTierFilter<$PrismaModel = never> = {
   equals?: $Enums.SponsorshipPackageTier | Prisma.EnumSponsorshipPackageTierFieldRefInput<$PrismaModel>
   in?: $Enums.SponsorshipPackageTier[] | Prisma.ListEnumSponsorshipPackageTierFieldRefInput<$PrismaModel>
@@ -640,6 +657,23 @@ export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
   _sum?: Prisma.NestedFloatFilter<$PrismaModel>
   _min?: Prisma.NestedFloatFilter<$PrismaModel>
   _max?: Prisma.NestedFloatFilter<$PrismaModel>
+}
+
+export type NestedEnumMembershipTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.MembershipType | Prisma.EnumMembershipTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.MembershipType[] | Prisma.ListEnumMembershipTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.MembershipType[] | Prisma.ListEnumMembershipTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumMembershipTypeFilter<$PrismaModel> | $Enums.MembershipType
+}
+
+export type NestedEnumMembershipTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.MembershipType | Prisma.EnumMembershipTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.MembershipType[] | Prisma.ListEnumMembershipTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.MembershipType[] | Prisma.ListEnumMembershipTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumMembershipTypeWithAggregatesFilter<$PrismaModel> | $Enums.MembershipType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumMembershipTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumMembershipTypeFilter<$PrismaModel>
 }
 
 export type NestedEnumSponsorshipPackageTierFilter<$PrismaModel = never> = {

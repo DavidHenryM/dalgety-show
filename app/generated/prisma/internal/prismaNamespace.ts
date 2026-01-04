@@ -399,6 +399,7 @@ export const ModelName = {
   Sponsorship: 'Sponsorship',
   Show: 'Show',
   Membership: 'Membership',
+  MembershipPackage: 'MembershipPackage',
   SponsorshipPackage: 'SponsorshipPackage'
 } as const
 
@@ -415,7 +416,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "account" | "session" | "verificationToken" | "authenticator" | "address" | "organisation" | "eventSection" | "event" | "eventResult" | "prize" | "eventSectionSponsorship" | "sponsorship" | "show" | "membership" | "sponsorshipPackage"
+    modelProps: "user" | "account" | "session" | "verificationToken" | "authenticator" | "address" | "organisation" | "eventSection" | "event" | "eventResult" | "prize" | "eventSectionSponsorship" | "sponsorship" | "show" | "membership" | "membershipPackage" | "sponsorshipPackage"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1529,6 +1530,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    MembershipPackage: {
+      payload: Prisma.$MembershipPackagePayload<ExtArgs>
+      fields: Prisma.MembershipPackageFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.MembershipPackageFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MembershipPackagePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.MembershipPackageFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MembershipPackagePayload>
+        }
+        findFirst: {
+          args: Prisma.MembershipPackageFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MembershipPackagePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.MembershipPackageFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MembershipPackagePayload>
+        }
+        findMany: {
+          args: Prisma.MembershipPackageFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MembershipPackagePayload>[]
+        }
+        create: {
+          args: Prisma.MembershipPackageCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MembershipPackagePayload>
+        }
+        createMany: {
+          args: Prisma.MembershipPackageCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.MembershipPackageCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MembershipPackagePayload>[]
+        }
+        delete: {
+          args: Prisma.MembershipPackageDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MembershipPackagePayload>
+        }
+        update: {
+          args: Prisma.MembershipPackageUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MembershipPackagePayload>
+        }
+        deleteMany: {
+          args: Prisma.MembershipPackageDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.MembershipPackageUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.MembershipPackageUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MembershipPackagePayload>[]
+        }
+        upsert: {
+          args: Prisma.MembershipPackageUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MembershipPackagePayload>
+        }
+        aggregate: {
+          args: Prisma.MembershipPackageAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateMembershipPackage>
+        }
+        groupBy: {
+          args: Prisma.MembershipPackageGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MembershipPackageGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.MembershipPackageCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MembershipPackageCountAggregateOutputType> | number
+        }
+      }
+    }
     SponsorshipPackage: {
       payload: Prisma.$SponsorshipPackagePayload<ExtArgs>
       fields: Prisma.SponsorshipPackageFieldRefs
@@ -1849,10 +1924,26 @@ export const MembershipScalarFieldEnum = {
   id: 'id',
   memberId: 'memberId',
   startDate: 'startDate',
-  renewDate: 'renewDate'
+  renewDate: 'renewDate',
+  type: 'type',
+  cost: 'cost',
+  paidDate: 'paidDate',
+  applyDate: 'applyDate'
 } as const
 
 export type MembershipScalarFieldEnum = (typeof MembershipScalarFieldEnum)[keyof typeof MembershipScalarFieldEnum]
+
+
+export const MembershipPackageScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  cost: 'cost',
+  validFrom: 'validFrom',
+  validTo: 'validTo',
+  termDays: 'termDays'
+} as const
+
+export type MembershipPackageScalarFieldEnum = (typeof MembershipPackageScalarFieldEnum)[keyof typeof MembershipPackageScalarFieldEnum]
 
 
 export const SponsorshipPackageScalarFieldEnum = {
@@ -2015,6 +2106,20 @@ export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaMode
 
 
 /**
+ * Reference to a field of type 'MembershipType'
+ */
+export type EnumMembershipTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MembershipType'>
+    
+
+
+/**
+ * Reference to a field of type 'MembershipType[]'
+ */
+export type ListEnumMembershipTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MembershipType[]'>
+    
+
+
+/**
  * Reference to a field of type 'SponsorshipPackageTier'
  */
 export type EnumSponsorshipPackageTierFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SponsorshipPackageTier'>
@@ -2137,6 +2242,7 @@ export type GlobalOmitConfig = {
   sponsorship?: Prisma.SponsorshipOmit
   show?: Prisma.ShowOmit
   membership?: Prisma.MembershipOmit
+  membershipPackage?: Prisma.MembershipPackageOmit
   sponsorshipPackage?: Prisma.SponsorshipPackageOmit
 }
 

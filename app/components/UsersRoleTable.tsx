@@ -7,7 +7,8 @@ export function UsersRoleTable(props: {title: string, role: Role}){
 
   const usersWithId = users.map((user, index) => ({
     ...user, // Spread existing properties
-    id: index+1 // Add new property
+    id: index+1, // Add new property
+    officialRole: user.officialRole?.replaceAll("_"," ")
   }));
 
   const columns = [

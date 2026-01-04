@@ -93,6 +93,11 @@ export type Show = Prisma.ShowModel
  */
 export type Membership = Prisma.MembershipModel
 /**
+ * Model MembershipPackage
+ * 
+ */
+export type MembershipPackage = Prisma.MembershipPackageModel
+/**
  * Model SponsorshipPackage
  * 
  */

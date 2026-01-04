@@ -81,3 +81,11 @@ export const OfficialRole = {
 } as const
 
 export type OfficialRole = (typeof OfficialRole)[keyof typeof OfficialRole]
+
+
+export const MembershipType = {
+  INDIVIDUAL: 'INDIVIDUAL',
+  FAMILY: 'FAMILY'
+} as const
+
+export type MembershipType = (typeof MembershipType)[keyof typeof MembershipType]

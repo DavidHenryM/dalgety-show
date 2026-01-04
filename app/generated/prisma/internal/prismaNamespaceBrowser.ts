@@ -66,6 +66,7 @@ export const ModelName = {
   Sponsorship: 'Sponsorship',
   Show: 'Show',
   Membership: 'Membership',
+  MembershipPackage: 'MembershipPackage',
   SponsorshipPackage: 'SponsorshipPackage'
 } as const
 
@@ -292,10 +293,26 @@ export const MembershipScalarFieldEnum = {
   id: 'id',
   memberId: 'memberId',
   startDate: 'startDate',
-  renewDate: 'renewDate'
+  renewDate: 'renewDate',
+  type: 'type',
+  cost: 'cost',
+  paidDate: 'paidDate',
+  applyDate: 'applyDate'
 } as const
 
 export type MembershipScalarFieldEnum = (typeof MembershipScalarFieldEnum)[keyof typeof MembershipScalarFieldEnum]
+
+
+export const MembershipPackageScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  cost: 'cost',
+  validFrom: 'validFrom',
+  validTo: 'validTo',
+  termDays: 'termDays'
+} as const
+
+export type MembershipPackageScalarFieldEnum = (typeof MembershipPackageScalarFieldEnum)[keyof typeof MembershipPackageScalarFieldEnum]
 
 
 export const SponsorshipPackageScalarFieldEnum = {
