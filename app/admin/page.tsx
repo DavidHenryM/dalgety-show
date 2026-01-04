@@ -21,7 +21,7 @@ export default function Admin(){
       <Waiting message="Authorising..." open={roleLoading}/>
     )
   } else {
-    if (role === "SITE_ADMIN"){
+    if (role === "SITE_ADMIN" || role === "OWNER"){
       return (
         <>
           <Background image={backgroundImages[1]} />
