@@ -93,7 +93,7 @@ export default function Navbar(props: {
         </List>
         <Divider/>
         {
-          role === "SITE_ADMIN" ?
+          role === "SITE_ADMIN" || role === "OWNER" ?
         <List>
           {adminNavigation.map((nav) => (
             <ListItem key={nav.label} disablePadding>
