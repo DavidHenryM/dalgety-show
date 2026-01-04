@@ -106,7 +106,7 @@ export default function Sponsors(){
                     </TableCell>
                   </TableRow>
                   <TableRow sx={{ backgroundColor: "lemonchiffon"}}>
-                    <TableCell align="center"><Button variant="contained"><Typography variant="h5">Gold</Typography></Button></TableCell>
+                    <TableCell align="center"><Link href="/sponsors/sponsor"><Button variant="contained"><Typography variant="h5">Gold</Typography></Button></Link></TableCell>
                     <TableCell align="center"><Typography variant="h5">$1,000 - $1,999</Typography></TableCell>
                     <TableCell align="left">
                       <BulletList listItems={
@@ -122,7 +122,7 @@ export default function Sponsors(){
                     </TableCell>
                   </TableRow>
                   <TableRow sx={{ backgroundColor: "silver"}}>
-                    <TableCell align="center"><Button variant="contained"><Typography variant="h5">Silver</Typography></Button></TableCell>
+                    <TableCell align="center"><Link href="/sponsors/sponsor"><Button variant="contained"><Typography variant="h5">Silver</Typography></Button></Link></TableCell>
                     <TableCell align="center"><Typography variant="h5">$500 - $999</Typography></TableCell>
                     <TableCell align="left">
                       <BulletList listItems={
@@ -138,7 +138,7 @@ export default function Sponsors(){
                     </TableCell>
                   </TableRow>
                   <TableRow sx={{ backgroundColor: "goldenrod" }}>
-                    <TableCell align="center"><Button variant="contained"><Typography variant="h5">Bronze</Typography></Button></TableCell>
+                    <TableCell align="center"><Link href="/sponsors/sponsor"><Button variant="contained"><Typography variant="h5">Bronze</Typography></Button></Link></TableCell>
                     <TableCell align="center"><Typography variant="h5">$250 - $499</Typography></TableCell>
                     <TableCell align="left">
                       <BulletList listItems={
@@ -152,7 +152,7 @@ export default function Sponsors(){
                     </TableCell>
                   </TableRow>
                   <TableRow sx={{ backgroundColor: "mediumseagreen" }}>
-                    <TableCell align="center"><Button variant="contained"><Typography variant="h5">Section</Typography></Button></TableCell>
+                    <TableCell align="center"><Link href="/sponsors/sponsor"><Button variant="contained"><Typography variant="h5">Section</Typography></Button></Link></TableCell>
                     <TableCell align="center"><Typography variant="h5">$10 - $249</Typography></TableCell>
                     <TableCell align="left">
                       <BulletList listItems={
@@ -172,7 +172,9 @@ export default function Sponsors(){
               alignItems: 'center', 
               height: 200 // Optional: ensures vertical centering
             }}>
-              <Button variant="outlined" sx={{p:2}}>Become a Sponsor</Button>
+              <Link href="/sponsors/sponsor">
+                <Button variant="outlined" sx={{p:2}}>Become a Sponsor</Button>
+              </Link>
             </Container>
           </Paper>
         </Grid>
