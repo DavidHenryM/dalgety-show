@@ -1,19 +1,14 @@
-import { adminNavigation, navigation } from "../data/navigation";
-import { Box, Container, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, Tooltip, Typography, useMediaQuery, useTheme} from "@mui/material";
-import { useEffect, useState, type Dispatch } from "react";
-import { CountDownCard } from "./CountDownCard";
-import { getNextShowDate } from "../utils";
-import { drawerWidth } from "../settings";
-import CloseIcon from '@mui/icons-material/Close';
+import { adminNavigation, navigation } from "../data/navigation"
+import { Box, Container, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, Tooltip, Typography, useMediaQuery, useTheme} from "@mui/material"
+import { useEffect, type Dispatch } from "react"
+import { CountDownCard } from "./CountDownCard"
+import { getNextShowDate } from "../utils"
+import { drawerWidth } from "../settings"
+import CloseIcon from '@mui/icons-material/Close'
 import logo from '../images/dalgety-show-logo.png'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useSession } from "next-auth/react";
-import { getUserRole } from "../lib/queries";
-import { Role } from "../generated/prisma/enums";
-import { useUserRole } from "../lib/queryHooks";
-
-
+import { useUserRole } from "../lib/queryHooks"
 
 export default function Navbar(props: {
   drawerOpen: boolean, 
