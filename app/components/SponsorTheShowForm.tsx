@@ -11,6 +11,7 @@ import { OrganisationCreateInput, SponsorshipCreateInput } from "../generated/pr
 import { getOrganisation, getShow } from "../lib/queries";
 import { getNextShowDate } from "../utils";
 import Waiting from "./Waiting";
+import { AlertDialog } from "./Alert";
 
 export function SponsorTheShowForm(props: {email: string | null | undefined}){
   const [packs, loading] = useSponsorshipPackages()
@@ -20,6 +21,9 @@ export function SponsorTheShowForm(props: {email: string | null | undefined}){
   const [dollarAmount, SetDollarAmount] = useState<number>(0)
   const { control, handleSubmit } = useForm();
   const [submitting, setSubmitting] = useState(false)
+  const [alertOpen, setAlertOpen] = useState(false)
+  const [alertTitle, setAlertTitle] = useState("")
+  const [alertMessage, setAlertMessage] = useState("")
   
   let maxDollarAmount = 0
   let minDollarAmount = 0
@@ -57,12 +61,11 @@ export function SponsorTheShowForm(props: {email: string | null | undefined}){
       }
       getOrganisation(data.organisation, updatedUser.id).then((organisation)=>{
         getShow(getNextShowDate().getFullYear()).then((nextShow)=>{
-
+          console.log(nextShow)
           if (!organisation){
-          const selectedPack = packs.find((singlePack) => {
-            return singlePack.tier === selectedTier
-          })
             createOrganisation(organisationData).then((createdOrganisation)=>{
+              const selectedPack = packs.find(singlePack => singlePack.tier === selectedTier)
+              console.log(createdOrganisation)
               const sponsorshipData: SponsorshipCreateInput = {
                 totalAmount: dollarAmount,
                 package: {connect: {id: selectedPack.id}},
@@ -70,7 +73,10 @@ export function SponsorTheShowForm(props: {email: string | null | undefined}){
                 organisation: {connect: {id: createdOrganisation.id}}
               }
               createSponsorship(sponsorshipData).then((createdSponsorship)=>{
-              })
+                setAlertTitle("Sponsorship proposal received successfully")
+                setAlertMessage("We now have your information and we'll be in touch shortly to sort out the next steps. Many thanks for your support.")
+                setAlertOpen(true)
+              }).catch((reason)=>console.error(reason))
             })
           } else {
             const selectedPack = packs.find((singlePack) => {
@@ -83,7 +89,9 @@ export function SponsorTheShowForm(props: {email: string | null | undefined}){
               organisation: {connect: {id: organisation.id}}
             }
             createSponsorship(sponsorshipData).then((createdSponsorship)=>{
-
+              setAlertTitle("Sponsorship proposal received successfully")
+              setAlertMessage("We now have your information and we'll be in touch shortly to sort out the next steps. Many thanks for your support.")
+              setAlertOpen(true)
           })
         }
       })
@@ -264,6 +272,7 @@ export function SponsorTheShowForm(props: {email: string | null | undefined}){
         </Grid>
         </Grid>
       </FormControl>
+      <AlertDialog title={alertTitle} message={alertMessage} open={alertOpen} setOpen={setAlertOpen} redirect="/home"/>
     </form>
   )
 }

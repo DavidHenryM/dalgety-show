@@ -1,16 +1,14 @@
 'use client'
 
-import { Button, Divider, FormControl, FormControlLabel, FormLabel, Grid, InputAdornment, InputLabel, OutlinedInput, Radio, RadioGroup, Slider, TextField, Typography } from "@mui/material";
+import { AlertColor, AlertPropsColorOverrides, Button, Divider, FormControlLabel, FormLabel, Grid, InputAdornment, InputLabel, OutlinedInput, Radio, RadioGroup, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useSponsorshipPackages } from "../lib/queryHooks";
 import Loading from "../Loading";
-import { Membership, MembershipPackage, MembershipType, SponsorshipPackage, SponsorshipPackageTier } from "../generated/prisma/client";
-import { createMembership, createOrganisation, createSponsorship, updateUserName } from "../lib/mutations";
-import { OrganisationCreateInput, SponsorshipCreateInput } from "../generated/prisma/models";
-import { getOrganisation, getShow, getValidMembershipPackages } from "../lib/queries";
-import { getNextShowDate } from "../utils";
+import { MembershipPackage, MembershipType } from "../generated/prisma/client";
+import { createMembership, updateUserName } from "../lib/mutations";
+import { getValidMembershipPackages } from "../lib/queries";
 import Waiting from "./Waiting";
 import { useForm, SubmitHandler, Controller } from "react-hook-form"
+import { AlertDialog } from "../components/Alert"
 
 type Inputs = {
   firstName: string
@@ -20,13 +18,14 @@ type Inputs = {
 }
 
 export function MembershipForm(props: {email: string | null | undefined}){
-  const [firstName, setFirstName] = useState("")
-  const [lastName, setLastName] = useState("")
   const [submitting, setSubmitting] = useState(false)
   const [loading, setLoading] = useState(false)
   const [pack, setPack] = useState<MembershipPackage>()
   const [packs, setPacks] = useState<MembershipPackage[]>([])
-
+  const [alertOpen, setAlertOpen] = useState(false)
+  const [alertMessage, setAlertMessage] = useState("")
+  const [alertTitle, setAlertTitle] = useState("")
+  
 
   useEffect(()=>{
     setLoading(true)
@@ -49,14 +48,17 @@ export function MembershipForm(props: {email: string | null | undefined}){
     let email = props.email ? props.email : ""
     updateUserName(email, data.firstName, data.lastName).then((user)=>{
       createMembership(data.memberType, data.cost, user.id).then((result)=>{
+        setAlertTitle("Membership application submitted succesfully")
+        setAlertMessage("We've got your details and will be in touch shortly to sort out the next steps. Welcome to the team!")
+        setAlertOpen(true)
         console.log(result)
       })
+    }).catch((reason)=>{
+      setAlertMessage(`Error submitting membership application: ${reason}`)
+      setAlertOpen(true)
+      console.error(`Error submitting membership application: ${reason}`)
     }).finally(()=>setSubmitting(false))
-
   }
-
-
-
 
   const handleMembershipTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newMembershipType = (event.target as HTMLInputElement).value as MembershipType
@@ -174,10 +176,8 @@ export function MembershipForm(props: {email: string | null | undefined}){
                         }
                       />
                   </Grid>
-                  
                 </>
               }
-              
           </>
         }
           <Grid size={{xs:12, sm: 6, md: 6, lg: 3, xl: 2}}> 
@@ -185,6 +185,7 @@ export function MembershipForm(props: {email: string | null | undefined}){
           </Grid>
         </Grid>
         </Grid>
+        <AlertDialog title={alertTitle} message={alertMessage} open={alertOpen} setOpen={setAlertOpen} redirect="/home"/>
       </form>
   )
 }
