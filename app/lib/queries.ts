@@ -1,6 +1,6 @@
 'use server'
 
-import { EventSection, Membership, Show, Sponsorship, SponsorshipPackage, User, Event } from "../generated/prisma/client";
+import { EventSection, Membership, Show, Sponsorship, SponsorshipPackage, User, Event, MembershipPackage } from "../generated/prisma/client";
 import { Role, State } from "../generated/prisma/enums";
 import { prisma } from "./prisma";
 
@@ -26,6 +26,7 @@ export async function getUsersWithRole(role: Role): Promise<Partial<User>[]>{
       email: true,
       firstName: true,
       lastName: true,
+      officialRole: true
     },
   })
   return users
@@ -212,37 +213,62 @@ export type GetOrganisationsResult = {
     } | null;
   }
 
-  export async function getSectionEventsAndPrizes(sectionId: string){
-    const sectionEvents = await prisma.event.findMany({
-      where: {
-        sectionId: sectionId
-      },
-      include: {
-        prizes: true
-      }
-    })
-    return sectionEvents
-  }
+export async function getSectionEventsAndPrizes(sectionId: string){
+  const sectionEvents = await prisma.event.findMany({
+    where: {
+      sectionId: sectionId
+    },
+    include: {
+      prizes: true
+    }
+  })
+  return sectionEvents
+}
 
-  export async function getSectionEvents(sectionId: string){
-    const sectionEvents = await prisma.event.findMany({
-      where: {
-        sectionId: sectionId
-      }
-    })
-    return sectionEvents
-  }
+export async function getSectionEvents(sectionId: string){
+  const sectionEvents = await prisma.event.findMany({
+    where: {
+      sectionId: sectionId
+    }
+  })
+  return sectionEvents
+}
 
-  export async function getSectionEventsbySectionName(sectionName: string): Promise<Event[]>{
-    const sectionEvents = await prisma.event.findMany({
-      where: {
-        section: {
-            name: sectionName
-          }
+export async function getSectionEventsbySectionName(sectionName: string): Promise<Event[]>{
+  const sectionEvents = await prisma.event.findMany({
+    where: {
+      section: {
+          name: sectionName
         }
-    })
-    return sectionEvents
-  }
+      }
+  })
+  return sectionEvents
+}
+
+export async function getValidMembershipPackages(): Promise<MembershipPackage[]>{
+  const today = new Date()
+  const membershipPackages = await prisma.membershipPackage.findMany({
+    where: {
+      validTo: {
+        gte: today
+      },
+      validFrom: {
+        lte: today
+      }
+    }
+  })
+  console.log(membershipPackages)
+  return membershipPackages
+}
+
+export async function getAllMemberships(): Promise<GetAllMemberShipsResult>{
+  const memberships = await prisma.membership.findMany({
+    include: {
+      member: true
+    }
+  })
+  return memberships
+}
 
 
-
+export type GetAllMemberShipsResult = ({member: User} & Membership)[]

@@ -91,3 +91,7 @@ export function getRandomListItem(list: any[]): any {
 }
 
 export const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
+export function simpleDateString(date: Date){
+  return `${date.getFullYear()}-${(date.getMonth()+1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`
+}
