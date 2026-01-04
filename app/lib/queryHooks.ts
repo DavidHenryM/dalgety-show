@@ -1,10 +1,10 @@
 'use client'
 
 import { useEffect, useState } from "react"
-import { getSponsors, getSponsorshipPackages, getUserRole, getUsersWithRole } from "./queries"
+import { getAllMemberships, GetAllMemberShipsResult, getMemberships, getSponsors, getSponsorshipPackages, getUserRole, getUsersWithRole } from "./queries"
 import { Role } from "../generated/prisma/enums"
 import { useSession } from "next-auth/react"
-import { Sponsorship, SponsorshipPackage, User } from "../generated/prisma/client"
+import { Membership, Sponsorship, SponsorshipPackage, User } from "../generated/prisma/client"
 import { sleep } from "../utils"
 
   
@@ -71,6 +71,21 @@ import { sleep } from "../utils"
     },[])
     return [sponsors, loading]
 }
+
+  export function useMemberships():[GetAllMemberShipsResult, boolean]{
+    const [members, setMembers] = useState<GetAllMemberShipsResult>([])
+    const [loading, setLoading] = useState<boolean>(true)
+    useEffect(() => {
+      async function getMembers(){
+        getAllMemberships().then((memberships)=>{
+          setMembers(memberships)
+          setLoading(false)
+        })
+      }
+    getMembers()
+    },[])
+    return [members, loading]
+  }
 
   export function useSponsorshipPackages(): [any[], boolean] {
     const [packs, setPacks] = useState<Partial<SponsorshipPackage>[]>([])
