@@ -4,10 +4,10 @@ import { Button, Divider, FormControl, FormControlLabel, FormLabel, Grid, InputA
 import { useEffect, useState } from "react";
 import { useSponsorshipPackages } from "../lib/queryHooks";
 import Loading from "../Loading";
-import { Organisation, SponsorshipPackage, SponsorshipPackageTier } from "../generated/prisma/client";
+import { SponsorshipPackage, SponsorshipPackageTier } from "../generated/prisma/client";
 import { useForm, Controller } from "react-hook-form";
 import { createOrganisation, createSponsorship, updateUserName } from "../lib/mutations";
-import { OrganisationCreateInput, SponsorshipCreateInput, UserCreateNestedOneWithoutOrganisationInput } from "../generated/prisma/models";
+import { OrganisationCreateInput, SponsorshipCreateInput } from "../generated/prisma/models";
 import { getOrganisation, getShow } from "../lib/queries";
 import { getNextShowDate } from "../utils";
 import Waiting from "./Waiting";
@@ -142,6 +142,7 @@ export function SponsorTheShowForm(props: {email: string | null | undefined}){
           <Grid size={12} spacing={2} p={2} sx={{justifyItems: "center"}}>
             <Typography variant="h5" color="primary">Your Information</Typography>
           </Grid>
+          {props.email ?
           <Grid size={{xs:12, sm: 12, md: 12, lg: 6, xl: 4}}>
             <Controller
               name="email"
@@ -161,7 +162,8 @@ export function SponsorTheShowForm(props: {email: string | null | undefined}){
               />
             }
             />
-            </Grid>
+            </Grid> 
+            : <></>}
           <Grid size={{xs:12, sm: 6, md: 6, lg: 3, xl: 2}}>
             <Controller
               name="firstName"
