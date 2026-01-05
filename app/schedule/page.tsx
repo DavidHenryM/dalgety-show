@@ -7,10 +7,7 @@ import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineOppositeContent from '@mui/lab/TimelineOppositeContent';
 import TimelineDot from '@mui/lab/TimelineDot';
 import { Link, Typography } from "@mui/material";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { } from "@fortawesome/free-solid-svg-icons"
-import HotelIcon from '@mui/icons-material/Hotel';
-import { FaExplosion, FaHorse, FaDog, FaGavel, FaHatCowboy, FaDoorOpen, FaBridgeWater, FaChampagneGlasses  } from "react-icons/fa6";
+import { FaTree, FaExplosion, FaHorse, FaDog, FaGavel, FaHatCowboy, FaDoorOpen, FaBridgeWater, FaChampagneGlasses  } from "react-icons/fa6";
 
 
 
@@ -22,13 +19,14 @@ export default function Schedule(){
     {time: "9:00 am", event: "Showground pavilion opens", Icon: FaDoorOpen},
     {time: "9:00 am", event: "Whip cracking demonstration", Icon: FaExplosion},
     {time: "9:30 am", event: "Whip cracking workshop", Icon: FaExplosion},
-    {time: "9:30 am", event: "Sheep judging commences", Icon: FaExplosion},
+    {time: "9:30 am", event: "Sheep judging commences", Icon: FaGavel},
     {time: "9:30 am", event: "Judging in Pavilion commences (Pavilion will be closed for 1.5 hours", Icon: FaGavel},
     {time: "10:00 am", event: "Cattle, wool & poultry judging commences", Icon: FaHatCowboy},
     {time: "10:00 am", event: "Judging in Dalgety Memorial Hall commences", Icon: FaGavel},
     {time: "11:00 am", event: "Judging of novelty section commences", Icon: FaGavel},
     {time: "11:00 am", event: "Platypus plunge", Icon: FaBridgeWater},
     {time: "11:00 am", event: "Pavillion re-opens", Icon: FaDoorOpen},
+    {time: "11:00 am", event: "Wood chop commences", Icon: FaTree, link: "/events/2026/Wood Chop"},
     {time: "1:00 pm", event: "Official show opening", Icon: FaChampagneGlasses},
     {time: "3:00 pm", event: "Whip cracking demonstration", Icon: FaExplosion},
     {time: "3:30 pm", event: "Whip cracking workshop", Icon: FaExplosion},
