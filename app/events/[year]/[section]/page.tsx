@@ -1,15 +1,15 @@
 'use client'
 
 import { Background } from '@/app/components/Background'
-import { EventSection, Event, Show, Prize } from '@/app/generated/prisma/client'
+import { EventSection, Show, Prize } from '@/app/generated/prisma/client'
 import { backgroundImages } from '@/app/images/backgrounds'
-import { getEvents, getEventSectionByName, getEventSections, getSectionEvents, getSectionEventsAndPrizes, getSectionEventsbySectionName, getShow } from '@/app/lib/queries'
-import Loading from '@/app/Loading'
+import { getEventSectionByName, getSectionEventsAndPrizes, getShow } from '@/app/lib/queries'
 import { drawerWidth, footerHeight } from '@/app/settings'
 import { getDateString } from '@/app/utils'
-import { Button, Card, CardActions, CardContent, CardMedia, Divider, Grid, Link, Paper, Stack, Typography } from '@mui/material'
+import { Card, CardContent, CardMedia, Divider, Grid, Paper, Stack, Typography } from '@mui/material'
 import { use, useEffect, useState } from 'react'
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
+import Waiting from '@/app/components/Waiting'
  
 export default function EventDetails({params}: {params: Promise<{ year: string, section: string }>}) {
   const path = use(params)
@@ -21,10 +21,10 @@ export default function EventDetails({params}: {params: Promise<{ year: string, 
   const [eventSection, setEventSection] = useState<EventSection>()
 
   useEffect(()=>{
+    setLoading(true)
     getShow(showYear).then((show)=>{
       if (show){
         setShow(show)
-        console.log(show)
         getEventSectionByName(sectionName, show.id).then((thisEventSection)=>{
           console.log(thisEventSection)
           if (thisEventSection){
@@ -32,19 +32,16 @@ export default function EventDetails({params}: {params: Promise<{ year: string, 
             getSectionEventsAndPrizes(thisEventSection.id).then((theseEvents)=>{
               setEvents(theseEvents)
               console.log(theseEvents)
-              setLoading(false)
-              
-            })
+            }).finally(()=>setLoading(false))
           } 
         })
       } 
-    }).finally(()=>setLoading(false))
+    })
   },[])
-  if (loading){
-    return (<Loading></Loading>)
-  }
+
   return (
     <>
+      <Waiting message={`Loading ${sectionName} events...`} open={loading}/>
       <Background image={backgroundImages[1]} />
       <Grid 
         container 
@@ -77,7 +74,7 @@ export default function EventDetails({params}: {params: Promise<{ year: string, 
           {
             events.map((event, index)=>{
               return (
-                <Grid size={{sm: 12, md: 6, lg: 6, xl: 3}} key={`events-${index}`}>
+                <Grid size={{sm: 12, md: 6, lg: 6, xl: 4, xxl: 3 }} key={`events-${index}`}>
                   <Card sx={{ width: 345, backgroundColor: "secondary.main", color: "primary.main" }} elevation={8}>
                     <CardMedia
                       sx={{ height: 140 }}
@@ -98,7 +95,7 @@ export default function EventDetails({params}: {params: Promise<{ year: string, 
                         {
                           event.prizes.map((prize: Prize, index: number)=>{
                             return(
-                              <Stack direction="row">
+                              <Stack direction="row" key={`prize${index}`}>
                                 <FormatedPrizeName key={`prize${index}`} name={prize.prizeName}/>
                                 <Typography>{`: $${prize.cashPrizeValue}`}</Typography>
                               </Stack>
@@ -106,7 +103,6 @@ export default function EventDetails({params}: {params: Promise<{ year: string, 
                           })
                         }
                     </CardContent>
-
                 </Card>
                 </Grid>
               )

@@ -1,6 +1,19 @@
 'use client';
 import { createTheme } from '@mui/material/styles';
 
+
+declare module '@mui/material/styles' {
+  interface BreakpointOverrides {
+    xs: true;
+    sm: true;
+    md: true;
+    lg: true;
+    xl: true;
+    xxl: true;
+  }
+}
+
+
 const components = {
   MuiUseMediaQuery: {
     defaultProps: {
@@ -9,12 +22,26 @@ const components = {
   }
 }
 
+const breakpoints = {
+  values: {
+    xs: 0,
+    sm: 600,
+    md: 900,
+    lg: 1200,
+    xl: 1536,
+    xxl: 2200
+  },
+}
+
+const typography = {
+  fontFamily: "var(--font-arvo)"
+}
+
 export const darkTheme = createTheme(
   { 
     components: components, 
-    typography: {
-      fontFamily: "var(--font-arvo)"
-    },
+    breakpoints: breakpoints,
+    typography: typography,
     palette: { 
       mode: 'dark',
       secondary: {
@@ -27,13 +54,11 @@ export const darkTheme = createTheme(
   }
 )
 
-
 export const lightTheme = createTheme(
   { 
     components: components,
-    typography: {
-      fontFamily: "var(--font-arvo)"
-    },
+    breakpoints: breakpoints,
+    typography: typography,
     palette: { 
       mode: 'light', 
       primary: {
