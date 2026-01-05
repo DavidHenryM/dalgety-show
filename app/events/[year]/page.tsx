@@ -93,7 +93,7 @@ export default function EventsYear({params}: {params: Promise<{ year: string }>}
                 }
 
                 return(
-                <Grid size={{sm: 12, md: 6, lg: 6, xl: 4}} key={`event-section-${index}`}>
+                <Grid size={{sm: 12, md: 6, lg: 6, xl: 4, xxl: 3}} key={`event-section-${index}`}>
                   <Card sx={{ width: 345, backgroundColor: "secondary.main" }} elevation={8}>
                     <CardMedia
                       sx={{ height: 140 }}
