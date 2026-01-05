@@ -30,8 +30,8 @@ export default function Content({children, backgroundImageIndex}: ContentProps){
           mb: footerHeight
         }}
       >
-        <Grid size={{md:12, lg:6}} spacing={2} p={2} sx={{justifyContent:"center"}}>
-          <Paper sx={{p:2}}>
+        <Grid size={{md:12, lg:12}} spacing={2} p={2} sx={{justifySelf:"center"}}>
+          <Paper sx={{p:2, backgroundColor: "secondary.main", justifySelf:"center"}}>
             {children}
           </Paper>
         </Grid>
