@@ -245,6 +245,7 @@ export async function getSectionEventsbySectionName(sectionName: string): Promis
   return sectionEvents
 }
 
+
 export async function getValidMembershipPackages(): Promise<MembershipPackage[]>{
   const today = new Date()
   const membershipPackages = await prisma.membershipPackage.findMany({

@@ -1,5 +1,6 @@
 'use server'
 
+import { EventSection } from "../generated/prisma/client";
 import { MembershipType } from "../generated/prisma/enums";
 import { OrganisationCreateInput, SponsorshipCreateInput } from "../generated/prisma/models";
 import { prisma } from "./prisma";
@@ -41,4 +42,53 @@ export async function createMembership(memberType: MembershipType, cost: number,
     }
   })
   return membership
+}
+
+
+export async function createEvent(data: {
+  name: string
+  description?: string | null
+  sectionId: string
+  showId: string
+  maximumAge?: number | null
+  minimumAge?: number | null
+  gender?: any
+  entryFee?: number | null
+  entryFeeTeam?: number | null
+}){
+  const evt = await prisma.event.create({data})
+  return evt
+}
+
+export async function updateEvent(id: string, data: Partial<{
+  name: string
+  description?: string | null
+  sectionId: string
+  showId: string
+  maximumAge?: number | null
+  minimumAge?: number | null
+  gender?: any
+  entryFee?: number | null
+  entryFeeTeam?: number | null
+}>){
+  const evt = await prisma.event.update({
+    where: { id },
+    data: data as any
+  })
+  return evt
+}
+
+export async function deleteEvent(id: string){
+  const evt = await prisma.event.delete({
+    where: { id }
+  })
+  return evt
+}
+
+export async function updateEventSection(id: string, data: Partial<EventSection>){
+  const eventSection = await prisma.eventSection.update({
+    where: {id: id},
+    data: data 
+  })
+  return eventSection
 }

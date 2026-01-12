@@ -1,10 +1,10 @@
 'use client'
 
 import { useEffect, useState } from "react"
-import { getAllMemberships, GetAllMemberShipsResult, getMemberships, getSponsors, getSponsorshipPackages, getUserRole, getUsersWithRole } from "./queries"
+import { getAllMemberships, GetAllMemberShipsResult, getMemberships, getSponsors, getSponsorshipPackages, getUserRole, getUsersWithRole, getShow, getEvents, getEventSections } from "./queries"
 import { Role } from "../generated/prisma/enums"
 import { useSession } from "next-auth/react"
-import { Membership, Sponsorship, SponsorshipPackage, User } from "../generated/prisma/client"
+import { Membership, Sponsorship, SponsorshipPackage, User, Event, EventSection } from "../generated/prisma/client"
 import { sleep } from "../utils"
 
   
@@ -100,4 +100,48 @@ import { sleep } from "../utils"
     getSponsorshipPacks()
     },[])
     return [packs, loading]
+}
+
+export function useEvents(showYear: number, refreshKey: number = 0): [Event[], boolean] {
+  const [events, setEvents] = useState<Event[]>([])
+  const [loading, setLoading] = useState<boolean>(true)
+  useEffect(() => {
+    async function getShowEvents(){
+      setLoading(true)
+      if (!showYear) {
+        setLoading(false)
+        return
+      }
+      const show = await getShow(showYear)
+      if (show){
+        const evs = await getEvents(show.id)
+        setEvents(evs)
+      }
+      setLoading(false)
+    }
+    getShowEvents()
+  },[showYear, refreshKey])
+  return [events, loading]
+}
+
+export function useEventSections(showYear: number, refreshKey: number = 0): [EventSection[], boolean] {
+  const [sections, setSections] = useState<EventSection[]>([])
+  const [loading, setLoading] = useState<boolean>(true)
+  useEffect(() => {
+    async function getShowSections(){
+      setLoading(true)
+      if (!showYear) {
+        setLoading(false)
+        return
+      }
+      const show = await getShow(showYear)
+      if (show){
+        const secs = await getEventSections(show.id)
+        setSections(secs)
+      }
+      setLoading(false)
+    }
+    getShowSections()
+  },[showYear, refreshKey])
+  return [sections, loading]
 }

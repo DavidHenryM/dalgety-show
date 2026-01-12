@@ -12,10 +12,10 @@ import { UsersRoleTable } from "../components/UsersRoleTable"
 import { SponsorsTable } from "../components/SponsorsTable"
 import Waiting from "../components/Waiting"
 import { MembershipsTable } from "../components/MembershipsTable"
+import { EventsTable } from "../components/EventsTable"
 
 export default function Admin(){
   const [role, roleLoading] = useUserRole()
-
   if (roleLoading){
     return (
       <Waiting message="Authorising..." open={roleLoading}/>
@@ -46,6 +46,7 @@ export default function Admin(){
             <UsersRoleTable title={"Owners"} role="OWNER"/>
             <UsersRoleTable title={"Admins"} role="SITE_ADMIN"/>
             <SponsorsTable title={`Sponsors ${getNextShowDate().getFullYear()}`} showYear={getNextShowDate().getFullYear()}/>
+            {/* <EventsTable title={`Events ${getNextShowDate().getFullYear()}`} showYear={getNextShowDate().getFullYear()} /> */}
             <MembershipsTable title={"Memberships"}/>
           </Grid>
         </>

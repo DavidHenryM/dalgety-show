@@ -1,6 +1,6 @@
 "use client"
 
-import { Button, Card, CardActions, CardContent, CardMedia, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Grid, Link, Paper, Popover, Slide, Stack, Typography } from "@mui/material";
+import { Button, Card, CardActions, CardContent, CardMedia, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Fab, Grid, IconButton, Link, Paper, Popover, Slide, Stack, TextField, Tooltip, Typography } from "@mui/material";
 import { drawerWidth, footerHeight } from "../../settings";
 import { Background } from "../../components/Background";
 import { backgroundImages } from "../../images/backgrounds";
@@ -11,18 +11,27 @@ import Loading from "../../Loading";
 import { Event, EventSection, Show } from "../../generated/prisma/client";
 import { TransitionProps } from "@mui/material/transitions";
 import Skeleton from '@mui/material/Skeleton';
+import LockOutlineIcon from '@mui/icons-material/LockOutline';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
+import RestrictedAccess from "@/app/components/Restricted";
+import { useSession } from "next-auth/react";
 
+import { EventSectionCard } from "@/app/components/EventSectionCard";
 
 
 
 export default function EventsYear({params}: {params: Promise<{ year: string }>}) {
   const { year } = use(params)
+  const { data: session } = useSession()
   const [eventSections, setEventSections] = useState<EventSection[]>([])
   const [loading, setLoading] = useState<boolean>(true)
   const [show, setShow] = useState<Show>()
   const [eventsDetailsOpen, setEventsDetailsOpen] = useState(false)
   const [eventsDetails, setEventsDetails] = useState<Event[]>([])
   const [selectedSection, setSelectedSection] = useState<EventSection>()
+  const [locked, setLocked] = useState<boolean>(true)
+  const [openDialog, setOpenDialog] = useState(false);
+
 
 
   useEffect(()=>{
@@ -45,6 +54,20 @@ export default function EventsYear({params}: {params: Promise<{ year: string }>}
     
   },[])
 
+  function handleLockUnlock(): void {
+    if(locked){
+      setOpenDialog(true)
+    } else {
+      setLocked(true)
+    }
+  }
+  function handleCloseDialog(): void {
+    setOpenDialog(false)
+    setLocked(!locked)
+  }
+
+
+
   return (
     <>
       <Background image={backgroundImages[2]} />
@@ -66,7 +89,38 @@ export default function EventsYear({params}: {params: Promise<{ year: string }>}
         }}
       >
         <Grid size={12}>
-          <Paper sx={{p:2, backgroundColor: "secondary.main"}}>
+
+          <Paper sx={{p:2, backgroundColor: "secondary.main",  position: 'relative'}}>
+            <RestrictedAccess explicit={false}>
+              <Tooltip title={locked ? "Unlock for editing" : "Lock editing"}>
+                <Fab sx={{position: 'absolute', top: 10, right: 10}} color={locked ? "success" : "error"} aria-label="unlock" onClick={handleLockUnlock}>
+                  {locked ? <LockOutlineIcon/> : <LockOpenIcon/>}
+                </Fab>
+              </Tooltip>
+              <Dialog
+                open={openDialog}
+                slots={{
+                  transition: Transition,
+                }}
+                keepMounted
+                onClose={()=>setOpenDialog(false)}
+                aria-describedby="alert-dialog-slide-description"
+              >
+                <DialogTitle>{`Hey ${session?.user?.name ?? "there"}, are you sure you want to edit this?!`}</DialogTitle>
+                <DialogContent>
+                  <DialogContentText id="alert-dialog-slide-description">
+                    Once this is edited it will become visible to the public.
+                  </DialogContentText>
+                  <DialogContentText id="alert-dialog-slide-description">
+                    Are you sure you want to continue?
+                  </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={()=>{setOpenDialog(false); setLocked(true)}}>Cancel</Button>
+                  <Button onClick={()=>{setOpenDialog(false); setLocked(false)}}>Continue</Button>
+                </DialogActions>
+              </Dialog>
+            </RestrictedAccess>
             <Typography sx={{p:2}} variant="h4" color="primary.main" justifySelf="center">{`Events ${show?.year ? show?.year : ""}`}</Typography>
             <Divider />
             <Grid container sx={{p:2}} size={12} spacing={2}>
@@ -82,42 +136,9 @@ export default function EventsYear({params}: {params: Promise<{ year: string }>}
               })
             : 
               eventSections.map((section, index)=>{
-                function handleSeeEvents(sectionSelected: EventSection): void {
-                  if(sectionSelected){
-                    setSelectedSection(sectionSelected)
-                  }
-                  getSectionEvents(sectionSelected.id).then((sectionEvents)=>{
-                    setEventsDetails(sectionEvents)
-                    setEventsDetailsOpen(true)
-                  })
-                }
-
-                return(
-                <Grid size={{sm: 12, md: 6, lg: 6, xl: 4, xxl: 3}} key={`event-section-${index}`}>
-                  <Card sx={{ width: 345, backgroundColor: "secondary.main" }} elevation={8}>
-                    <CardMedia
-                      sx={{ height: 140 }}
-                      image={section.image ? section.image : ""}
-                      title={section.name}
-                    />
-                    <CardContent>
-                      <Typography color="primary" variant="h5" component="div">
-                        {section.name}
-                      </Typography>
-                      <Typography variant="body2" sx={{ color: 'text.secondary', whiteSpace: 'pre-line' }}>
-                        {section.description}
-                      </Typography>
-                    </CardContent>
-                    <CardActions>
-                      {/* <Button size="small" variant="outlined" onClick={()=>handleSeeEvents(section)}>See events</Button> */}
-                      <Link href={`${show?.year}/${section.name}`}>
-                        <Button size="small" variant="outlined">See events</Button>
-                      </Link>
-                    </CardActions>
-                  </Card>
-                </Grid>
-                )
-            })}
+                return(<EventSectionCard section={section} key={index} locked={locked} show={show}></EventSectionCard>)
+              })
+            }
             </Grid>
           </Paper>
         </Grid>
