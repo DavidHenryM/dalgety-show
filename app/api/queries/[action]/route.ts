@@ -17,11 +17,17 @@ import {
   getSectionEventsbySectionName,
   getValidMembershipPackages,
   getAllMemberships,
+
+} from '../../../lib/queries'
+import {
   createEvent,
   updateEvent,
   deleteEvent
-} from '../../../lib/queries'
+} from '../../../lib/mutations'
 import { auth } from '../../../auth'
+import { put } from "@vercel/blob";
+
+
 
 export async function GET(req: NextRequest, context: any){
   try{
@@ -30,6 +36,11 @@ export async function GET(req: NextRequest, context: any){
     const session = await auth()
     if (!session?.user?.email){
       return NextResponse.json({ error: 'unauthenticated' }, { status: 401 })
+    } else {
+      const user = await getUserFromEmail(session.user.email)
+      if(user?.role != "SITE_ADMIN" && user?.role != "OWNER"){
+        return NextResponse.json({ error: 'forbidden' }, { status: 403 })
+      }
     }
     const url = new URL(req.url)
     const qp = url.searchParams
@@ -185,4 +196,35 @@ export async function DELETE(req: NextRequest, context: any){
   } catch (err:any){
     return NextResponse.json({ error: err.message || String(err) }, { status: 500 })
   }
+}
+
+export async function PUT(request: NextRequest, context: any) {
+  try{
+    const params = context?.params && typeof context.params.then === 'function' ? await context.params : context?.params
+    const action = params?.action
+    const session = await auth()
+    if (!session?.user?.email){
+      return NextResponse.json({ error: 'unauthenticated' }, { status: 401 })
+    }
+    const callerRole = await getUserRole(session.user.email)
+    if (!(callerRole === 'SITE_ADMIN' || callerRole === 'OWNER')){
+      return NextResponse.json({ error: 'forbidden' }, { status: 403 })
+    }
+    switch(action){
+      case 'uploadImage':{
+        const form = await request.formData();
+        const imageFile = form.get('file') as File;
+        const blob = await put(`existingBlobFolder/${imageFile.name}`, imageFile, {
+          access: 'public',
+          addRandomSuffix: true,
+        })
+        return Response.json(blob);
+      }
+      default:
+        return NextResponse.json({ error: 'unknown action' }, { status: 400 })
+    }
+  } catch (err:any){
+    return NextResponse.json({ error: err.message || String(err) }, { status: 500 })
+  }
+
 }
