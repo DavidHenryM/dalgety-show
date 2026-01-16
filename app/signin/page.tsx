@@ -4,7 +4,7 @@ import { useState } from "react"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHorse } from "@fortawesome/free-solid-svg-icons"
 import { Button, Grid, Paper, Stack, TextField, Typography } from "@mui/material"
-import { serverSignIn } from "../serverSignInOut"
+import { signIn } from "@lib/session"
 
 export default function SignInPage() {
   const [email, setEmail] = useState("")
@@ -19,7 +19,11 @@ export default function SignInPage() {
     }
     try{
       setLoading(true)
-      await serverSignIn()
+      const {data, error} = await signIn(email)
+      if(error){
+        throw new Error(error)
+      }
+      console.log(data)
     }catch(err:any){
       setError(err?.message || String(err))
     }finally{

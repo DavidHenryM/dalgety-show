@@ -1,21 +1,20 @@
 'use client'
 
 import { Avatar, Box, Button, Divider, Drawer, List, ListItem, ListItemIcon, ListItemText, Tooltip, Typography } from "@mui/material"
-import { UpdateSession, useSession } from "next-auth/react"
 import { SignInButton, SignOutButton } from "./SignInOutButton"
-import { Dispatch, SetStateAction, use, useEffect, useState } from "react"
-import { Session } from "next-auth"
-import { Address, Organisation, User } from "../generated/prisma/client"
+import { Dispatch, SetStateAction, useEffect, useState } from "react"
+import { Address, User } from "../generated/prisma/client"
 import { GetOrganisationsResult, getOrganisations, getUserFromEmail } from "../lib/queries"
 import PersonIcon from '@mui/icons-material/Person';
 import EmailIcon from '@mui/icons-material/Email';
 import SmartphoneIcon from '@mui/icons-material/Smartphone';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import { useSession, useUserSession } from "@lib/session"
+import { Session } from "better-auth"
  
 export default function UserAvatar() {
   const sessionInformation = useSession()
   const session = sessionInformation.data
-  
   const [openAccountSettings, setOpenAccountSettings] = useState(false)
 
   function handleAvatarClick(){
@@ -32,7 +31,11 @@ export default function UserAvatar() {
               <AvatarNamed session={session}/>
             </Button>
           </Tooltip>
-          <AccountSettings openAccountSettings={openAccountSettings} setOpenAccountSettings={setOpenAccountSettings} sessionUpdate={sessionInformation.update} email={session.user.email}/>
+          <AccountSettings 
+            openAccountSettings={openAccountSettings} 
+            setOpenAccountSettings={setOpenAccountSettings} 
+            email={session.user.email}
+          />
         </>
       )
    
@@ -46,18 +49,21 @@ export default function UserAvatar() {
 }
 
 function AvatarNamed(props: {session: Session | null}){
-  if (props.session?.user){
-    if (props.session?.user?.image) {
+
+  const {user, data} = useUserSession()
+
+  if (user){
+    if (user.image) {
       return (
-        <Avatar alt={`${props.session.user.email}`} src={`${props.session.user.image}`}/>
+        <Avatar alt={`${user.email}`} src={`${user.image}`}/>
       )
-    } else if (props.session?.user?.name) {
+    } else if (user.firstName && user.lastName) {
       return (
-        <Avatar {...stringAvatar(`${props.session.user.name}`)} alt={`${props.session.user.email}`}/>
+        <Avatar {...stringAvatar(`${user.firstName} ${user.lastName}`)} alt={`${user.email}`}/>
       )
     } else {
        return (
-        <Avatar {...emailAvatar(`${props.session.user.email}`)} alt={`${props.session.user.email}`}></Avatar>
+        <Avatar {...emailAvatar(`${user.email}`)} alt={`${user.email}`}></Avatar>
        )
     }
   } else {
@@ -69,7 +75,6 @@ function AccountSettings(
   props: {
     openAccountSettings: boolean, 
     setOpenAccountSettings: Dispatch<SetStateAction<boolean>>,
-    sessionUpdate: UpdateSession,
     email: string | null | undefined
   }){
     
@@ -163,7 +168,7 @@ function AccountSettings(
               )
             })}
           <ListItem sx={{p:2}} key={"Sign Out"} disablePadding>
-            <SignOutButton sessionUpdate={props.sessionUpdate}/>
+            <SignOutButton/>
           </ListItem>
         </List>
       </Box>

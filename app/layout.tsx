@@ -11,8 +11,6 @@ import { darkTheme, lightTheme } from "./theme";
 import { TopBar } from './components/TopBar';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import { SessionProvider } from "next-auth/react"
-
 
 const arvo = Arvo({
   variable: "--font-arvo",
@@ -44,14 +42,12 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${arvo.variable} antialiased`}>
         <AppRouterCacheProvider>
-          <SessionProvider>
-            <ThemeProvider theme={theme}>      
-              <TopBar darkModeActive={darkModeActive} setDarkModeActive={setDarkModeActive} drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen}/>
-              <Navbar drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} setDarkModeActive={setDarkModeActive} darkModeActive={darkModeActive}/>
-                {children}
-              <Footer />
-            </ThemeProvider>
-          </SessionProvider>
+          <ThemeProvider theme={theme}>      
+            <TopBar darkModeActive={darkModeActive} setDarkModeActive={setDarkModeActive} drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen}/>
+            <Navbar drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} setDarkModeActive={setDarkModeActive} darkModeActive={darkModeActive}/>
+              {children}
+            <Footer />
+          </ThemeProvider>
         </AppRouterCacheProvider>
       </body>
     </html>
