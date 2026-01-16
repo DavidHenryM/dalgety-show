@@ -16,7 +16,6 @@ export function EventSectionCard(props: {section: EventSection, locked: boolean,
   const show = props.show
 
   function handelUpdateEventSection(sectionId: string, data: {description: string | null}){
-    console.log(data)
     updateEventSection(sectionId, data).then((eventSection)=>{
       setSection({...section, ...data})
     }).catch((e)=>console.error("Error whilst updating event section data: ", e))
