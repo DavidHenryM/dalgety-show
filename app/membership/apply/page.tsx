@@ -1,16 +1,16 @@
 "use client"
 
-import Content from "@/app/components/Content";
-import { MembershipForm } from "@/app/components/MembershipForm";
-import { serverSignIn } from "@/app/serverSignInOut";
-import { useSession } from "next-auth/react";
+import Content from "@components/Content";
+import { MembershipForm } from "@components/MembershipForm";
+import { useSession } from "@lib/session";
+import { serverSignIn } from "@app/serverSignInOut";
 import { useEffect } from "react";
 
 
 export default function MembershipApply(){
-    const { data: session, status: status } = useSession()
+    const { data: session } = useSession()
     useEffect(()=>{
-      if (status === "unauthenticated"){
+      if (session?.status === "unauthenticated"){
         serverSignIn()
       }
     },[session])
