@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { headers } from "next/headers"
 import {
   getUserRole,
   getUsersWithRole,
@@ -18,22 +19,22 @@ import {
   getValidMembershipPackages,
   getAllMemberships,
 
-} from '../../../lib/queries'
+} from '@lib/queries'
 import {
   createEvent,
   updateEvent,
   deleteEvent
-} from '../../../lib/mutations'
-import { auth } from '../../../auth'
+} from '@lib/mutations'
+import { auth } from '@lib/auth'
 import { put } from "@vercel/blob";
-
-
 
 export async function GET(req: NextRequest, context: any){
   try{
     const params = context?.params && typeof context.params.then === 'function' ? await context.params : context?.params
     const action = params?.action
-    const session = await auth()
+    const session = await auth.api.getSession({
+        headers: await headers()
+    })
     if (!session?.user?.email){
       return NextResponse.json({ error: 'unauthenticated' }, { status: 401 })
     } else {
@@ -142,7 +143,9 @@ export async function POST(req: NextRequest, context: any){
   try{
     const params = context?.params && typeof context.params.then === 'function' ? await context.params : context?.params
     const action = params?.action
-    const session = await auth()
+    const session = await auth.api.getSession({
+      headers: await headers()
+    })
     if (!session?.user?.email){
       return NextResponse.json({ error: 'unauthenticated' }, { status: 401 })
     }
@@ -175,7 +178,9 @@ export async function DELETE(req: NextRequest, context: any){
   try{
     const params = context?.params && typeof context.params.then === 'function' ? await context.params : context?.params
     const action = params?.action
-    const session = await auth()
+    const session = await auth.api.getSession({
+      headers: await headers()
+    })
     if (!session?.user?.email){
       return NextResponse.json({ error: 'unauthenticated' }, { status: 401 })
     }
@@ -202,7 +207,9 @@ export async function PUT(request: NextRequest, context: any) {
   try{
     const params = context?.params && typeof context.params.then === 'function' ? await context.params : context?.params
     const action = params?.action
-    const session = await auth()
+    const session = await auth.api.getSession({
+      headers: await headers()
+    })
     if (!session?.user?.email){
       return NextResponse.json({ error: 'unauthenticated' }, { status: 401 })
     }
@@ -214,10 +221,7 @@ export async function PUT(request: NextRequest, context: any) {
       case 'uploadImage':{
         const form = await request.formData();
         const imageFile = form.get('file') as File;
-        const blob = await put(`existingBlobFolder/${imageFile.name}`, imageFile, {
-          access: 'public',
-          addRandomSuffix: true,
-        })
+        const blob = await put(`existingBlobFolder/${imageFile.name}`, imageFile)
         return Response.json(blob);
       }
       default:

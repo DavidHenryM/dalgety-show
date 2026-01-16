@@ -1,11 +1,11 @@
 'use client'
 
-import { Background } from '@/app/components/Background'
-import { EventSection, Show, Prize } from '@/app/generated/prisma/client'
+import { Background } from '@components/Background'
+import { EventSection, Show, Prize } from '@generated/client'
 import { backgroundImages } from '@/app/images/backgrounds'
-import { getEventSectionByName, getSectionEventsAndPrizes, getShow } from '@/app/lib/queries'
+import { getEventSectionByName, getSectionEventsAndPrizes, getShow } from '@lib/queries'
 import { drawerWidth, footerHeight } from '@/app/settings'
-import { getDateString } from '@/app/utils'
+import { getDateString } from '@app/utils'
 import { Card, CardContent, CardMedia, Divider, Grid, Paper, Stack, Typography } from '@mui/material'
 import { use, useEffect, useState } from 'react'
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';

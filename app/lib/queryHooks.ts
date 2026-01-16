@@ -1,11 +1,11 @@
 'use client'
 
 import { useEffect, useState } from "react"
-import { getAllMemberships, GetAllMemberShipsResult, getMemberships, getSponsors, getSponsorshipPackages, getUserRole, getUsersWithRole, getShow, getEvents, getEventSections } from "./queries"
-import { Role } from "../generated/prisma/enums"
-import { useSession } from "next-auth/react"
-import { Membership, Sponsorship, SponsorshipPackage, User, Event, EventSection } from "../generated/prisma/client"
+import { getAllMemberships, GetAllMemberShipsResult, getSponsors, getSponsorshipPackages, getUserRole, getUsersWithRole, getShow, getEvents, getEventSections, getSchedule } from "./queries"
+import { Role } from "@generated/enums"
+import { Sponsorship, SponsorshipPackage, User, Event, EventSection } from "@generated/client"
 import { sleep } from "../utils"
+import { useSession } from "./session"
 
   
   export function useUserRole(): [Role | undefined, boolean] {
@@ -144,4 +144,26 @@ export function useEventSections(showYear: number, refreshKey: number = 0): [Eve
     getShowSections()
   },[showYear, refreshKey])
   return [sections, loading]
+}
+
+export function useSchedule(showYear: number): [Schedule, boolean] {
+  const [schedule, setSchedule] = useState<Schedule>()
+  const [loading, setLoading] = useState<boolean>(true)
+  useEffect(() => {
+    async function getShowSchedule(){
+      setLoading(true)
+      if (!showYear) {
+        setLoading(false)
+        return
+      }
+      const show = await getShow(showYear)
+      if (show){
+        const schedule = await getSchedule(show.id)
+        setSchedule(schedule)
+      }
+      setLoading(false)
+    }
+    getShowSchedule()
+  },[showYear])
+  return [schedule, loading]
 }

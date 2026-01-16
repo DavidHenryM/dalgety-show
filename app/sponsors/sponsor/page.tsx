@@ -1,24 +1,22 @@
 'use client'
 
-import { Background } from "@/app/components/Background";
-import { SponsorTheShowForm } from "@/app/components/SponsorTheShowForm";
-import Waiting from "@/app/components/Waiting";
-import { backgroundImages } from "@/app/images/backgrounds";
-import Loading from "@/app/Loading";
-import { serverSignIn } from "@/app/serverSignInOut";
-import { drawerWidth, footerHeight } from "@/app/settings";
+import { Background } from "@components/Background";
+import { SponsorTheShowForm } from "@components/SponsorTheShowForm";
+import Waiting from "@components/Waiting";
+import { backgroundImages } from "@app/images/backgrounds";
+import { useSession } from "@lib/session";
+import { serverSignIn } from "@app/serverSignInOut";
+import { drawerWidth, footerHeight } from "@app/settings";
 import { Grid, Paper } from "@mui/material";
-import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 
 
 export default function SponsorTheShow(){
-  const { data: session, status: status } = useSession()
-  console.log(session)
+  const { data: session } = useSession()
 
   useEffect(()=>{
     console.log(session)
-    if (status === "unauthenticated"){
+    if (session?.status === "unauthenticated"){
       serverSignIn()
     }
   },[session])
