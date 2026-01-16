@@ -47,6 +47,8 @@ model User {
   eventResults                EventResult[]
   memberships                 Membership[]
   officialRole                OfficialRole?
+
+  dataEdits DataEdit[]
 }
 
 model Account {
@@ -107,6 +109,16 @@ model Authenticator {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([userId, credentialID])
+}
+
+model DataEdit {
+  id           String        @id @default(cuid())
+  table String
+  field String
+  operation DATA_OPERATION
+  editedBy User @relation(fields: [editedById], references: [id])
+  editedById String
+  editedAt DateTime @default(now())
 }
 
 model Address {
@@ -206,6 +218,24 @@ model EventSectionSponsorship {
   sponsorships Sponsorship[]
 }
 
+model Schedule {
+  id        String   @id @default(cuid())
+  show      Show     @relation(fields: [showId], references: [id])
+  showId    String @unique
+  released  DateTime
+  activities Activity[] 
+}
+
+model Activity {
+  id          String   @id @default(cuid())
+  time        String
+  description String
+  link        String?
+  icon        String?
+  schedule    Schedule @relation(fields: [scheduleId], references: [id])
+  scheduleId  String
+}
+
 model Sponsorship {
   id             String                    @id @default(cuid())
   package        SponsorshipPackage        @relation(fields: [packageId], references: [id])
@@ -229,6 +259,7 @@ model Show {
 
   eventSections EventSection[]
   sponsorships  Sponsorship[]
+  schedule Schedule?
 }
 
 model Membership {
@@ -258,6 +289,12 @@ model SponsorshipPackage {
   minimumAmount Int
   maximumAmount Int
   sponsorships  Sponsorship[]
+}
+
+enum DATA_OPERATION {
+  CREATE
+  UPDATE
+  DELETE
 }
 
 enum State {

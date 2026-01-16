@@ -32,6 +32,16 @@ export async function getUsersWithRole(role: Role): Promise<Partial<User>[]>{
   return users
 }
 
+export async function getUserFromId(userId: string): Promise<User | null>{
+  const user = await prisma.user.findFirst({
+    where: {
+      id: userId,
+    }
+  })
+
+  return user
+}
+
 export async function getUserFromEmail(email: string): Promise<User | null>{
   const user = await prisma.user.findFirst({
     where: {
@@ -145,6 +155,15 @@ export async function getEventSections(showId: string): Promise<EventSection[]> 
   } else {
     return []
   }
+}
+
+export async function getSchedule(showId: string): Promise<Schedule> {
+  const schedule = prisma.schedule.findFirstOrThrow({
+    where: {
+      showId: showId
+    }
+  })
+  return schedule
 }
 
 export async function getEventSectionByName(name: string, showId: string): Promise<EventSection | null> {
