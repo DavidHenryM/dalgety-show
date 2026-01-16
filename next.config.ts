@@ -1,6 +1,6 @@
 import type { NextConfig } from "next";
 
-const nextConfig = {
+const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
@@ -9,7 +9,7 @@ const nextConfig = {
         permanent: true, // true = 308 permanent redirect, false = 307 temporary
       },
     ]
-  },
+  }
 }
 
 
