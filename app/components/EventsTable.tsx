@@ -1,10 +1,10 @@
 import { useState } from 'react'
-import { useEvents, useEventSections } from '../lib/queryHooks';
-import Loading from '../Loading';
+import { useEvents, useEventSections } from '@lib/queryHooks';
+import Loading from '@app/Loading';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { Accordion, AccordionDetails, AccordionSummary, Grid, Typography, Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, MenuItem, Stack } from '@mui/material';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import { createEvent, updateEvent, deleteEvent } from '../lib/queries';
+import { createEvent, updateEvent, deleteEvent } from '@lib/mutations';
 
 export function EventsTable(props: {title: string, showYear: number}){
   const [refreshKey, setRefreshKey] = useState<number>(0)
