@@ -2,8 +2,7 @@
 
 import Content from "@components/Content";
 import { MembershipForm } from "@components/MembershipForm";
-import { useSession } from "@lib/session";
-import { serverSignIn } from "@app/serverSignInOut";
+import { signIn, useSession } from "@lib/session";
 import { useEffect } from "react";
 
 
@@ -11,7 +10,9 @@ export default function MembershipApply(){
     const { data: session } = useSession()
     useEffect(()=>{
       if (session?.status === "unauthenticated"){
-        serverSignIn()
+        signIn(session.user.email).catch((err)=>{
+          console.error("Error during sign-in:", err)
+        })
       }
     },[session])
 

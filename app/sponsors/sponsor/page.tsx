@@ -4,20 +4,19 @@ import { Background } from "@components/Background";
 import { SponsorTheShowForm } from "@components/SponsorTheShowForm";
 import Waiting from "@components/Waiting";
 import { backgroundImages } from "@app/images/backgrounds";
-import { useSession } from "@lib/session";
-import { serverSignIn } from "@app/serverSignInOut";
+import { signIn, useSession } from "@lib/session";
 import { drawerWidth, footerHeight } from "@app/settings";
 import { Grid, Paper } from "@mui/material";
 import { useEffect } from "react";
 
-
 export default function SponsorTheShow(){
   const { data: session } = useSession()
-
   useEffect(()=>{
     console.log(session)
     if (session?.status === "unauthenticated"){
-      serverSignIn()
+      signIn(session.user.email, '/sponsors/sponsor').catch((err)=>{
+        console.error("Error during sign-in:", err)
+      })    
     }
   },[session])
 
