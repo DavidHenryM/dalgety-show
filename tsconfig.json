@@ -22,7 +22,6 @@
       "@/*": ["./*"],
       "@app/*": ["./app/*"],
       "@lib/*": ["./app/lib/*"],
-      "@prisma/*": ["./prisma/*"],
       "@components/*": ["./app/components/*"],
       "@generated/*": ["./app/generated/prisma/*"]
     }
