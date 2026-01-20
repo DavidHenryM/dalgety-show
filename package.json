@@ -7,7 +7,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "generate": "prisma generate"
   },
   "overrides": {
     "nodemailer": "$nodemailer"
@@ -28,11 +29,11 @@
     "@prisma/client": "^7.2.0",
     "@prisma/extension-accelerate": "^3.0.1",
     "@vercel/blob": "^0.0.2",
-    "better-auth": "^1.4.12",
+    "better-auth": "^1.4.16",
     "dotenv": "^17.2.3",
     "next": "16.1.1",
     "nodemailer": "^7.0.12",
-    "pg": "^8.16.3",
+    "pg": "^8.17.1",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "react-hook-form": "^7.69.0",
@@ -40,6 +41,7 @@
     "react-pdf": "^10.2.0"
   },
   "devDependencies": {
+    "@better-auth/cli": "^1.4.16",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20.19.27",
     "@types/nodemailer": "^7.0.5",
@@ -49,7 +51,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.1.1",
-    "prisma": "^6.19.2",
+    "prisma": "^7.2.0",
     "tailwindcss": "^4",
     "tsx": "^4.21.0",
     "typescript": "^5"
