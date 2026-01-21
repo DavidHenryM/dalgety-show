@@ -2147,6 +2147,7 @@ export type ScheduleScalarFieldEnum = (typeof ScheduleScalarFieldEnum)[keyof typ
 export const ActivityScalarFieldEnum = {
   id: 'id',
   time: 'time',
+  name: 'name',
   description: 'description',
   link: 'link',
   icon: 'icon',

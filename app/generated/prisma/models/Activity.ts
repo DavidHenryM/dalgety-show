@@ -26,7 +26,8 @@ export type AggregateActivity = {
 
 export type ActivityMinAggregateOutputType = {
   id: string | null
-  time: string | null
+  time: Date | null
+  name: string | null
   description: string | null
   link: string | null
   icon: string | null
@@ -35,7 +36,8 @@ export type ActivityMinAggregateOutputType = {
 
 export type ActivityMaxAggregateOutputType = {
   id: string | null
-  time: string | null
+  time: Date | null
+  name: string | null
   description: string | null
   link: string | null
   icon: string | null
@@ -45,6 +47,7 @@ export type ActivityMaxAggregateOutputType = {
 export type ActivityCountAggregateOutputType = {
   id: number
   time: number
+  name: number
   description: number
   link: number
   icon: number
@@ -56,6 +59,7 @@ export type ActivityCountAggregateOutputType = {
 export type ActivityMinAggregateInputType = {
   id?: true
   time?: true
+  name?: true
   description?: true
   link?: true
   icon?: true
@@ -65,6 +69,7 @@ export type ActivityMinAggregateInputType = {
 export type ActivityMaxAggregateInputType = {
   id?: true
   time?: true
+  name?: true
   description?: true
   link?: true
   icon?: true
@@ -74,6 +79,7 @@ export type ActivityMaxAggregateInputType = {
 export type ActivityCountAggregateInputType = {
   id?: true
   time?: true
+  name?: true
   description?: true
   link?: true
   icon?: true
@@ -155,8 +161,9 @@ export type ActivityGroupByArgs<ExtArgs extends runtime.Types.Extensions.Interna
 
 export type ActivityGroupByOutputType = {
   id: string
-  time: string
-  description: string
+  time: Date
+  name: string
+  description: string | null
   link: string | null
   icon: string | null
   scheduleId: string
@@ -185,8 +192,9 @@ export type ActivityWhereInput = {
   OR?: Prisma.ActivityWhereInput[]
   NOT?: Prisma.ActivityWhereInput | Prisma.ActivityWhereInput[]
   id?: Prisma.StringFilter<"Activity"> | string
-  time?: Prisma.StringFilter<"Activity"> | string
-  description?: Prisma.StringFilter<"Activity"> | string
+  time?: Prisma.DateTimeFilter<"Activity"> | Date | string
+  name?: Prisma.StringFilter<"Activity"> | string
+  description?: Prisma.StringNullableFilter<"Activity"> | string | null
   link?: Prisma.StringNullableFilter<"Activity"> | string | null
   icon?: Prisma.StringNullableFilter<"Activity"> | string | null
   scheduleId?: Prisma.StringFilter<"Activity"> | string
@@ -196,7 +204,8 @@ export type ActivityWhereInput = {
 export type ActivityOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   time?: Prisma.SortOrder
-  description?: Prisma.SortOrder
+  name?: Prisma.SortOrder
+  description?: Prisma.SortOrderInput | Prisma.SortOrder
   link?: Prisma.SortOrderInput | Prisma.SortOrder
   icon?: Prisma.SortOrderInput | Prisma.SortOrder
   scheduleId?: Prisma.SortOrder
@@ -208,8 +217,9 @@ export type ActivityWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.ActivityWhereInput | Prisma.ActivityWhereInput[]
   OR?: Prisma.ActivityWhereInput[]
   NOT?: Prisma.ActivityWhereInput | Prisma.ActivityWhereInput[]
-  time?: Prisma.StringFilter<"Activity"> | string
-  description?: Prisma.StringFilter<"Activity"> | string
+  time?: Prisma.DateTimeFilter<"Activity"> | Date | string
+  name?: Prisma.StringFilter<"Activity"> | string
+  description?: Prisma.StringNullableFilter<"Activity"> | string | null
   link?: Prisma.StringNullableFilter<"Activity"> | string | null
   icon?: Prisma.StringNullableFilter<"Activity"> | string | null
   scheduleId?: Prisma.StringFilter<"Activity"> | string
@@ -219,7 +229,8 @@ export type ActivityWhereUniqueInput = Prisma.AtLeast<{
 export type ActivityOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   time?: Prisma.SortOrder
-  description?: Prisma.SortOrder
+  name?: Prisma.SortOrder
+  description?: Prisma.SortOrderInput | Prisma.SortOrder
   link?: Prisma.SortOrderInput | Prisma.SortOrder
   icon?: Prisma.SortOrderInput | Prisma.SortOrder
   scheduleId?: Prisma.SortOrder
@@ -233,8 +244,9 @@ export type ActivityScalarWhereWithAggregatesInput = {
   OR?: Prisma.ActivityScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ActivityScalarWhereWithAggregatesInput | Prisma.ActivityScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Activity"> | string
-  time?: Prisma.StringWithAggregatesFilter<"Activity"> | string
-  description?: Prisma.StringWithAggregatesFilter<"Activity"> | string
+  time?: Prisma.DateTimeWithAggregatesFilter<"Activity"> | Date | string
+  name?: Prisma.StringWithAggregatesFilter<"Activity"> | string
+  description?: Prisma.StringNullableWithAggregatesFilter<"Activity"> | string | null
   link?: Prisma.StringNullableWithAggregatesFilter<"Activity"> | string | null
   icon?: Prisma.StringNullableWithAggregatesFilter<"Activity"> | string | null
   scheduleId?: Prisma.StringWithAggregatesFilter<"Activity"> | string
@@ -242,8 +254,9 @@ export type ActivityScalarWhereWithAggregatesInput = {
 
 export type ActivityCreateInput = {
   id?: string
-  time: string
-  description: string
+  time: Date | string
+  name: string
+  description?: string | null
   link?: string | null
   icon?: string | null
   schedule: Prisma.ScheduleCreateNestedOneWithoutActivitiesInput
@@ -251,8 +264,9 @@ export type ActivityCreateInput = {
 
 export type ActivityUncheckedCreateInput = {
   id?: string
-  time: string
-  description: string
+  time: Date | string
+  name: string
+  description?: string | null
   link?: string | null
   icon?: string | null
   scheduleId: string
@@ -260,8 +274,9 @@ export type ActivityUncheckedCreateInput = {
 
 export type ActivityUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  time?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.StringFieldUpdateOperationsInput | string
+  time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   link?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   schedule?: Prisma.ScheduleUpdateOneRequiredWithoutActivitiesNestedInput
@@ -269,8 +284,9 @@ export type ActivityUpdateInput = {
 
 export type ActivityUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  time?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.StringFieldUpdateOperationsInput | string
+  time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   link?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   scheduleId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -278,8 +294,9 @@ export type ActivityUncheckedUpdateInput = {
 
 export type ActivityCreateManyInput = {
   id?: string
-  time: string
-  description: string
+  time: Date | string
+  name: string
+  description?: string | null
   link?: string | null
   icon?: string | null
   scheduleId: string
@@ -287,16 +304,18 @@ export type ActivityCreateManyInput = {
 
 export type ActivityUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  time?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.StringFieldUpdateOperationsInput | string
+  time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   link?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ActivityUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  time?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.StringFieldUpdateOperationsInput | string
+  time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   link?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   scheduleId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -315,6 +334,7 @@ export type ActivityOrderByRelationAggregateInput = {
 export type ActivityCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   time?: Prisma.SortOrder
+  name?: Prisma.SortOrder
   description?: Prisma.SortOrder
   link?: Prisma.SortOrder
   icon?: Prisma.SortOrder
@@ -324,6 +344,7 @@ export type ActivityCountOrderByAggregateInput = {
 export type ActivityMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   time?: Prisma.SortOrder
+  name?: Prisma.SortOrder
   description?: Prisma.SortOrder
   link?: Prisma.SortOrder
   icon?: Prisma.SortOrder
@@ -333,6 +354,7 @@ export type ActivityMaxOrderByAggregateInput = {
 export type ActivityMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   time?: Prisma.SortOrder
+  name?: Prisma.SortOrder
   description?: Prisma.SortOrder
   link?: Prisma.SortOrder
   icon?: Prisma.SortOrder
@@ -383,16 +405,18 @@ export type ActivityUncheckedUpdateManyWithoutScheduleNestedInput = {
 
 export type ActivityCreateWithoutScheduleInput = {
   id?: string
-  time: string
-  description: string
+  time: Date | string
+  name: string
+  description?: string | null
   link?: string | null
   icon?: string | null
 }
 
 export type ActivityUncheckedCreateWithoutScheduleInput = {
   id?: string
-  time: string
-  description: string
+  time: Date | string
+  name: string
+  description?: string | null
   link?: string | null
   icon?: string | null
 }
@@ -428,8 +452,9 @@ export type ActivityScalarWhereInput = {
   OR?: Prisma.ActivityScalarWhereInput[]
   NOT?: Prisma.ActivityScalarWhereInput | Prisma.ActivityScalarWhereInput[]
   id?: Prisma.StringFilter<"Activity"> | string
-  time?: Prisma.StringFilter<"Activity"> | string
-  description?: Prisma.StringFilter<"Activity"> | string
+  time?: Prisma.DateTimeFilter<"Activity"> | Date | string
+  name?: Prisma.StringFilter<"Activity"> | string
+  description?: Prisma.StringNullableFilter<"Activity"> | string | null
   link?: Prisma.StringNullableFilter<"Activity"> | string | null
   icon?: Prisma.StringNullableFilter<"Activity"> | string | null
   scheduleId?: Prisma.StringFilter<"Activity"> | string
@@ -437,32 +462,36 @@ export type ActivityScalarWhereInput = {
 
 export type ActivityCreateManyScheduleInput = {
   id?: string
-  time: string
-  description: string
+  time: Date | string
+  name: string
+  description?: string | null
   link?: string | null
   icon?: string | null
 }
 
 export type ActivityUpdateWithoutScheduleInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  time?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.StringFieldUpdateOperationsInput | string
+  time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   link?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ActivityUncheckedUpdateWithoutScheduleInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  time?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.StringFieldUpdateOperationsInput | string
+  time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   link?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ActivityUncheckedUpdateManyWithoutScheduleInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  time?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.StringFieldUpdateOperationsInput | string
+  time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   link?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -472,6 +501,7 @@ export type ActivityUncheckedUpdateManyWithoutScheduleInput = {
 export type ActivitySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   time?: boolean
+  name?: boolean
   description?: boolean
   link?: boolean
   icon?: boolean
@@ -482,6 +512,7 @@ export type ActivitySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
 export type ActivitySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   time?: boolean
+  name?: boolean
   description?: boolean
   link?: boolean
   icon?: boolean
@@ -492,6 +523,7 @@ export type ActivitySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
 export type ActivitySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   time?: boolean
+  name?: boolean
   description?: boolean
   link?: boolean
   icon?: boolean
@@ -502,13 +534,14 @@ export type ActivitySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
 export type ActivitySelectScalar = {
   id?: boolean
   time?: boolean
+  name?: boolean
   description?: boolean
   link?: boolean
   icon?: boolean
   scheduleId?: boolean
 }
 
-export type ActivityOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "time" | "description" | "link" | "icon" | "scheduleId", ExtArgs["result"]["activity"]>
+export type ActivityOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "time" | "name" | "description" | "link" | "icon" | "scheduleId", ExtArgs["result"]["activity"]>
 export type ActivityInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   schedule?: boolean | Prisma.ScheduleDefaultArgs<ExtArgs>
 }
@@ -526,8 +559,9 @@ export type $ActivityPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    time: string
-    description: string
+    time: Date
+    name: string
+    description: string | null
     link: string | null
     icon: string | null
     scheduleId: string
@@ -956,7 +990,8 @@ export interface Prisma__ActivityClient<T, Null = never, ExtArgs extends runtime
  */
 export interface ActivityFieldRefs {
   readonly id: Prisma.FieldRef<"Activity", 'String'>
-  readonly time: Prisma.FieldRef<"Activity", 'String'>
+  readonly time: Prisma.FieldRef<"Activity", 'DateTime'>
+  readonly name: Prisma.FieldRef<"Activity", 'String'>
   readonly description: Prisma.FieldRef<"Activity", 'String'>
   readonly link: Prisma.FieldRef<"Activity", 'String'>
   readonly icon: Prisma.FieldRef<"Activity", 'String'>

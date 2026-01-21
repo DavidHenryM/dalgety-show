@@ -138,7 +138,7 @@ export type ScheduleGroupByArgs<ExtArgs extends runtime.Types.Extensions.Interna
 export type ScheduleGroupByOutputType = {
   id: string
   showId: string
-  released: Date
+  released: Date | null
   _count: ScheduleCountAggregateOutputType | null
   _min: ScheduleMinAggregateOutputType | null
   _max: ScheduleMaxAggregateOutputType | null
@@ -165,7 +165,7 @@ export type ScheduleWhereInput = {
   NOT?: Prisma.ScheduleWhereInput | Prisma.ScheduleWhereInput[]
   id?: Prisma.StringFilter<"Schedule"> | string
   showId?: Prisma.StringFilter<"Schedule"> | string
-  released?: Prisma.DateTimeFilter<"Schedule"> | Date | string
+  released?: Prisma.DateTimeNullableFilter<"Schedule"> | Date | string | null
   show?: Prisma.XOR<Prisma.ShowScalarRelationFilter, Prisma.ShowWhereInput>
   activities?: Prisma.ActivityListRelationFilter
 }
@@ -173,7 +173,7 @@ export type ScheduleWhereInput = {
 export type ScheduleOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   showId?: Prisma.SortOrder
-  released?: Prisma.SortOrder
+  released?: Prisma.SortOrderInput | Prisma.SortOrder
   show?: Prisma.ShowOrderByWithRelationInput
   activities?: Prisma.ActivityOrderByRelationAggregateInput
 }
@@ -184,7 +184,7 @@ export type ScheduleWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.ScheduleWhereInput | Prisma.ScheduleWhereInput[]
   OR?: Prisma.ScheduleWhereInput[]
   NOT?: Prisma.ScheduleWhereInput | Prisma.ScheduleWhereInput[]
-  released?: Prisma.DateTimeFilter<"Schedule"> | Date | string
+  released?: Prisma.DateTimeNullableFilter<"Schedule"> | Date | string | null
   show?: Prisma.XOR<Prisma.ShowScalarRelationFilter, Prisma.ShowWhereInput>
   activities?: Prisma.ActivityListRelationFilter
 }, "id" | "showId">
@@ -192,7 +192,7 @@ export type ScheduleWhereUniqueInput = Prisma.AtLeast<{
 export type ScheduleOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   showId?: Prisma.SortOrder
-  released?: Prisma.SortOrder
+  released?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.ScheduleCountOrderByAggregateInput
   _max?: Prisma.ScheduleMaxOrderByAggregateInput
   _min?: Prisma.ScheduleMinOrderByAggregateInput
@@ -204,12 +204,12 @@ export type ScheduleScalarWhereWithAggregatesInput = {
   NOT?: Prisma.ScheduleScalarWhereWithAggregatesInput | Prisma.ScheduleScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Schedule"> | string
   showId?: Prisma.StringWithAggregatesFilter<"Schedule"> | string
-  released?: Prisma.DateTimeWithAggregatesFilter<"Schedule"> | Date | string
+  released?: Prisma.DateTimeNullableWithAggregatesFilter<"Schedule"> | Date | string | null
 }
 
 export type ScheduleCreateInput = {
   id?: string
-  released: Date | string
+  released?: Date | string | null
   show: Prisma.ShowCreateNestedOneWithoutScheduleInput
   activities?: Prisma.ActivityCreateNestedManyWithoutScheduleInput
 }
@@ -217,13 +217,13 @@ export type ScheduleCreateInput = {
 export type ScheduleUncheckedCreateInput = {
   id?: string
   showId: string
-  released: Date | string
+  released?: Date | string | null
   activities?: Prisma.ActivityUncheckedCreateNestedManyWithoutScheduleInput
 }
 
 export type ScheduleUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  released?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  released?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   show?: Prisma.ShowUpdateOneRequiredWithoutScheduleNestedInput
   activities?: Prisma.ActivityUpdateManyWithoutScheduleNestedInput
 }
@@ -231,25 +231,25 @@ export type ScheduleUpdateInput = {
 export type ScheduleUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   showId?: Prisma.StringFieldUpdateOperationsInput | string
-  released?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  released?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   activities?: Prisma.ActivityUncheckedUpdateManyWithoutScheduleNestedInput
 }
 
 export type ScheduleCreateManyInput = {
   id?: string
   showId: string
-  released: Date | string
+  released?: Date | string | null
 }
 
 export type ScheduleUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  released?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  released?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type ScheduleUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   showId?: Prisma.StringFieldUpdateOperationsInput | string
-  released?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  released?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type ScheduleCountOrderByAggregateInput = {
@@ -328,14 +328,14 @@ export type ScheduleUncheckedUpdateOneWithoutShowNestedInput = {
 
 export type ScheduleCreateWithoutActivitiesInput = {
   id?: string
-  released: Date | string
+  released?: Date | string | null
   show: Prisma.ShowCreateNestedOneWithoutScheduleInput
 }
 
 export type ScheduleUncheckedCreateWithoutActivitiesInput = {
   id?: string
   showId: string
-  released: Date | string
+  released?: Date | string | null
 }
 
 export type ScheduleCreateOrConnectWithoutActivitiesInput = {
@@ -356,25 +356,25 @@ export type ScheduleUpdateToOneWithWhereWithoutActivitiesInput = {
 
 export type ScheduleUpdateWithoutActivitiesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  released?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  released?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   show?: Prisma.ShowUpdateOneRequiredWithoutScheduleNestedInput
 }
 
 export type ScheduleUncheckedUpdateWithoutActivitiesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   showId?: Prisma.StringFieldUpdateOperationsInput | string
-  released?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  released?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type ScheduleCreateWithoutShowInput = {
   id?: string
-  released: Date | string
+  released?: Date | string | null
   activities?: Prisma.ActivityCreateNestedManyWithoutScheduleInput
 }
 
 export type ScheduleUncheckedCreateWithoutShowInput = {
   id?: string
-  released: Date | string
+  released?: Date | string | null
   activities?: Prisma.ActivityUncheckedCreateNestedManyWithoutScheduleInput
 }
 
@@ -396,13 +396,13 @@ export type ScheduleUpdateToOneWithWhereWithoutShowInput = {
 
 export type ScheduleUpdateWithoutShowInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  released?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  released?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   activities?: Prisma.ActivityUpdateManyWithoutScheduleNestedInput
 }
 
 export type ScheduleUncheckedUpdateWithoutShowInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  released?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  released?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   activities?: Prisma.ActivityUncheckedUpdateManyWithoutScheduleNestedInput
 }
 
@@ -488,7 +488,7 @@ export type $SchedulePayload<ExtArgs extends runtime.Types.Extensions.InternalAr
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     showId: string
-    released: Date
+    released: Date | null
   }, ExtArgs["result"]["schedule"]>
   composites: {}
 }
