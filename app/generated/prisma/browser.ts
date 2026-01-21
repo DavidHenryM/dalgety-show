@@ -23,6 +23,11 @@ export * from './enums';
  */
 export type User = Prisma.UserModel
 /**
+ * Model Verification
+ * 
+ */
+export type Verification = Prisma.VerificationModel
+/**
  * Model Account
  * 
  */
@@ -33,15 +38,15 @@ export type Account = Prisma.AccountModel
  */
 export type Session = Prisma.SessionModel
 /**
- * Model VerificationToken
- * 
- */
-export type VerificationToken = Prisma.VerificationTokenModel
-/**
  * Model Authenticator
  * 
  */
 export type Authenticator = Prisma.AuthenticatorModel
+/**
+ * Model DataEdit
+ * 
+ */
+export type DataEdit = Prisma.DataEditModel
 /**
  * Model Address
  * 
@@ -77,6 +82,16 @@ export type Prize = Prisma.PrizeModel
  * 
  */
 export type EventSectionSponsorship = Prisma.EventSectionSponsorshipModel
+/**
+ * Model Schedule
+ * 
+ */
+export type Schedule = Prisma.ScheduleModel
+/**
+ * Model Activity
+ * 
+ */
+export type Activity = Prisma.ActivityModel
 /**
  * Model Sponsorship
  * 

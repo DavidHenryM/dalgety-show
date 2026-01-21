@@ -483,10 +483,6 @@ export type IntFieldUpdateOperationsInput = {
   divide?: number
 }
 
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
-}
-
 export type AuthenticatorCreateWithoutUserInput = {
   credentialID: string
   providerAccountId: string

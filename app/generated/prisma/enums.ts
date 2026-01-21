@@ -9,6 +9,15 @@
 * 🟢 You can import this file directly.
 */
 
+export const DATA_OPERATION = {
+  CREATE: 'CREATE',
+  UPDATE: 'UPDATE',
+  DELETE: 'DELETE'
+} as const
+
+export type DATA_OPERATION = (typeof DATA_OPERATION)[keyof typeof DATA_OPERATION]
+
+
 export const State = {
   ACT: 'ACT',
   NSW: 'NSW',

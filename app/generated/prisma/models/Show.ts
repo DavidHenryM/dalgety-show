@@ -231,6 +231,7 @@ export type ShowWhereInput = {
   events?: Prisma.EventListRelationFilter
   eventSections?: Prisma.EventSectionListRelationFilter
   sponsorships?: Prisma.SponsorshipListRelationFilter
+  schedule?: Prisma.XOR<Prisma.ScheduleNullableScalarRelationFilter, Prisma.ScheduleWhereInput> | null
 }
 
 export type ShowOrderByWithRelationInput = {
@@ -243,6 +244,7 @@ export type ShowOrderByWithRelationInput = {
   events?: Prisma.EventOrderByRelationAggregateInput
   eventSections?: Prisma.EventSectionOrderByRelationAggregateInput
   sponsorships?: Prisma.SponsorshipOrderByRelationAggregateInput
+  schedule?: Prisma.ScheduleOrderByWithRelationInput
 }
 
 export type ShowWhereUniqueInput = Prisma.AtLeast<{
@@ -258,6 +260,7 @@ export type ShowWhereUniqueInput = Prisma.AtLeast<{
   events?: Prisma.EventListRelationFilter
   eventSections?: Prisma.EventSectionListRelationFilter
   sponsorships?: Prisma.SponsorshipListRelationFilter
+  schedule?: Prisma.XOR<Prisma.ScheduleNullableScalarRelationFilter, Prisma.ScheduleWhereInput> | null
 }, "id" | "year">
 
 export type ShowOrderByWithAggregationInput = {
@@ -296,6 +299,7 @@ export type ShowCreateInput = {
   events?: Prisma.EventCreateNestedManyWithoutShowInput
   eventSections?: Prisma.EventSectionCreateNestedManyWithoutShowInput
   sponsorships?: Prisma.SponsorshipCreateNestedManyWithoutShowInput
+  schedule?: Prisma.ScheduleCreateNestedOneWithoutShowInput
 }
 
 export type ShowUncheckedCreateInput = {
@@ -308,6 +312,7 @@ export type ShowUncheckedCreateInput = {
   events?: Prisma.EventUncheckedCreateNestedManyWithoutShowInput
   eventSections?: Prisma.EventSectionUncheckedCreateNestedManyWithoutShowInput
   sponsorships?: Prisma.SponsorshipUncheckedCreateNestedManyWithoutShowInput
+  schedule?: Prisma.ScheduleUncheckedCreateNestedOneWithoutShowInput
 }
 
 export type ShowUpdateInput = {
@@ -320,6 +325,7 @@ export type ShowUpdateInput = {
   events?: Prisma.EventUpdateManyWithoutShowNestedInput
   eventSections?: Prisma.EventSectionUpdateManyWithoutShowNestedInput
   sponsorships?: Prisma.SponsorshipUpdateManyWithoutShowNestedInput
+  schedule?: Prisma.ScheduleUpdateOneWithoutShowNestedInput
 }
 
 export type ShowUncheckedUpdateInput = {
@@ -332,6 +338,7 @@ export type ShowUncheckedUpdateInput = {
   events?: Prisma.EventUncheckedUpdateManyWithoutShowNestedInput
   eventSections?: Prisma.EventSectionUncheckedUpdateManyWithoutShowNestedInput
   sponsorships?: Prisma.SponsorshipUncheckedUpdateManyWithoutShowNestedInput
+  schedule?: Prisma.ScheduleUncheckedUpdateOneWithoutShowNestedInput
 }
 
 export type ShowCreateManyInput = {
@@ -431,6 +438,20 @@ export type ShowUpdateOneRequiredWithoutEventsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ShowUpdateToOneWithWhereWithoutEventsInput, Prisma.ShowUpdateWithoutEventsInput>, Prisma.ShowUncheckedUpdateWithoutEventsInput>
 }
 
+export type ShowCreateNestedOneWithoutScheduleInput = {
+  create?: Prisma.XOR<Prisma.ShowCreateWithoutScheduleInput, Prisma.ShowUncheckedCreateWithoutScheduleInput>
+  connectOrCreate?: Prisma.ShowCreateOrConnectWithoutScheduleInput
+  connect?: Prisma.ShowWhereUniqueInput
+}
+
+export type ShowUpdateOneRequiredWithoutScheduleNestedInput = {
+  create?: Prisma.XOR<Prisma.ShowCreateWithoutScheduleInput, Prisma.ShowUncheckedCreateWithoutScheduleInput>
+  connectOrCreate?: Prisma.ShowCreateOrConnectWithoutScheduleInput
+  upsert?: Prisma.ShowUpsertWithoutScheduleInput
+  connect?: Prisma.ShowWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ShowUpdateToOneWithWhereWithoutScheduleInput, Prisma.ShowUpdateWithoutScheduleInput>, Prisma.ShowUncheckedUpdateWithoutScheduleInput>
+}
+
 export type ShowCreateNestedOneWithoutSponsorshipsInput = {
   create?: Prisma.XOR<Prisma.ShowCreateWithoutSponsorshipsInput, Prisma.ShowUncheckedCreateWithoutSponsorshipsInput>
   connectOrCreate?: Prisma.ShowCreateOrConnectWithoutSponsorshipsInput
@@ -454,6 +475,7 @@ export type ShowCreateWithoutEventSectionsInput = {
   finish: Date | string
   events?: Prisma.EventCreateNestedManyWithoutShowInput
   sponsorships?: Prisma.SponsorshipCreateNestedManyWithoutShowInput
+  schedule?: Prisma.ScheduleCreateNestedOneWithoutShowInput
 }
 
 export type ShowUncheckedCreateWithoutEventSectionsInput = {
@@ -465,6 +487,7 @@ export type ShowUncheckedCreateWithoutEventSectionsInput = {
   finish: Date | string
   events?: Prisma.EventUncheckedCreateNestedManyWithoutShowInput
   sponsorships?: Prisma.SponsorshipUncheckedCreateNestedManyWithoutShowInput
+  schedule?: Prisma.ScheduleUncheckedCreateNestedOneWithoutShowInput
 }
 
 export type ShowCreateOrConnectWithoutEventSectionsInput = {
@@ -492,6 +515,7 @@ export type ShowUpdateWithoutEventSectionsInput = {
   finish?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   events?: Prisma.EventUpdateManyWithoutShowNestedInput
   sponsorships?: Prisma.SponsorshipUpdateManyWithoutShowNestedInput
+  schedule?: Prisma.ScheduleUpdateOneWithoutShowNestedInput
 }
 
 export type ShowUncheckedUpdateWithoutEventSectionsInput = {
@@ -503,6 +527,7 @@ export type ShowUncheckedUpdateWithoutEventSectionsInput = {
   finish?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   events?: Prisma.EventUncheckedUpdateManyWithoutShowNestedInput
   sponsorships?: Prisma.SponsorshipUncheckedUpdateManyWithoutShowNestedInput
+  schedule?: Prisma.ScheduleUncheckedUpdateOneWithoutShowNestedInput
 }
 
 export type ShowCreateWithoutEventsInput = {
@@ -514,6 +539,7 @@ export type ShowCreateWithoutEventsInput = {
   finish: Date | string
   eventSections?: Prisma.EventSectionCreateNestedManyWithoutShowInput
   sponsorships?: Prisma.SponsorshipCreateNestedManyWithoutShowInput
+  schedule?: Prisma.ScheduleCreateNestedOneWithoutShowInput
 }
 
 export type ShowUncheckedCreateWithoutEventsInput = {
@@ -525,6 +551,7 @@ export type ShowUncheckedCreateWithoutEventsInput = {
   finish: Date | string
   eventSections?: Prisma.EventSectionUncheckedCreateNestedManyWithoutShowInput
   sponsorships?: Prisma.SponsorshipUncheckedCreateNestedManyWithoutShowInput
+  schedule?: Prisma.ScheduleUncheckedCreateNestedOneWithoutShowInput
 }
 
 export type ShowCreateOrConnectWithoutEventsInput = {
@@ -552,6 +579,7 @@ export type ShowUpdateWithoutEventsInput = {
   finish?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   eventSections?: Prisma.EventSectionUpdateManyWithoutShowNestedInput
   sponsorships?: Prisma.SponsorshipUpdateManyWithoutShowNestedInput
+  schedule?: Prisma.ScheduleUpdateOneWithoutShowNestedInput
 }
 
 export type ShowUncheckedUpdateWithoutEventsInput = {
@@ -561,6 +589,71 @@ export type ShowUncheckedUpdateWithoutEventsInput = {
   tagLine?: Prisma.StringFieldUpdateOperationsInput | string
   start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   finish?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  eventSections?: Prisma.EventSectionUncheckedUpdateManyWithoutShowNestedInput
+  sponsorships?: Prisma.SponsorshipUncheckedUpdateManyWithoutShowNestedInput
+  schedule?: Prisma.ScheduleUncheckedUpdateOneWithoutShowNestedInput
+}
+
+export type ShowCreateWithoutScheduleInput = {
+  id?: string
+  year: number
+  number: number
+  tagLine: string
+  start: Date | string
+  finish: Date | string
+  events?: Prisma.EventCreateNestedManyWithoutShowInput
+  eventSections?: Prisma.EventSectionCreateNestedManyWithoutShowInput
+  sponsorships?: Prisma.SponsorshipCreateNestedManyWithoutShowInput
+}
+
+export type ShowUncheckedCreateWithoutScheduleInput = {
+  id?: string
+  year: number
+  number: number
+  tagLine: string
+  start: Date | string
+  finish: Date | string
+  events?: Prisma.EventUncheckedCreateNestedManyWithoutShowInput
+  eventSections?: Prisma.EventSectionUncheckedCreateNestedManyWithoutShowInput
+  sponsorships?: Prisma.SponsorshipUncheckedCreateNestedManyWithoutShowInput
+}
+
+export type ShowCreateOrConnectWithoutScheduleInput = {
+  where: Prisma.ShowWhereUniqueInput
+  create: Prisma.XOR<Prisma.ShowCreateWithoutScheduleInput, Prisma.ShowUncheckedCreateWithoutScheduleInput>
+}
+
+export type ShowUpsertWithoutScheduleInput = {
+  update: Prisma.XOR<Prisma.ShowUpdateWithoutScheduleInput, Prisma.ShowUncheckedUpdateWithoutScheduleInput>
+  create: Prisma.XOR<Prisma.ShowCreateWithoutScheduleInput, Prisma.ShowUncheckedCreateWithoutScheduleInput>
+  where?: Prisma.ShowWhereInput
+}
+
+export type ShowUpdateToOneWithWhereWithoutScheduleInput = {
+  where?: Prisma.ShowWhereInput
+  data: Prisma.XOR<Prisma.ShowUpdateWithoutScheduleInput, Prisma.ShowUncheckedUpdateWithoutScheduleInput>
+}
+
+export type ShowUpdateWithoutScheduleInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  year?: Prisma.IntFieldUpdateOperationsInput | number
+  number?: Prisma.IntFieldUpdateOperationsInput | number
+  tagLine?: Prisma.StringFieldUpdateOperationsInput | string
+  start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  finish?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  events?: Prisma.EventUpdateManyWithoutShowNestedInput
+  eventSections?: Prisma.EventSectionUpdateManyWithoutShowNestedInput
+  sponsorships?: Prisma.SponsorshipUpdateManyWithoutShowNestedInput
+}
+
+export type ShowUncheckedUpdateWithoutScheduleInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  year?: Prisma.IntFieldUpdateOperationsInput | number
+  number?: Prisma.IntFieldUpdateOperationsInput | number
+  tagLine?: Prisma.StringFieldUpdateOperationsInput | string
+  start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  finish?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  events?: Prisma.EventUncheckedUpdateManyWithoutShowNestedInput
   eventSections?: Prisma.EventSectionUncheckedUpdateManyWithoutShowNestedInput
   sponsorships?: Prisma.SponsorshipUncheckedUpdateManyWithoutShowNestedInput
 }
@@ -574,6 +667,7 @@ export type ShowCreateWithoutSponsorshipsInput = {
   finish: Date | string
   events?: Prisma.EventCreateNestedManyWithoutShowInput
   eventSections?: Prisma.EventSectionCreateNestedManyWithoutShowInput
+  schedule?: Prisma.ScheduleCreateNestedOneWithoutShowInput
 }
 
 export type ShowUncheckedCreateWithoutSponsorshipsInput = {
@@ -585,6 +679,7 @@ export type ShowUncheckedCreateWithoutSponsorshipsInput = {
   finish: Date | string
   events?: Prisma.EventUncheckedCreateNestedManyWithoutShowInput
   eventSections?: Prisma.EventSectionUncheckedCreateNestedManyWithoutShowInput
+  schedule?: Prisma.ScheduleUncheckedCreateNestedOneWithoutShowInput
 }
 
 export type ShowCreateOrConnectWithoutSponsorshipsInput = {
@@ -612,6 +707,7 @@ export type ShowUpdateWithoutSponsorshipsInput = {
   finish?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   events?: Prisma.EventUpdateManyWithoutShowNestedInput
   eventSections?: Prisma.EventSectionUpdateManyWithoutShowNestedInput
+  schedule?: Prisma.ScheduleUpdateOneWithoutShowNestedInput
 }
 
 export type ShowUncheckedUpdateWithoutSponsorshipsInput = {
@@ -623,6 +719,7 @@ export type ShowUncheckedUpdateWithoutSponsorshipsInput = {
   finish?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   events?: Prisma.EventUncheckedUpdateManyWithoutShowNestedInput
   eventSections?: Prisma.EventSectionUncheckedUpdateManyWithoutShowNestedInput
+  schedule?: Prisma.ScheduleUncheckedUpdateOneWithoutShowNestedInput
 }
 
 
@@ -684,6 +781,7 @@ export type ShowSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   events?: boolean | Prisma.Show$eventsArgs<ExtArgs>
   eventSections?: boolean | Prisma.Show$eventSectionsArgs<ExtArgs>
   sponsorships?: boolean | Prisma.Show$sponsorshipsArgs<ExtArgs>
+  schedule?: boolean | Prisma.Show$scheduleArgs<ExtArgs>
   _count?: boolean | Prisma.ShowCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["show"]>
 
@@ -719,6 +817,7 @@ export type ShowInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   events?: boolean | Prisma.Show$eventsArgs<ExtArgs>
   eventSections?: boolean | Prisma.Show$eventSectionsArgs<ExtArgs>
   sponsorships?: boolean | Prisma.Show$sponsorshipsArgs<ExtArgs>
+  schedule?: boolean | Prisma.Show$scheduleArgs<ExtArgs>
   _count?: boolean | Prisma.ShowCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ShowIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -730,6 +829,7 @@ export type $ShowPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     events: Prisma.$EventPayload<ExtArgs>[]
     eventSections: Prisma.$EventSectionPayload<ExtArgs>[]
     sponsorships: Prisma.$SponsorshipPayload<ExtArgs>[]
+    schedule: Prisma.$SchedulePayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1135,6 +1235,7 @@ export interface Prisma__ShowClient<T, Null = never, ExtArgs extends runtime.Typ
   events<T extends Prisma.Show$eventsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Show$eventsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   eventSections<T extends Prisma.Show$eventSectionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Show$eventSectionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EventSectionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   sponsorships<T extends Prisma.Show$sponsorshipsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Show$sponsorshipsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SponsorshipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  schedule<T extends Prisma.Show$scheduleArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Show$scheduleArgs<ExtArgs>>): Prisma.Prisma__ScheduleClient<runtime.Types.Result.GetResult<Prisma.$SchedulePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1636,6 +1737,25 @@ export type Show$sponsorshipsArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.SponsorshipScalarFieldEnum | Prisma.SponsorshipScalarFieldEnum[]
+}
+
+/**
+ * Show.schedule
+ */
+export type Show$scheduleArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Schedule
+   */
+  select?: Prisma.ScheduleSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Schedule
+   */
+  omit?: Prisma.ScheduleOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ScheduleInclude<ExtArgs> | null
+  where?: Prisma.ScheduleWhereInput
 }
 
 /**

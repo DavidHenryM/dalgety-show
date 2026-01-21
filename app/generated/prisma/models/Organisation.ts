@@ -205,15 +205,15 @@ export type OrganisationWhereUniqueInput = Prisma.AtLeast<{
   name?: string
   billingAddressId?: string
   shippingAddressId?: string
-  contactPersonId?: string
   AND?: Prisma.OrganisationWhereInput | Prisma.OrganisationWhereInput[]
   OR?: Prisma.OrganisationWhereInput[]
   NOT?: Prisma.OrganisationWhereInput | Prisma.OrganisationWhereInput[]
+  contactPersonId?: Prisma.StringFilter<"Organisation"> | string
   billingAddress?: Prisma.XOR<Prisma.AddressNullableScalarRelationFilter, Prisma.AddressWhereInput> | null
   shippingAddress?: Prisma.XOR<Prisma.AddressNullableScalarRelationFilter, Prisma.AddressWhereInput> | null
   contactPerson?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   sponsorships?: Prisma.SponsorshipListRelationFilter
-}, "id" | "name" | "billingAddressId" | "shippingAddressId" | "contactPersonId">
+}, "id" | "name" | "billingAddressId" | "shippingAddressId">
 
 export type OrganisationOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
