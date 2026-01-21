@@ -222,14 +222,15 @@ model Schedule {
   id         String     @id @default(cuid())
   show       Show       @relation(fields: [showId], references: [id])
   showId     String     @unique
-  released   DateTime
+  released   DateTime?
   activities Activity[]
 }
 
 model Activity {
   id          String   @id @default(cuid())
-  time        String
-  description String
+  time        DateTime
+  name        String
+  description String?
   link        String?
   icon        String?
   schedule    Schedule @relation(fields: [scheduleId], references: [id])
