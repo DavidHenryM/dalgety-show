@@ -1,6 +1,6 @@
 'use server'
 
-import { EventSection, Membership, Show, Sponsorship, SponsorshipPackage, User, Event, MembershipPackage } from "../generated/prisma/client";
+import { EventSection, Membership, Show, Sponsorship, SponsorshipPackage, User, Event, MembershipPackage, Schedule, Activity } from "../generated/prisma/client";
 import { Role, State } from "../generated/prisma/enums";
 import { prisma } from "./prisma";
 
@@ -165,6 +165,16 @@ export async function getSchedule(showId: string): Promise<Schedule> {
   })
   return schedule
 }
+
+export async function getActivities(scheduleId: string): Promise<Activity[]> {
+  const activities = prisma.activity.findMany({
+    where: {
+      scheduleId: scheduleId  
+    }
+  })
+  return activities
+}
+
 
 export async function getEventSectionByName(name: string, showId: string): Promise<EventSection | null> {
   const events = prisma.eventSection.findFirst({
