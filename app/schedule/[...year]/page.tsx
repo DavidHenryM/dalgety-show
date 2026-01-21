@@ -22,27 +22,6 @@ library.add(fas)
 
 export default function ScheduleYear({params}: {params: Promise<{ year: string }>}){
   const { year } = use(params)
-
-  // const timeline = [
-  //   {time: "7:00 am", event: "Yard dog trials commence", Icon: FaDog, link: "/events/2026/Yard Dogs"},
-  //   {time: "8:30 am", event: "Quilt exhibition in Dalgety Memorial Hall opens", Icon: FaDoorOpen},
-  //   {time: "8:30 am", event: "Horse ring events commence", Icon: FaHorse},
-  //   {time: "9:00 am", event: "Showground pavilion opens", Icon: FaDoorOpen},
-  //   {time: "9:00 am", event: "Whip cracking demonstration", Icon: FaExplosion},
-  //   {time: "9:30 am", event: "Whip cracking workshop", Icon: FaExplosion},
-  //   {time: "9:30 am", event: "Sheep judging commences", Icon: FaGavel},
-  //   {time: "9:30 am", event: "Judging in Pavilion commences (Pavilion will be closed for 1.5 hours", Icon: FaGavel},
-  //   {time: "10:00 am", event: "Cattle, wool & poultry judging commences", Icon: FaHatCowboy},
-  //   {time: "10:00 am", event: "Judging in Dalgety Memorial Hall commences", Icon: FaGavel},
-  //   {time: "11:00 am", event: "Judging of novelty section commences", Icon: FaGavel},
-  //   {time: "11:00 am", event: "Platypus plunge", Icon: FaBridgeWater},
-  //   {time: "11:00 am", event: "Pavillion re-opens", Icon: FaDoorOpen},
-  //   {time: "11:00 am", event: "Wood chop commences", Icon: FaTree, link: "/events/2026/Wood Chop"},
-  //   {time: "1:00 pm", event: "Official show opening", Icon: FaChampagneGlasses},
-  //   {time: "3:00 pm", event: "Whip cracking demonstration", Icon: FaExplosion},
-  //   {time: "3:30 pm", event: "Whip cracking workshop", Icon: FaExplosion},
-  // ]
-
   const [schedule, activities, loading] = useSchedule(Number(year))
 
   return (
@@ -62,7 +41,7 @@ export default function ScheduleYear({params}: {params: Promise<{ year: string }
         const thisIcon = icon(iconName)
         return (
           <TimelineItem key={`timelineItem${index}`}>
-            <TimelineOppositeContent sx={{ mt: "7px" }}>{activity.time.getHours()+":"+activity.time.getMinutes()}</TimelineOppositeContent>
+            <TimelineOppositeContent sx={{ mt: "7px" }}>{activity.time.getHours().toString().padStart(2, '0') + ":" + activity.time.getMinutes().toString().padStart(2, '0')}</TimelineOppositeContent>
             <TimelineSeparator>
               <Link href={activity.link??undefined}>
               <TimelineDot color="primary">
@@ -73,7 +52,7 @@ export default function ScheduleYear({params}: {params: Promise<{ year: string }
               <TimelineConnector />
       }
             </TimelineSeparator>
-            <TimelineContent sx={{ mt: "7px" }}>{activity.description}</TimelineContent>
+            <TimelineContent sx={{ mt: "7px" }}>{activity.name}</TimelineContent>
           </TimelineItem>
         )
       })}
