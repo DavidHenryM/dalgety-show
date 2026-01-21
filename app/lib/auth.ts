@@ -1,9 +1,8 @@
-import { prisma } from "./prisma"
+import { prisma } from "@lib/prisma"
 import { betterAuth } from "better-auth";
 import { sendEmail, EmailOptions } from "./email"
 import { magicLink } from "better-auth/plugins";
 import { prismaAdapter } from "better-auth/adapters/prisma";
-
 
 export const auth = betterAuth({
   secret: process.env.BETTER_AUTH_SECRET!,
@@ -21,4 +20,5 @@ export const auth = betterAuth({
     })
   ]
 })
+
 
