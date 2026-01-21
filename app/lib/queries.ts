@@ -170,6 +170,9 @@ export async function getActivities(scheduleId: string): Promise<Activity[]> {
   const activities = prisma.activity.findMany({
     where: {
       scheduleId: scheduleId  
+    },
+    orderBy: {
+      time: 'asc'
     }
   })
   return activities
