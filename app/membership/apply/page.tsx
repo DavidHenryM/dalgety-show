@@ -1,24 +1,24 @@
 "use client"
 
+import { authClient } from "@lib/auth-client";
 import Content from "@components/Content";
 import { MembershipForm } from "@components/MembershipForm";
-import { signIn, useSession } from "@lib/session";
-import { useEffect } from "react";
+import SignInPage from "@/app/signin/page";
+import Waiting from "@/app/components/Waiting";
 
 
 export default function MembershipApply(){
-    const { data: session } = useSession()
-    useEffect(()=>{
-      if (session?.status === "unauthenticated"){
-        signIn(session.user.email).catch((err)=>{
-          console.error("Error during sign-in:", err)
-        })
-      }
-    },[session])
+  const { data, error, refetch, isPending, isRefetching } = authClient.useSession()
+
+  if (!data && !isPending && !isRefetching){
+    return (<SignInPage></SignInPage>)
+  } 
+
 
   return (
     <Content backgroundImageIndex={1}>
-      <MembershipForm email={session?.user?.email}/>
+      <Waiting message="Loading session..." open={isPending || isRefetching}/>
+      <MembershipForm email={data?.user?.email}/>
     </Content>
 
   )

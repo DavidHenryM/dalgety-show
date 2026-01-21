@@ -1,25 +1,24 @@
 'use client'
 
 import { useEffect, useState } from "react"
-import { getAllMemberships, GetAllMemberShipsResult, getSponsors, getSponsorshipPackages, getUserRole, getUsersWithRole, getShow, getEvents, getEventSections, getSchedule } from "./queries"
+import { getAllMemberships, GetAllMemberShipsResult, getSponsors, getSponsorshipPackages, getUserRole, getUsersWithRole, getShow, getEvents, getEventSections, getSchedule, getActivities } from "./queries"
 import { Role } from "@generated/enums"
-import { Sponsorship, SponsorshipPackage, User, Event, EventSection } from "@generated/client"
+import { Sponsorship, SponsorshipPackage, User, Event, EventSection, Schedule, Activity } from "@generated/client"
 import { sleep } from "../utils"
-import { useSession } from "./session"
-
+import { authClient } from "./auth-client"
   
   export function useUserRole(): [Role | undefined, boolean] {
     const [userRole, setUserRole] = useState<Role | undefined>()
     const [loading, setLoading] = useState<boolean>(true)
-    const { data: session } = useSession()
+    const { data, error, refetch, isPending, isRefetching } = authClient.useSession()
+    
     useEffect(() => {
       async function getRole(){
-        if(session){
-          if (session.user){
-            if (session.user.email){
-              return getUserRole(session.user.email).then((role)=>{
+        if(data){
+          if (data.user){
+            if (data.user.email){
+              return getUserRole(data.user.email).then((role)=>{
                 return role
-                
               })
             }
           }
@@ -34,7 +33,7 @@ import { useSession } from "./session"
           setLoading(false)
         })
       })
-    },[session])
+    },[data])
     return [userRole, loading]
 }
 
@@ -146,24 +145,42 @@ export function useEventSections(showYear: number, refreshKey: number = 0): [Eve
   return [sections, loading]
 }
 
-export function useSchedule(showYear: number): [Schedule, boolean] {
+export function useSchedule(showYear: number): [Schedule | undefined, Activity[], boolean] {
   const [schedule, setSchedule] = useState<Schedule>()
+  const [activities, setActivities] = useState<Activity[]>([])
   const [loading, setLoading] = useState<boolean>(true)
   useEffect(() => {
     async function getShowSchedule(){
-      setLoading(true)
       if (!showYear) {
-        setLoading(false)
-        return
+        throw new Error("No show year provided")
       }
       const show = await getShow(showYear)
       if (show){
-        const schedule = await getSchedule(show.id)
-        setSchedule(schedule)
+        try {
+          getSchedule(show.id).then((newSchedule)=>{
+            setSchedule(newSchedule)
+            console.log("Schedule fetched:", newSchedule)
+            return newSchedule
+          }).then((newSchedule)=>{
+            getActivities(newSchedule.id).then((newActivities)=>{
+              setActivities(newActivities)
+              console.log("Activities fetched:", newActivities)
+            })
+          })
+          
+          
+        } catch (error) {
+          throw new Error("No schedule found for this show")
+        }
       }
-      setLoading(false)
     }
-    getShowSchedule()
+
+    setLoading(true)
+    getShowSchedule().finally(()=>{
+      setLoading(false)
+    })
+
   },[showYear])
-  return [schedule, loading]
+
+  return [schedule, activities, loading]
 }

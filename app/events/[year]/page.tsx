@@ -7,17 +7,16 @@ import { backgroundImages } from "../../images/backgrounds";
 import { Dispatch, SetStateAction, use, useEffect, useState } from "react";
 import { getEventSections, getShow } from "@lib/queries";
 import { getDateString } from "../../utils";
-import { Event, EventSection, Show } from "../../generated/prisma/client";
+import { Event, EventSection, Show } from "@generated/client";
 import Skeleton from '@mui/material/Skeleton';
-
-import { EventSectionCard } from "@/app/components/EventSectionCard";
-import { useUserSession } from "@lib/session";
+import { EventSectionCard } from "@components/EventSectionCard";
 import EditLock from "@components/EditLock";
 import { TransitionUp } from "@components/Tansitions";
+import { authClient } from "@lib/auth-client";
 
 export default function EventsYear({params}: {params: Promise<{ year: string }>}) {
   const { year } = use(params)
-  const { user: user, data: session } = useUserSession()
+  const { data, error, refetch, isPending, isRefetching } = authClient.useSession()
   const [eventSections, setEventSections] = useState<EventSection[]>([])
   const [loading, setLoading] = useState<boolean>(true)
   const [show, setShow] = useState<Show>()
@@ -69,11 +68,11 @@ export default function EventsYear({params}: {params: Promise<{ year: string }>}
       >
         <Grid size={12}>
           <Paper sx={{p:2, backgroundColor: "secondary.main",  position: 'relative'}}>
-            <EditLock locked={locked} setLocked={setLocked} userFirstName={user?.firstName}/>
+            <EditLock locked={locked} setLocked={setLocked} userFirstName={data?.user.name}/>
             <Typography sx={{p:2}} variant="h4" color="primary.main" justifySelf="center">{`Events ${show?.year ? show?.year : ""}`}</Typography>
             <Divider />
             <Grid container sx={{p:2}} size={12} spacing={2}>
-            { loading ? 
+            { loading || isPending || isRefetching ? 
               new Array(12).fill(0).map((item, index)=>{
                 return (
                   <Grid key={`skeleton-${index}`} size={{sm: 12, md: 12, lg: 8, xl:6}}>

@@ -9,12 +9,11 @@ import PersonIcon from '@mui/icons-material/Person';
 import EmailIcon from '@mui/icons-material/Email';
 import SmartphoneIcon from '@mui/icons-material/Smartphone';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
-import { useSession, useUserSession } from "@lib/session"
-import { Session } from "better-auth"
+import { authClient } from "@lib/auth-client"
+import { SessionData } from "../types"
  
 export default function UserAvatar() {
-  const sessionInformation = useSession()
-  const session = sessionInformation.data
+  const sessionData = authClient.useSession()
   const [openAccountSettings, setOpenAccountSettings] = useState(false)
 
   function handleAvatarClick(){
@@ -22,19 +21,19 @@ export default function UserAvatar() {
     setOpenAccountSettings(!openAccountSettings)
   }
 
-  if (session?.user){
-    const tooltip = `${session.user.email} signed in`
+  if (sessionData.data?.user){
+    const tooltip = `${sessionData.data.user.email} signed in`
       return (
         <>
           <Tooltip title={tooltip}>
             <Button onClick={handleAvatarClick}>
-              <AvatarNamed session={session}/>
+              <AvatarNamed session={sessionData}/>
             </Button>
           </Tooltip>
           <AccountSettings 
             openAccountSettings={openAccountSettings} 
             setOpenAccountSettings={setOpenAccountSettings} 
-            email={session.user.email}
+            email={sessionData.data.user.email}
           />
         </>
       )
@@ -48,24 +47,22 @@ export default function UserAvatar() {
   }
 }
 
-function AvatarNamed(props: {session: Session | null}){
-
-  const {user, data} = useUserSession()
-
-  if (user){
+function AvatarNamed(props: {session: SessionData | null}){
+  if (props.session?.data?.user){
+    const user = props.session?.data?.user
     if (user.image) {
       return (
         <Avatar alt={`${user.email}`} src={`${user.image}`}/>
       )
-    } else if (user.firstName && user.lastName) {
+    } else if (user.name){
       return (
-        <Avatar {...stringAvatar(`${user.firstName} ${user.lastName}`)} alt={`${user.email}`}/>
+        <Avatar {...stringAvatar(`${user.name}`)} alt={`${user.email}`}/>
       )
     } else {
        return (
         <Avatar {...emailAvatar(`${user.email}`)} alt={`${user.email}`}></Avatar>
        )
-    }
+    }             
   } else {
     return (<></>)
   }
