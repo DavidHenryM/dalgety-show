@@ -3,13 +3,15 @@
 import { useState } from "react"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHorse } from "@fortawesome/free-solid-svg-icons"
-import { Button, Grid, Paper, Stack, TextField, Typography } from "@mui/material"
+import { Button, Divider, Grid, Stack, TextField, Typography } from "@mui/material"
 import { signIn } from "@lib/session"
+import Content from "../components/Content"
 
 export default function SignInPage() {
   const [email, setEmail] = useState("")
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [emailSent, setEmailSent] = useState(false)
 
   const handleSignIn = async () => {
     setError(null)
@@ -23,7 +25,7 @@ export default function SignInPage() {
       if(error){
         throw new Error(error)
       }
-      console.log(data)
+      setEmailSent(data.status)
     }catch(err:any){
       setError(err?.message || String(err))
     }finally{
@@ -32,40 +34,48 @@ export default function SignInPage() {
   }
 
   return (
-    <Grid
-      container
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      minHeight="100vh"
-    >
-      <Paper elevation={3} sx={{ p: 4, minWidth: 320 }}>
-        <Stack direction="column" spacing={2} alignItems="center">
-          <FontAwesomeIcon color="currentColor" size="2xl" icon={faHorse} bounce />
+    <Content backgroundImageIndex={2}>
+      <Grid  size={12} m={2} spacing={2} p={2} sx={{justifySelf:"center", minWidth: 400}}>
+      <Stack direction="column" spacing={2} alignItems="center">
+        <FontAwesomeIcon color="#28719f" size="2xl" icon={faHorse} bounce={loading} />
+        {
+          emailSent ? 
+          <>
+            <Typography color="primary" variant="h6">Check your email</Typography>
+            <Typography color="primary" variant="body2">We've sent a magic link to {email}.</Typography>
+            <Typography color="primary" variant="body2">Click on the link and you'll be logged in.</Typography>
+            <Typography component="button" onClick={()=>setEmailSent(false)} color="primary" variant="caption">Didn't get the link? Click here to try again.</Typography>
+          </>
+          :
+          <>
           <Typography color="primary" variant="h6">Sign in</Typography>
-          <TextField
-            label="Email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            fullWidth
-            disabled={loading}
-          />
-          {error ? (
-            <Typography color="error" variant="body2">{error}</Typography>
-          ) : null}
-          <Button
-            variant="contained"
-            color="primary"
-            fullWidth
-            onClick={handleSignIn}
-            disabled={loading}
-          >
-            {loading ? 'Signing in…' : 'Sign in'}
-          </Button>
-        </Stack>
-      </Paper>
-    </Grid>
+        <TextField
+          label="Email"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          fullWidth
+          disabled={loading || emailSent}
+        />
+        {error ? (
+          <Typography color="error" variant="body2">{error}</Typography>
+        ) : null}
+        <Button
+          variant="contained"
+          color="primary"
+          fullWidth
+          onClick={handleSignIn}
+          disabled={loading}
+        >
+          <Typography color="secondary">
+          {loading ? 'Signing in…' : 'Sign in'}
+          </Typography>
+        </Button>
+        </>
+}
+      </Stack>
+      </Grid>
+    </Content>
   )
 }
 
