@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { redirect } from 'next/navigation'
 import { getShow } from "../lib/queries";
 import { getNextShowDate } from "../utils";

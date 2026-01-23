@@ -8,17 +8,17 @@ import Waiting from "@/app/components/Waiting";
 
 
 export default function MembershipApply(){
-  const { data, error, refetch, isPending, isRefetching } = authClient.useSession()
+  const session = authClient.useSession()
 
-  if (!data && !isPending && !isRefetching){
+  if (!session.data && !session.isPending && !session.isRefetching){
     return (<SignInPage></SignInPage>)
   } 
 
 
   return (
     <Content backgroundImageIndex={1}>
-      <Waiting message="Loading session..." open={isPending || isRefetching}/>
-      <MembershipForm email={data?.user?.email}/>
+      <Waiting message="Loading session..." open={session.isPending || session.isRefetching}/>
+      <MembershipForm email={session.data?.user?.email}/>
     </Content>
 
   )

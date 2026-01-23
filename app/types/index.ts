@@ -1,11 +1,12 @@
 import { BetterFetchError, SessionQueryParams } from "better-auth/client";
 import type { FC } from "react";
+import { Gender } from "../generated/prisma/browser";
 
 export interface NavItem {
   label: string;
   path: string;
   Icon: FC
-  Content: FC<any>
+  Content: FC<unknown>
 }
 
 export interface EventItem {
@@ -51,4 +52,62 @@ export type SessionData = {
     refetch: (queryParams?: {
         query?: SessionQueryParams;
     } | undefined) => Promise<void>;
+}
+
+
+export type SectionEventandPrizes = 
+  ({
+    prizes: {
+        id: string;
+        prizeName: string | null;
+        cashPrizeValue: number | null;
+        trophyName: string | null;
+        ribbonName: string | null;
+        eventResultId: string | null;
+        eventId: string;
+    }[];
+} & {
+    name: string;
+    id: string;
+    description: string | null;
+    image: string | null;
+    sectionId: string;
+    showId: string;
+    maximumAge: number | null;
+    minimumAge: number | null;
+    gender: Gender;
+    entryFee: number | null;
+    entryFeeTeam: number | null;
+})
+
+export type EventTableForm = {
+    id: number
+    eventName?: string
+    eventId?: string
+    description?: string
+    sectionId?: string,
+    maximumAge?: string | number
+    minimumAge?: string | number
+    gender?: Gender
+    entryFee?: string | number
+    entryFeeTeam?: string | number
+  }
+
+export type PrizeTableForm = {
+  id: number
+  prizeId: string
+  prizeName: string
+  cashPrizeValue: string | number
+  trophyName: string
+  ribbonName: string
+}
+
+export type ActivitiesTableForm = {
+  id: number
+  activityId: string
+  time: string
+  name: string
+  description: string
+  link: string
+  icon: string
 }

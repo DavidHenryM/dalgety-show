@@ -1,73 +1,68 @@
 'use client'
 
-import { Background } from '@components/Background'
-import { EventSection, Show, Prize } from '@generated/client'
-import { backgroundImages } from '@/app/images/backgrounds'
+import { EventSection, Prize } from '@generated/client'
 import { getEventSectionByName, getSectionEventsAndPrizes, getShow } from '@lib/queries'
-import { drawerWidth, footerHeight } from '@/app/settings'
 import { getDateString } from '@app/utils'
-import { Card, CardContent, CardMedia, Divider, Grid, Paper, Stack, Typography } from '@mui/material'
+import { Card, CardContent, CardMedia, Divider, Grid, Stack, Typography } from '@mui/material'
 import { use, useEffect, useState } from 'react'
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import Waiting from '@/app/components/Waiting'
+import EditLock from '@/app/components/EditLock'
+import { authClient } from '@lib/auth-client'
+import { EventsSectionTable } from '@/app/components/EventsSectionTable'
+import RestrictedAccess from '@/app/components/Restricted'
+import Content from '@/app/components/Content'
+import { SectionEventandPrizes } from '@/app/types'
  
 export default function EventDetails({params}: {params: Promise<{ year: string, section: string }>}) {
   const path = use(params)
   const showYear = Number(path.year)
   const sectionName = path.section.replaceAll("%20", " ")
   const [loading, setLoading] = useState(true)
-  const [events, setEvents] = useState<any[]>([])
-  const [show, setShow] = useState<Show>()
+  const [events, setEvents] = useState<SectionEventandPrizes[]>([])
   const [eventSection, setEventSection] = useState<EventSection>()
+  const [locked, setLocked] = useState<boolean>(true)
+  const { data } = authClient.useSession()
 
   useEffect(()=>{
-    setLoading(true)
-    getShow(showYear).then((show)=>{
-      if (show){
-        setShow(show)
-        getEventSectionByName(sectionName, show.id).then((thisEventSection)=>{
-          console.log(thisEventSection)
-          if (thisEventSection){
-            setEventSection(thisEventSection)
-            getSectionEventsAndPrizes(thisEventSection.id).then((theseEvents)=>{
-              setEvents(theseEvents)
-              console.log(theseEvents)
-            }).finally(()=>setLoading(false))
-          } 
-        })
-      } 
-    })
-  },[])
+    async function fetchData(){
+      setLoading(true)
+      getShow(showYear).then((show)=>{
+        if (show){
+          getEventSectionByName(sectionName, show.id).then((thisEventSection)=>{
+            console.log(thisEventSection)
+            if (thisEventSection){
+              setEventSection(thisEventSection)
+              getSectionEventsAndPrizes(thisEventSection.id).then((theseEvents)=>{
+                setEvents(theseEvents)
+                console.log(theseEvents)
+              }).finally(()=>setLoading(false))
+            } 
+          })
+        } 
+      }).finally(()=>setLoading(false))
+    }
+    fetchData()
+  },[showYear, sectionName])
 
   return (
     <>
       <Waiting message={`Loading ${sectionName} events...`} open={loading}/>
-      <Background image={backgroundImages[1]} />
-      <Grid 
-        container 
-        spacing={2} 
-        sx={{
-          p: {
-            sm: 1, 
-            md: 2, 
-            lg: 10
-          }, 
-          ml: {
-            sm: drawerWidth.sm,
-            md: drawerWidth.md,
-            lg: drawerWidth.lg
-          },
-          mb: footerHeight
-        }}
-      >
-        <Grid size={12}>
-          <Paper sx={{p:2, backgroundColor: "secondary.main"}}>
+      <Content backgroundImageIndex={1}>
+           <EditLock locked={locked} setLocked={setLocked} userFirstName={data?.user.name}/>
       {
         eventSection?.letter ? 
           <Typography variant="h5" color="primary.main">{`Section ${eventSection.letter} ${eventSection.name}`}</Typography> :
           <Typography variant="h5" color="primary.main">{eventSection?.name}</Typography>
       }
       <Divider/>
+        {!locked ? (
+          <RestrictedAccess explicit={false}>
+            <Grid sx={{ mt: 2 }}>
+              <EventsSectionTable title="Section Events" showYear={showYear} sectionName={sectionName} />
+            </Grid>
+          </RestrictedAccess>
+        ) : null}
         <Typography variant="subtitle1" color="primary.main">{eventSection?.details}</Typography>
         <Divider/>
         <Grid container sx={{p:2}} spacing={5}>
@@ -78,7 +73,7 @@ export default function EventDetails({params}: {params: Promise<{ year: string, 
                   <Card sx={{ width: 345, backgroundColor: "secondary.main", color: "primary.main" }} elevation={8}>
                     <CardMedia
                       sx={{ height: 140 }}
-                      image={event.image ? event.image : eventSection?.image}
+                      image={event.image ? event.image : (eventSection?.image ? eventSection?.image : undefined)}
                       title={event.name}
                     />
                     <CardContent>
@@ -119,9 +114,7 @@ export default function EventDetails({params}: {params: Promise<{ year: string, 
             </Typography> : <></>
           }
         </Grid>
-        </Paper>
-        </Grid>
-      </Grid>
+      </Content>
     </>
   )
 }

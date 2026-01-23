@@ -11,14 +11,15 @@ import { useEffect } from "react";
 import { authClient } from "@/app/lib/auth-client";
 
 export default function SponsorTheShow(){
-  const { data, error, refetch, isPending, isRefetching } = authClient.useSession()
+ const session = authClient.useSession()
+
   useEffect(()=>{
-    if (data?.user.email){
-      signIn(data.user.email, '/sponsors/sponsor').catch((err)=>{
+    if (session.data?.user.email){
+      signIn(session.data.user.email, '/sponsors/sponsor').catch((err)=>{
         console.error("Error during sign-in:", err)
       })    
     }
-  },[data])
+  },[session.data])
   return (
     <>
       <Background image={backgroundImages[0]} />
@@ -41,8 +42,8 @@ export default function SponsorTheShow(){
       >
         <Grid size={12} spacing={2} p={2} sx={{justifyItems:"center"}}>
           <Paper sx={{p:2}}>
-            <Waiting message="loading" open={isPending || isRefetching}/>
-            <SponsorTheShowForm email={data?.user.email}/>
+            <Waiting message="loading" open={session.isPending || session.isRefetching}/>
+            <SponsorTheShowForm email={session.data?.user.email}/>
           </Paper>
         </Grid>
       </Grid>

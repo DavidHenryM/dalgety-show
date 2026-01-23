@@ -9,6 +9,7 @@ import logo from '../images/dalgety-show-logo.png'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useUserRole } from "../lib/queryHooks"
+import Waiting from "./Waiting"
 
 export default function Navbar(props: {
   drawerOpen: boolean, 
@@ -19,11 +20,12 @@ export default function Navbar(props: {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [role, loading] = useUserRole()
+  
   useEffect(()=>{
     if (isMobile){
       props.setDrawerOpen(false)
     }
-  },[isMobile])
+  },[isMobile, props])
 
 
   function handleMenuClick(){
@@ -34,6 +36,7 @@ export default function Navbar(props: {
 
   return (
     <>
+      <Waiting message="loading user role" open={loading}/>
       <Drawer
         sx={{
           display: 'flex', flexDirection: 'column',

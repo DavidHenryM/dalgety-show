@@ -31,7 +31,7 @@ export default function Content({children, backgroundImageIndex}: ContentProps){
         }}
       >
         <Grid size={{md:12, lg:12}} spacing={2} p={2} sx={{justifySelf:"center"}}>
-          <Paper sx={{p:2, backgroundColor: "secondary.main", justifySelf:"center"}}>
+          <Paper sx={{p:2, backgroundColor: "secondary.main", justifySelf:"center", position: 'relative'}}>
             {children}
           </Paper>
         </Grid>

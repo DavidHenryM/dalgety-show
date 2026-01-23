@@ -1,7 +1,7 @@
 import { useMemberships } from '../lib/queryHooks';
-import Loading from '../Loading';
 import { simpleDateString } from '../utils';
 import { DropDownGrid } from './DropDownGrid';
+import Waiting from './Waiting';
 
 export function MembershipsTable(props: {title: string}){
   const [memberships, loading] = useMemberships()
@@ -17,7 +17,6 @@ export function MembershipsTable(props: {title: string}){
     applyDate: simpleDateString(membership.applyDate),
     paidDate: membership.paidDate ? simpleDateString(membership.paidDate) : "UNPAID"
   }));
-  console.log(rows)
 
   const columns = [
     { field: 'id', headerName: 'ID', width: 70 },
@@ -30,13 +29,11 @@ export function MembershipsTable(props: {title: string}){
     { field: 'paidDate', headerName: 'Paid Date', width: 130 },
   ]
 
-  if (loading){
-    return (<></>)
-  } else {
-
-    return (
-      <DropDownGrid rows={rows} columns={columns} loading={loading} title={props.title}></DropDownGrid>
-    )
-  }
+  return (
+    <>
+      <Waiting message="loading memberships" open={loading}/>
+      <DropDownGrid rows={rows} columns={columns} loading={loading} title={props.title}/>
+    </>
+  ) 
 }
 

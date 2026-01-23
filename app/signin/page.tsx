@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHorse } from "@fortawesome/free-solid-svg-icons"
-import { Button, Divider, Grid, Stack, TextField, Typography } from "@mui/material"
+import { Button, Grid, Stack, TextField, Typography } from "@mui/material"
 import { signIn } from "@lib/session"
 import Content from "../components/Content"
 
@@ -26,8 +26,8 @@ export default function SignInPage() {
         throw new Error(error)
       }
       setEmailSent(data.status)
-    }catch(err:any){
-      setError(err?.message || String(err))
+    }catch(err: unknown){
+      setError(err instanceof Error ? err.message : String(err))
     }finally{
       setLoading(false)
     }
@@ -42,9 +42,9 @@ export default function SignInPage() {
           emailSent ? 
           <>
             <Typography color="primary" variant="h6">Check your email</Typography>
-            <Typography color="primary" variant="body2">We've sent a magic link to {email}.</Typography>
-            <Typography color="primary" variant="body2">Click on the link and you'll be logged in.</Typography>
-            <Typography component="button" onClick={()=>setEmailSent(false)} color="primary" variant="caption">Didn't get the link? Click here to try again.</Typography>
+            <Typography color="primary" variant="body2">We&apos;ve sent a magic link to {email}.</Typography>
+            <Typography color="primary" variant="body2">Click on the link and you&apos;ll be logged in.</Typography>
+            <Typography component="button" onClick={()=>setEmailSent(false)} color="primary" variant="caption">Didn&apos;t get the link? Click here to try again.</Typography>
           </>
           :
           <>

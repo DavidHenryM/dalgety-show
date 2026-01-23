@@ -7,12 +7,10 @@ import { drawerWidth, footerHeight } from "../settings"
 import { Background } from "../components/Background"
 import { getNextShowDate } from "../utils"
 import { backgroundImages } from "../images/backgrounds"
-import Loading from "../Loading"
 import { UsersRoleTable } from "../components/UsersRoleTable"
 import { SponsorsTable } from "../components/SponsorsTable"
 import Waiting from "../components/Waiting"
 import { MembershipsTable } from "../components/MembershipsTable"
-import { EventsTable } from "../components/EventsTable"
 
 export default function Admin(){
   const [role, roleLoading] = useUserRole()

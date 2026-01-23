@@ -24,7 +24,7 @@ export default function Contact(){
           { 
             contacts.map((contact, index)=>{
               return (
-                <Grid sx={{p: {sm: 0, md:2}}} size={{sm: 12, md:6, lg:4}}>
+                <Grid key={index} sx={{p: {sm: 0, md:2}}} size={{sm: 12, md:6, lg:4}}>
                   <ContactCard key={index} contact={contact}/>
                 </Grid>
             )

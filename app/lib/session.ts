@@ -2,8 +2,7 @@
 
 import { authClient } from "./auth-client";
 
-
-export async function signIn(email: string, callbackURL?: string): Promise<{data: any, error: any}> {
+export async function signIn(email: string, callbackURL?: string): Promise<{data: unknown, error: unknown}> {
   const { data, error } = await authClient.signIn.magicLink({
     email: email,
     callbackURL: callbackURL ?? "/home",
@@ -12,7 +11,7 @@ export async function signIn(email: string, callbackURL?: string): Promise<{data
   return {data, error}
 }
 
-export async function signOut(): Promise<{data: any, error: any}> {
+export async function signOut(): Promise<{data: unknown, error: unknown}> {
   const { data, error } = await authClient.signOut()
   return {data, error}
 }

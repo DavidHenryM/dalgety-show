@@ -30,11 +30,14 @@ export default function RootLayout({
 
   
   useEffect(()=>{
-    if(darkModeActive){
-      setTheme(darkTheme)
-    } else {
-      setTheme(lightTheme)
+    async function getPrefersColorScheme(){
+      if(darkModeActive){
+        setTheme(darkTheme)
+      } else {
+        setTheme(lightTheme)
+      }
     }
+    getPrefersColorScheme()
   },[darkModeActive])
   
 
@@ -43,7 +46,7 @@ export default function RootLayout({
       <body className={`${arvo.variable} antialiased`}>
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>      
-            <TopBar darkModeActive={darkModeActive} setDarkModeActive={setDarkModeActive} drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen}/>
+            <TopBar darkModeActive={darkModeActive} setDarkModeActiveAction={setDarkModeActive} drawerOpen={drawerOpen} setDrawerOpenAction={setDrawerOpen}/>
             <Navbar drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} setDarkModeActive={setDarkModeActive} darkModeActive={darkModeActive}/>
               {children}
             <Footer />

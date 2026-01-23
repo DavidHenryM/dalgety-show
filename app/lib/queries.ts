@@ -2,6 +2,7 @@
 
 import { EventSection, Membership, Show, Sponsorship, SponsorshipPackage, User, Event, MembershipPackage, Schedule, Activity } from "../generated/prisma/client";
 import { Role, State } from "../generated/prisma/enums";
+import { SectionEventandPrizes } from "../types";
 import { prisma } from "./prisma";
 
 export async function getUserRole(email: string){
@@ -245,7 +246,7 @@ export type GetOrganisationsResult = {
     } | null;
   }
 
-export async function getSectionEventsAndPrizes(sectionId: string){
+export async function getSectionEventsAndPrizes(sectionId: string): Promise<SectionEventandPrizes[]>{
   const sectionEvents = await prisma.event.findMany({
     where: {
       sectionId: sectionId

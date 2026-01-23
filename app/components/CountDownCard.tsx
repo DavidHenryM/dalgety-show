@@ -8,9 +8,12 @@ export function CountDownCard(props: {countDownTo: Date}){
   const [daysRemaining, setDaysRemaining] = useState<number>()
   
   useEffect(()=>{
-    const today = new Date()
-    setDaysRemaining(dateDiffInDays(today, props.countDownTo))
-  },[])
+    async function calculateRemainingDays(){
+      const today = new Date()
+      setDaysRemaining(dateDiffInDays(today, props.countDownTo))
+    }
+    calculateRemainingDays()
+  },[props.countDownTo])
   
   const theme = useTheme();
   const isMediumDown = useMediaQuery(theme.breakpoints.down('lg'));
@@ -32,4 +35,3 @@ export function CountDownCard(props: {countDownTo: Date}){
     )
   }
 }
-

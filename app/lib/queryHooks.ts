@@ -10,14 +10,14 @@ import { authClient } from "./auth-client"
   export function useUserRole(): [Role | undefined, boolean] {
     const [userRole, setUserRole] = useState<Role | undefined>()
     const [loading, setLoading] = useState<boolean>(true)
-    const { data, error, refetch, isPending, isRefetching } = authClient.useSession()
+    const session = authClient.useSession()
     
     useEffect(() => {
       async function getRole(){
-        if(data){
-          if (data.user){
-            if (data.user.email){
-              return getUserRole(data.user.email).then((role)=>{
+        if(session.data){
+          if (session.data.user){
+            if (session.data.user.email){
+              return getUserRole(session.data.user.email).then((role)=>{
                 return role
               })
             }
@@ -33,7 +33,7 @@ import { authClient } from "./auth-client"
           setLoading(false)
         })
       })
-    },[data])
+    },[session.data])
     return [userRole, loading]
 }
 
@@ -52,11 +52,11 @@ import { authClient } from "./auth-client"
         }
       }
     getUsers()
-    },[])
+    },[role])
     return [users, loading]
 }
 
-  export function useSponsors(showYear: number): [any[], boolean] {
+  export function useSponsors(showYear: number): [unknown[], boolean] {
     const [sponsors, setSponsors] = useState<Partial<Sponsorship>[]>([])
     const [loading, setLoading] = useState<boolean>(true)
     useEffect(() => {
@@ -67,7 +67,7 @@ import { authClient } from "./auth-client"
         })
       }
     getSponsorships()
-    },[])
+    },[showYear])
     return [sponsors, loading]
 }
 
@@ -86,7 +86,7 @@ import { authClient } from "./auth-client"
     return [members, loading]
   }
 
-  export function useSponsorshipPackages(): [any[], boolean] {
+  export function useSponsorshipPackages(): [Partial<SponsorshipPackage>[], boolean] {
     const [packs, setPacks] = useState<Partial<SponsorshipPackage>[]>([])
     const [loading, setLoading] = useState<boolean>(true)
     useEffect(() => {
@@ -145,12 +145,13 @@ export function useEventSections(showYear: number, refreshKey: number = 0): [Eve
   return [sections, loading]
 }
 
-export function useSchedule(showYear: number): [Schedule | undefined, Activity[], boolean] {
+export function useSchedule(showYear: number, refreshKey: number = 0): [Schedule | undefined, Activity[], boolean] {
   const [schedule, setSchedule] = useState<Schedule>()
   const [activities, setActivities] = useState<Activity[]>([])
   const [loading, setLoading] = useState<boolean>(true)
   useEffect(() => {
     async function getShowSchedule(){
+      setLoading(true)
       if (!showYear) {
         throw new Error("No show year provided")
       }
@@ -170,17 +171,16 @@ export function useSchedule(showYear: number): [Schedule | undefined, Activity[]
           
           
         } catch (error) {
-          throw new Error("No schedule found for this show")
+          throw new Error("No schedule found for this show: " + error)
         }
       }
     }
 
-    setLoading(true)
     getShowSchedule().finally(()=>{
       setLoading(false)
     })
 
-  },[showYear])
+  },[showYear, refreshKey])
 
   return [schedule, activities, loading]
 }

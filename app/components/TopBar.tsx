@@ -1,6 +1,6 @@
 'use client'
 
-import { AppBar, Box, Breadcrumbs, IconButton, Link, Toolbar, Tooltip, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { AppBar, Breadcrumbs, IconButton, Link, Toolbar, Tooltip, Typography, useMediaQuery, useTheme } from "@mui/material";
 import DarkModeIcon from '@mui/icons-material/DarkMode'
 import LightModeIcon from '@mui/icons-material/LightMode'
 import MenuIcon from '@mui/icons-material/Menu';
@@ -12,9 +12,9 @@ import { usePathname } from 'next/navigation'
 export function TopBar(
   props: {
     darkModeActive: boolean, 
-    setDarkModeActive: Dispatch<React.SetStateAction<boolean>>, 
+    setDarkModeActiveAction: Dispatch<React.SetStateAction<boolean>>, 
     drawerOpen: boolean, 
-    setDrawerOpen: Dispatch<React.SetStateAction<boolean>>
+    setDrawerOpenAction: Dispatch<React.SetStateAction<boolean>>
   })
 {
   const pathname = usePathname()
@@ -22,20 +22,23 @@ export function TopBar(
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [paths, setPaths] = useState<string[]>([])
   useEffect(()=>{
-    if (pathname == "/"){
-      setPaths(["/HOME"])
-    } else {
-      setPaths(pathname.split("/"))
+    async function setPathArray(){
+      if (pathname == "/"){
+        setPaths(["/HOME"])
+      } else {
+        setPaths(pathname.split("/"))
+      }
     }
-
+    setPathArray()
 
   },[pathname])
 
   useEffect(()=>{
     if(!isMobile){
-      props.setDrawerOpen(true)
+      props.setDrawerOpenAction(true)
     }
-  },[isMobile])
+  },[isMobile, props])
+
   return (
     <AppBar 
       component="nav" 
@@ -54,7 +57,7 @@ export function TopBar(
       }}>
       <Toolbar>
         {isMobile ? 
-        <IconButton onClick={()=>(props.setDrawerOpen(!props.drawerOpen))}>  
+        <IconButton onClick={()=>(props.setDrawerOpenAction(!props.drawerOpen))}>  
           <MenuIcon/>
         </IconButton> 
         : <></>}
@@ -70,7 +73,7 @@ export function TopBar(
         {
         paths.map((directory, index, pathsArray)=>{
           return(
-            <Link variant="h6" href={pathsArray.slice(0, index + 1).join('/')} color="secondary">{directory.replaceAll("/","").replaceAll("%20", " ").toLowerCase()}</Link>
+            <Link key={index} variant="h6" href={pathsArray.slice(0, index + 1).join('/')} color="secondary">{directory.replaceAll("/","").replaceAll("%20", " ").toLowerCase()}</Link>
           )
         })}
         </Breadcrumbs>
@@ -80,11 +83,11 @@ export function TopBar(
         <Tooltip title={props.darkModeActive ? "Change to Light Mode" : "Change to Dark Mode"}>
           {
             props.darkModeActive ?
-              <IconButton onClick={() => props.setDarkModeActive(false)}>
+              <IconButton onClick={() => props.setDarkModeActiveAction(false)}>
                 <LightModeIcon />
               </IconButton>
               :
-              <IconButton onClick={() => props.setDarkModeActive(true)}>
+              <IconButton onClick={() => props.setDarkModeActiveAction(true)}>
                 <DarkModeIcon />
               </IconButton>
           }

@@ -3,7 +3,7 @@ import { Accordion, AccordionDetails, AccordionSummary, Grid, Typography } from 
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import Loading from '../Loading';
 
-export function DropDownGrid(props: {rows: any[], columns: GridColDef<any>[], loading: boolean, title: string}){
+export function DropDownGrid(props: {rows: unknown[], columns: GridColDef[], loading: boolean, title: string}){
   const paginationModel = { page: 0, pageSize: 5 }
   return (
    <Grid size={12} spacing={2}>

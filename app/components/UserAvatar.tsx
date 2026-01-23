@@ -11,6 +11,7 @@ import SmartphoneIcon from '@mui/icons-material/Smartphone';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import { authClient } from "@lib/auth-client"
 import { SessionData } from "../types"
+import Waiting from "./Waiting"
  
 export default function UserAvatar() {
   const sessionData = authClient.useSession()
@@ -80,19 +81,24 @@ function AccountSettings(
     const [loading, setLoading] = useState<boolean>(true)
     
     useEffect(()=>{
-      if (props.email) {
-        setLoading(true)
-        getUserFromEmail(props.email).then((user)=>{
-          setUser(user)
-          if (user) {
-            getOrganisations(user.id).then((orgs)=>{
-              setOrganisations(orgs)
-            })
-          }
-        })
+      async function fetchUserData(){
+        if (props.email) {
+          setLoading(true)
+          getUserFromEmail(props.email).then((user)=>{
+            setUser(user)
+            if (user) {
+              getOrganisations(user.id).then((orgs)=>{
+                setOrganisations(orgs)
+              })
+            }
+          }).finally(()=>{
+            setLoading(false)
+          })
+        }
       }
-      setLoading(false)
-    },[])
+    
+      fetchUserData()
+    },[props.email])
 
   return (
     <Drawer 
@@ -101,6 +107,7 @@ function AccountSettings(
       anchor="right"
 
     >
+      <Waiting message="Loading account information..." open={loading}/>
       <Box sx={{ width: 350,}} role="presentation" onClick={()=>props.setOpenAccountSettings(false)}>
         <Typography sx={{color: "primary.main", p:2}} align="center" variant="h6">Account Information</Typography>
         <List sx={{p:2}}>
@@ -215,7 +222,7 @@ function stringToColor(string: string) {
   let hash = 0;
   let i;
 
-  /* eslint-disable no-bitwise */
+
   for (i = 0; i < string.length; i += 1) {
     hash = string.charCodeAt(i) + ((hash << 5) - hash);
   }
@@ -226,7 +233,7 @@ function stringToColor(string: string) {
     const value = (hash >> (i * 8)) & 0xff;
     color += `00${value.toString(16)}`.slice(-2);
   }
-  /* eslint-enable no-bitwise */
+
 
   return color;
 }

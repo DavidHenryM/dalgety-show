@@ -1,18 +1,17 @@
 
 import { Button } from "@mui/material"
-import { signIn, signOut } from "@lib/session"
+import { signOut } from "@lib/session"
 import Link from "next/link"
  
 export function SignInButton() {
   return (
     <Link href="/signin">
-    <Button 
-      variant="outlined" 
-      sx={{color: "primary.main", backgroundColor: "secondary.main"}} 
-      // onClick={() => signIn(props.email, props.urlCallback)}
+      <Button 
+        variant="outlined" 
+        sx={{color: "primary.main", backgroundColor: "secondary.main"}} 
       >
         Sign In
-    </Button>
+      </Button>
     </Link>
   )
 }
