@@ -1,8 +1,8 @@
 import { adminNavigation, navigation } from "../data/navigation"
 import { Box, Container, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, Tooltip, Typography, useMediaQuery, useTheme} from "@mui/material"
-import { useEffect, type Dispatch } from "react"
+import { useEffect, useState, type Dispatch } from "react"
 import { CountDownCard } from "./CountDownCard"
-import { getNextShowDate } from "../utils"
+import { getNextShow } from "../lib/queries"
 import { drawerWidth } from "../settings"
 import CloseIcon from '@mui/icons-material/Close'
 import logo from '../images/dalgety-show-logo.png'
@@ -20,12 +20,23 @@ export default function Navbar(props: {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [role, loading] = useUserRole()
+  const [nextShowDate, setNextShowDate] = useState<Date | null>(null)
   
   useEffect(()=>{
     if (isMobile){
       props.setDrawerOpen(false)
     }
   },[isMobile, props])
+
+  useEffect(() => {
+    getNextShow().then((show) => {
+      if (show?.start) {
+        setNextShowDate(new Date(show.start))
+      } else {
+        setNextShowDate(null)
+      }
+    })
+  }, [])
 
 
   function handleMenuClick(){
@@ -118,7 +129,7 @@ export default function Navbar(props: {
         : <></>}
         <Divider />
         <Container sx={{alignItems: "flex-end", marginTop: 'auto', marginBottom: 2}}>
-          <CountDownCard countDownTo={getNextShowDate()}/>
+          {nextShowDate ? <CountDownCard countDownTo={nextShowDate}/> : null}
         </Container>
       </Drawer>
     </>
