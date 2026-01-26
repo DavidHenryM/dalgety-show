@@ -1,12 +1,12 @@
 import { BetterFetchError, SessionQueryParams } from "better-auth/client";
-import type { FC } from "react";
+import type { JSX } from "react";
 import { Gender } from "../generated/prisma/browser";
+import { OfficialRole, Role, SponsorshipPackage, State } from "../generated/prisma/client";
 
 export interface NavItem {
   label: string;
   path: string;
-  Icon: FC
-  Content: FC<unknown>
+  Icon: JSX.ElementType;
 }
 
 export interface EventItem {
@@ -81,7 +81,7 @@ export type SectionEventandPrizes =
 })
 
 export type EventTableForm = {
-    id: number
+    id?: number
     eventName?: string
     eventId?: string
     description?: string
@@ -111,3 +111,87 @@ export type ActivitiesTableForm = {
   link: string
   icon: string
 }
+
+export type MembershipPackageForm = {
+  id: number
+  packageId: string
+  type: 'INDIVIDUAL' | 'FAMILY'
+  cost: string | number
+  validFrom: string
+  validTo: string
+  termDays: string | number
+}
+
+export type SponsorshipPackageForm = {
+  id: number
+  packageId: string
+  tier: 'PLATNIUM' | 'GOLD' | 'SILVER' | 'BRONZE' | 'SECTION'
+  minimumAmount: string | number
+  maximumAmount: string | number
+}
+
+export type Sponsor = {
+  package: SponsorshipPackage,
+  totalAmount: string | number,
+  organisation: {
+    name: string,
+    contactPerson: {
+      firstName: string | null
+      lastName: string | null
+    }
+  }
+}
+
+export type UserReturn = {
+  name: string;
+  id: string;
+  email: string;
+  firstName: string | null;
+  lastName: string | null;
+  mobileNumber: string | null;
+  landlineNumber: string | null;
+  role: Role;
+  officialRole: OfficialRole | null;
+  billingAddress: {
+      id: string;
+      unit: number | null;
+      streetNumber: number;
+      postCode: number;
+      streetName: string;
+      streetType: string;
+      suburb: string;
+      state: State;
+      country: string;
+  } | null;
+  shippingAddress: {
+      id: string;
+      unit: number | null;
+      streetNumber: number;
+      postCode: number;
+      streetName: string;
+      streetType: string;
+      suburb: string;
+      state: State;
+      country: string;
+  } | null;
+  organisation?: {
+    name: string;
+  }[]
+  chiefStewardOfEventSections: { name: string; letter: string | null; }[]
+  eventResults: { id: string; eventId: string; }[]
+}
+
+export type BetterAuthError = {
+    code?: string | undefined | undefined;
+    message?: string | undefined | undefined;
+    status: number;
+    statusText: string;
+} | null
+
+export type BetterAuthSignInData = {
+    status: boolean;
+} | null
+
+export type BetterAuthSignOutData = {
+    success: boolean;
+} | null
