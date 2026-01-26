@@ -7,7 +7,7 @@ import { backgroundImages } from "../../images/backgrounds";
 import { Dispatch, SetStateAction, use, useEffect, useState } from "react";
 import { getEventSections, getShow } from "@lib/queries";
 import { getDateString } from "../../utils";
-import { Event, EventSection, Show } from "@generated/client";
+import type { Event, EventSection, Show } from "@generated/browser";
 import Skeleton from '@mui/material/Skeleton';
 import { EventSectionCard } from "@components/EventSectionCard";
 import { EventsTable } from "@components/EventsTable";
@@ -73,7 +73,7 @@ export default function EventsYear({params}: {params: Promise<{ year: string }>}
             <Typography sx={{p:2}} variant="h4" color="primary.main" justifySelf="center">{`Events ${show?.year ? show?.year : ""}`}</Typography>
             <Divider />
             {!locked ? (
-              <RestrictedAccess explicit={false}>
+              <RestrictedAccess explicit={true}>
                 <Grid sx={{ mt: 2 }}>
                   <EventsTable title="Events" showYear={Number(year)} />
                 </Grid>

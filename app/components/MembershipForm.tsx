@@ -3,7 +3,8 @@
 import { Button, Divider, FormControlLabel, FormLabel, Grid, InputAdornment, InputLabel, OutlinedInput, Radio, RadioGroup, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import Loading from "../Loading";
-import { MembershipPackage, MembershipType } from "../generated/prisma/client";
+import type { MembershipPackage } from "../generated/prisma/browser";
+import { MembershipType } from "../generated/prisma/enums";
 import { createMembership, updateUserName } from "../lib/mutations";
 import { getValidMembershipPackages } from "../lib/queries";
 import Waiting from "./Waiting";

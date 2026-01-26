@@ -1,6 +1,6 @@
 'use client'
 
-import { EventSection, Prize } from '@generated/client'
+import type { EventSection, Prize } from '@generated/browser'
 import { getEventSectionByName, getSectionEventsAndPrizes, getShow } from '@lib/queries'
 import { getDateString } from '@app/utils'
 import { Card, CardContent, CardMedia, Divider, Grid, Stack, Typography } from '@mui/material'
@@ -57,7 +57,7 @@ export default function EventDetails({params}: {params: Promise<{ year: string, 
       }
       <Divider/>
         {!locked ? (
-          <RestrictedAccess explicit={false}>
+          <RestrictedAccess explicit={true}>
             <Grid sx={{ mt: 2 }}>
               <EventsSectionTable title="Section Events" showYear={showYear} sectionName={sectionName} />
             </Grid>

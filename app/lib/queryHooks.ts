@@ -1,11 +1,12 @@
 'use client'
 
 import { useEffect, useState } from "react"
-import { getAllMemberships, GetAllMemberShipsResult, getSponsors, getSponsorshipPackages, getUserRole, getUsersWithRole, getShow, getEvents, getEventSections, getSchedule, getActivities } from "./queries"
+import { getAllMemberships, GetAllMemberShipsResult, getSponsors, getSponsorshipPackages, getUserRole, getUsersWithRole, getShow, getEvents, getEventSections, getSchedule, getActivities, getMembershipPackages } from "./queries"
 import { Role } from "@generated/enums"
-import { Sponsorship, SponsorshipPackage, User, Event, EventSection, Schedule, Activity } from "@generated/client"
+import type { SponsorshipPackage, Event, EventSection, Schedule, Activity, MembershipPackage } from "@generated/browser"
 import { sleep } from "../utils"
 import { authClient } from "./auth-client"
+import { Sponsor, UserReturn } from "../types"
   
   export function useUserRole(): [Role | undefined, boolean] {
     const [userRole, setUserRole] = useState<Role | undefined>()
@@ -37,8 +38,8 @@ import { authClient } from "./auth-client"
     return [userRole, loading]
 }
 
-  export function useUsersWithRole(role: Role): [Partial<User>[], boolean] {
-    const [users, setUsers] = useState<Partial<User>[]>([])
+  export function useUsersWithRole(role: Role, refreshKey: number = 0): [Partial<UserReturn>[], boolean] {
+    const [users, setUsers] = useState<Partial<UserReturn>[]>([])
     const [loading, setLoading] = useState<boolean>(true)
     useEffect(() => {
       async function getUsers(){
@@ -52,12 +53,12 @@ import { authClient } from "./auth-client"
         }
       }
     getUsers()
-    },[role])
+    },[role, refreshKey])
     return [users, loading]
 }
 
-  export function useSponsors(showYear: number): [unknown[], boolean] {
-    const [sponsors, setSponsors] = useState<Partial<Sponsorship>[]>([])
+  export function useSponsors(showYear: number): [Partial<Sponsor>[], boolean] {
+    const [sponsors, setSponsors] = useState<Partial<Sponsor>[]>([])
     const [loading, setLoading] = useState<boolean>(true)
     useEffect(() => {
       async function getSponsorships(){
@@ -86,7 +87,7 @@ import { authClient } from "./auth-client"
     return [members, loading]
   }
 
-  export function useSponsorshipPackages(): [Partial<SponsorshipPackage>[], boolean] {
+  export function useSponsorshipPackages(refreshKey: number = 0): [Partial<SponsorshipPackage>[], boolean] {
     const [packs, setPacks] = useState<Partial<SponsorshipPackage>[]>([])
     const [loading, setLoading] = useState<boolean>(true)
     useEffect(() => {
@@ -97,9 +98,24 @@ import { authClient } from "./auth-client"
         })
       }
     getSponsorshipPacks()
-    },[])
+    },[refreshKey])
     return [packs, loading]
 }
+
+  export function useMembershipPackages(refreshKey: number = 0): [MembershipPackage[], boolean] {
+    const [packages, setPackages] = useState<MembershipPackage[]>([])
+    const [loading, setLoading] = useState<boolean>(true)
+    useEffect(() => {
+      async function getPackages(){
+        setLoading(true)
+        const packs = await getMembershipPackages()
+        setPackages(packs)
+        setLoading(false)
+      }
+      getPackages()
+    }, [refreshKey])
+    return [packages, loading]
+  }
 
 export function useEvents(showYear: number, refreshKey: number = 0): [Event[], boolean] {
   const [events, setEvents] = useState<Event[]>([])

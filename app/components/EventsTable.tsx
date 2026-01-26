@@ -6,7 +6,8 @@ import { Accordion, AccordionDetails, AccordionSummary, Grid, Typography, Button
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { createEvent, updateEvent, deleteEvent } from '@lib/mutations';
 import { EventTableForm } from '../types';
-import { EventSection, Gender } from '../generated/prisma/client';
+import type { EventSection } from '../generated/prisma/browser';
+import { Gender } from '../generated/prisma/enums';
 
 export function EventsTable(props: {title: string, showYear: number}){
   const [refreshKey, setRefreshKey] = useState<number>(0)
@@ -16,13 +17,14 @@ export function EventsTable(props: {title: string, showYear: number}){
   const [dialogOpen, setDialogOpen] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
   const [form, setForm] = useState<EventTableForm>({
+    id: -1,
     eventId: '',
     eventName: '',
     description: '',
     sectionId: '',
     maximumAge: '',
     minimumAge: '',
-    gender: 'OPEN',
+    gender: 'OPEN' as Gender,
     entryFee: '',
     entryFeeTeam: ''
   })
@@ -51,7 +53,7 @@ export function EventsTable(props: {title: string, showYear: number}){
 
   function openNew(){
     setIsEditing(false)
-    setForm({eventId: '', eventName: '', description: '', sectionId: sections && sections.length>0 ? sections[0].id : '', maximumAge: '', minimumAge: '', gender: 'OPEN', entryFee: '', entryFeeTeam: ''})
+    setForm({id: -1, eventId: '', eventName: '', description: '', sectionId: sections && sections.length>0 ? sections[0].id : '', maximumAge: '', minimumAge: '', gender: 'OPEN' as Gender, entryFee: '', entryFeeTeam: ''})
     setDialogOpen(true)
   }
 
@@ -78,7 +80,8 @@ export function EventsTable(props: {title: string, showYear: number}){
   async function handleSave(){
     try{
       if (isEditing && form.eventId) {
-        await updateEvent(form.eventId, {
+        await updateEvent(
+        {
           eventName: form.eventName,
           description: form.description,
           sectionId: form.sectionId,
@@ -87,7 +90,7 @@ export function EventsTable(props: {title: string, showYear: number}){
           gender: form.gender,
           entryFee: form.entryFee ? Number(form.entryFee) : undefined,
           entryFeeTeam: form.entryFeeTeam ? Number(form.entryFeeTeam) : undefined
-        })
+        }, form.eventId)
       } else {
         // need show id: Events are created with showId; assume admin selects the showYear and show exists
         // get show id by calling getShow via queries inside createEvent in server: createEvent requires showId

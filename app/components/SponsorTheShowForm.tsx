@@ -4,12 +4,12 @@ import { Button, Divider, FormControl, FormControlLabel, FormLabel, Grid, InputA
 import { useEffect, useState } from "react";
 import { useSponsorshipPackages } from "../lib/queryHooks";
 import Loading from "../Loading";
-import { SponsorshipPackage, SponsorshipPackageTier } from "../generated/prisma/client";
+import type { SponsorshipPackage } from "../generated/prisma/browser";
+import { SponsorshipPackageTier } from "../generated/prisma/enums";
 import { useForm, Controller } from "react-hook-form";
 import { createOrganisation, createSponsorship, updateUserName } from "../lib/mutations";
 import { OrganisationCreateInput, SponsorshipCreateInput } from "../generated/prisma/models";
-import { getOrganisation, getShow } from "../lib/queries";
-import { getNextShowDate } from "../utils";
+import { getOrganisation, getNextShow } from "../lib/queries";
 import Waiting from "./Waiting";
 import { AlertDialog } from "./Alert";
 
@@ -83,8 +83,14 @@ export function SponsorTheShowForm(props: {email: string | null | undefined}){
       }).then((thisOrganisationData)=>{
         if (thisOrganisationData.contactPerson.connect?.id){
           getOrganisation(thisOrganisationData.name, thisOrganisationData.contactPerson.connect.id).then((organisation)=>{
-            getShow(getNextShowDate().getFullYear()).then((nextShow)=>{
+            getNextShow().then((nextShow)=>{
               console.log(nextShow)
+              if (!nextShow){
+                setAlertTitle("No upcoming show found")
+                setAlertMessage("We couldn't find a future show date. Please try again later or contact the admin.")
+                setAlertOpen(true)
+                return
+              }
               if (!organisation){
                 createOrganisation(thisOrganisationData).then((createdOrganisation)=>{
                   const selectedPack = packs.find(singlePack => singlePack.tier === selectedTier)

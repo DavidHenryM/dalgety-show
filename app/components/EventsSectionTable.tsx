@@ -1,3 +1,5 @@
+'use client'
+
 import { useEffect, useState } from 'react'
 import { DataGrid, GridColDef, GridRowSelectionModel } from '@mui/x-data-grid'
 import { Accordion, AccordionDetails, AccordionSummary, Collapse, Grid, Typography, Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, MenuItem, Stack, IconButton } from '@mui/material'
@@ -7,7 +9,8 @@ import ExpandLessIcon from '@mui/icons-material/ExpandLess'
 import Loading from '@app/Loading'
 import { getEventSectionByName, getSectionEventsAndPrizes, getShow } from '@lib/queries'
 import { createEvent, createPrize, deleteEvent, deletePrize, updateEvent, updatePrize } from '@lib/mutations'
-import { Event, EventSection, Gender, Prize, Show } from '@generated/client'
+import type { Event, EventSection, Prize, Show } from '@generated/browser'
+import { Gender } from '@generated/enums'
 import { EventTableForm, PrizeTableForm } from '../types'
 
 export function EventsSectionTable(props: { title: string; showYear: number; sectionName: string }) {

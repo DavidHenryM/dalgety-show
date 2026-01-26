@@ -3,7 +3,7 @@
 import { Avatar, Box, Button, Divider, Drawer, List, ListItem, ListItemIcon, ListItemText, Tooltip, Typography } from "@mui/material"
 import { SignInButton, SignOutButton } from "./SignInOutButton"
 import { Dispatch, SetStateAction, useEffect, useState } from "react"
-import { Address, User } from "../generated/prisma/client"
+import type { Address, User } from "../generated/prisma/browser"
 import { GetOrganisationsResult, getOrganisations, getUserFromEmail } from "../lib/queries"
 import PersonIcon from '@mui/icons-material/Person';
 import EmailIcon from '@mui/icons-material/Email';

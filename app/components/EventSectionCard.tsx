@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { EventSection, Show } from "../generated/prisma/client"
+import type { EventSection, Show } from "../generated/prisma/browser"
 import { Button, Card, CardActions, CardContent, CardMedia, Grid, IconButton, Link, TextField, Typography } from "@mui/material"
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
