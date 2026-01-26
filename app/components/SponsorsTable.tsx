@@ -5,15 +5,22 @@ import { DropDownGrid } from './DropDownGrid';
 export function SponsorsTable(props: {showYear: number, title: string}){
   const [sponsors, loading] = useSponsors(props.showYear)
 
-  const sponsorsWithId = sponsors.map((sponsor, index) => ({
-    ...sponsor, // Spread existing properties
-    id: index+1, // Add new property
-    orgName: sponsor.organisation.name,
-    orgContact: [sponsor.organisation.contactPerson?.firstName, sponsor.organisation.contactPerson?.lastName].join(" "),
-    package: sponsor.package.tier,
-    totalAmount: `$${sponsor.totalAmount.toFixed(0)}`
-  }));
-  console.log(sponsorsWithId)
+  const sponsorsWithId = sponsors.map((sponsor, index) => {
+    let totalAmount = "0.00"
+    if (typeof sponsor.totalAmount === "number") {
+      totalAmount = sponsor.totalAmount.toFixed(2)
+    } else if (typeof sponsor.totalAmount === "string") {
+      totalAmount = sponsor.totalAmount
+    }
+    return {
+      ...sponsor, // Spread existing properties
+      id: index+1, // Add new property
+      orgName: sponsor.organisation?.name,
+      orgContact: [sponsor.organisation?.contactPerson?.firstName, sponsor.organisation?.contactPerson?.lastName].join(" "),
+      package: sponsor.package?.tier,
+      totalAmount: `$${totalAmount}`,
+    }
+  })
 
   const columns = [
     { field: 'id', headerName: 'ID', width: 70 },
