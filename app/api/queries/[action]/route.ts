@@ -26,13 +26,14 @@ import {
   deleteEvent
 } from '@lib/mutations'
 import { auth } from '@lib/auth'
-import { put } from "@vercel/blob";
+import { list, put } from "@vercel/blob";
 import { Role } from '@/app/generated/prisma/enums'
 
-export async function GET(req: NextRequest) {
+export async function GET(request: NextRequest, context: { params: Promise<{ action?: string }> }) {
   try{
-    const params = req.nextUrl.searchParams
-    const action = params.get('action')
+    const params = request.nextUrl.searchParams
+    const routeParams = await context.params
+    const action = routeParams.action || params.get('action')
     const session = await auth.api.getSession({
         headers: await headers()
     })
@@ -133,18 +134,40 @@ export async function GET(req: NextRequest) {
         const r = await getAllMemberships()
         return NextResponse.json(r)
       }
+      case 'getImages':{ 
+        const prefix = params.get('prefix') || ''
+        const token = process.env.BLOB_STORE_READ_WRITE_TOKEN
+        if (!token) {
+          return NextResponse.json({ error: 'missing BLOB_STORE_READ_WRITE_TOKEN' }, { status: 500 })
+        }
+         try {
+          // Optional: Filter by a specific prefix (e.g., 'gallery/')
+          const { blobs } = await list({ prefix: prefix, token });
+
+          // Extract only the URLs
+          const imageUrls = blobs.map(blob => blob.url);
+
+          return NextResponse.json({ images: imageUrls });
+        } catch (error) {
+          console.error('Error listing blobs:', error);
+          return NextResponse.json({ error: 'Failed to list images' }, { status: 500 });
+        }
+      }
       default:
         return NextResponse.json({ error: 'unknown action' }, { status: 400 })
     }
 
   } catch (err: { message?: string } | unknown){
-    return NextResponse.json({ error: err?.message || String(err) }, { status: 500 })
+    if (err && typeof err === 'object' && 'message' in err) {
+      return NextResponse.json({ error: err.message }, { status: 500 })
+    }
+    return NextResponse.json({ error: String(err) }, { status: 500 })
   }
 }
 
-export async function POST(req: NextRequest){
+export async function POST(request: NextRequest){
   try{
-    const params = req.nextUrl.searchParams
+    const params = request.nextUrl.searchParams
     const action = params.get('action')
     const session = await auth.api.getSession({
       headers: await headers()
@@ -156,11 +179,11 @@ export async function POST(req: NextRequest){
     if (!(callerRole === 'SITE_ADMIN' || callerRole === 'OWNER')){
       return NextResponse.json({ error: 'forbidden' }, { status: 403 })
     }
-    const body = await req.json()
+    const body = await request.json()
 
     switch(action){
       case 'createEvent':{
-        const r = await createEvent(body)
+        const r = await createEvent(body, params.get('showId') || '')
         return NextResponse.json(r)
       }
       case 'updateEvent':{
@@ -172,14 +195,17 @@ export async function POST(req: NextRequest){
       default:
         return NextResponse.json({ error: 'unknown action' }, { status: 400 })
     }
-  } catch (err:any){
-    return NextResponse.json({ error: err.message || String(err) }, { status: 500 })
+  } catch (err: { message?: string } | unknown){
+    if (err && typeof err === 'object' && 'message' in err) {
+      return NextResponse.json({ error: err.message }, { status: 500 })
+    }
+    return NextResponse.json({ error: String(err) }, { status: 500 })
   }
 }
 
-export async function DELETE(req: NextRequest){
+export async function DELETE(request: NextRequest){
   try{
-    const params = req.nextUrl.searchParams
+    const params = request.nextUrl.searchParams
     const action = params.get('action')
     const session = await auth.api.getSession({
       headers: await headers()
@@ -191,7 +217,7 @@ export async function DELETE(req: NextRequest){
     if (!(callerRole === 'SITE_ADMIN' || callerRole === 'OWNER')){
       return NextResponse.json({ error: 'forbidden' }, { status: 403 })
     }
-    const url = new URL(req.url)
+    const url = new URL(request.url)
     const qp = url.searchParams
 
     if (action === 'deleteEvent'){
@@ -201,17 +227,22 @@ export async function DELETE(req: NextRequest){
       return NextResponse.json(r)
     }
     return NextResponse.json({ error: 'unknown action' }, { status: 400 })
-  } catch (err:any){
-    return NextResponse.json({ error: err.message || String(err) }, { status: 500 })
+ } catch (err: { message?: string } | unknown){
+    if (err && typeof err === 'object' && 'message' in err) {
+      return NextResponse.json({ error: err.message }, { status: 500 })
+    }
+    return NextResponse.json({ error: String(err) }, { status: 500 })
   }
 }
 
-export async function PUT(request: NextRequest, context: any) {
+export async function PUT(request: NextRequest, context: { params: Promise<{ action?: string }> }) {
   try{
-    const params = context?.params && typeof context.params.then === 'function' ? await context.params : context?.params
-    const action = params?.action
+    const params = request.nextUrl.searchParams
+    const routeParams = await context.params
+    const pathAction = request.nextUrl.pathname.split('/').pop()
+    const action = routeParams.action || params.get('action') || pathAction
     const session = await auth.api.getSession({
-      headers: await headers()
+        headers: await headers()
     })
     if (!session?.user?.email){
       return NextResponse.json({ error: 'unauthenticated' }, { status: 401 })
@@ -223,15 +254,36 @@ export async function PUT(request: NextRequest, context: any) {
     switch(action){
       case 'uploadImage':{
         const form = await request.formData();
-        const imageFile = form.get('file') as File;
-        const blob = await put(`existingBlobFolder/${imageFile.name}`, imageFile)
-        return Response.json(blob);
+        const imageFile = form.get('file') as File | null;
+        
+        if (!imageFile) {
+          return NextResponse.json({ error: 'no file provided' }, { status: 400 })
+        }
+        const year = form.get('year') as string | null;
+        if (!year) {
+          return NextResponse.json({ error: 'no year provided' }, { status: 400 })
+        }
+        const token = process.env.BLOB_STORE_READ_WRITE_TOKEN
+        if (!token) {
+          return NextResponse.json({ error: 'missing BLOB_STORE_READ_WRITE_TOKEN' }, { status: 500 })
+        }
+        const arrayBuffer = await imageFile.arrayBuffer()
+        const buffer = Buffer.from(arrayBuffer)
+        const blob = await put(`images/${year}/gallery/${imageFile.name}`, buffer, {
+          contentType: imageFile.type || 'application/octet-stream',
+          access: 'public',
+          token
+        })
+        return NextResponse.json(blob);
       }
       default:
         return NextResponse.json({ error: 'unknown action' }, { status: 400 })
     }
-  } catch (err:any){
-    return NextResponse.json({ error: err.message || String(err) }, { status: 500 })
+   } catch (err: { message?: string } | unknown){
+    if (err && typeof err === 'object' && 'message' in err) {
+      return NextResponse.json({ error: err.message }, { status: 500 })
+    }
+    return NextResponse.json({ error: String(err) }, { status: 500 })
   }
 
 }
