@@ -1,11 +1,28 @@
 import { Container, Grid, Typography } from "@mui/material";
 import ContactCard from "../components/ContactCard";
-import { contacts } from "../data/contacts"
 import { Background } from "../components/Background";
 import cow1 from '../images/gallery/Cow_1.jpg'
 import { drawerWidth, footerHeight } from "../settings";
+import { getOwnerOfficials } from "../lib/queries";
+import type { Contact } from "../types";
 
-export default function Contact(){
+function formatOfficialRole(role: string): string {
+  return role
+    .split("_")
+    .map((word) => word.charAt(0) + word.slice(1).toLowerCase())
+    .join(" ");
+}
+
+export default async function Contact(){
+  const officialUsers = await getOwnerOfficials();
+  const contacts: Contact[] = officialUsers.map((user) => ({
+    role: formatOfficialRole(user.officialRole),
+    name: user.name,
+    phone: user.mobileNumber ?? user.landlineNumber ?? undefined,
+    email: user.email,
+    avatarPath: user.image ?? undefined,
+  }));
+
   return (
 
     <Container 
