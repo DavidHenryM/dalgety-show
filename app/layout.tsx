@@ -24,17 +24,38 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const storageKey = 'dalgety-theme'
   const [theme, setTheme] = useState<Theme>(lightTheme)
   const [darkModeActive, setDarkModeActive] = useState<boolean>(false)
   const [drawerOpen, setDrawerOpen] = useState(true)
 
+  useEffect(() => {
+    async function determineInitialTheme() {
+      const storedTheme = typeof window !== 'undefined' ? localStorage.getItem(storageKey) : null
+      if (storedTheme === 'dark' || storedTheme === 'light') {
+        setDarkModeActive(storedTheme === 'dark')
+        return
+      }
+      if (typeof window !== 'undefined' && window.matchMedia) {
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+        setDarkModeActive(prefersDark)
+      }
+    } 
+    determineInitialTheme()
+  }, [])
   
   useEffect(()=>{
     async function getPrefersColorScheme(){
       if(darkModeActive){
         setTheme(darkTheme)
+        if (typeof window !== 'undefined') {
+          localStorage.setItem(storageKey, 'dark')
+        }
       } else {
         setTheme(lightTheme)
+        if (typeof window !== 'undefined') {
+          localStorage.setItem(storageKey, 'light')
+        }
       }
     }
     getPrefersColorScheme()
