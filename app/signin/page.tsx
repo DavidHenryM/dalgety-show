@@ -22,10 +22,12 @@ export default function SignInPage() {
     try{
       setLoading(true)
       const {data, error} = await signIn(email)
-      if(error){
-        throw new Error(error)
+      if(error?.message){
+        throw new Error(error.message)
       }
-      setEmailSent(data.status)
+      if(data?.status){
+        setEmailSent(data?.status)
+      }
     }catch(err: unknown){
       setError(err instanceof Error ? err.message : String(err))
     }finally{
