@@ -1,20 +1,44 @@
 'use client'
 
 import { Alert, Button, ImageList, ImageListItem, Paper, Stack, Typography } from "@mui/material";
-import { useState } from "react";
-import { drawerWidth, footerHeight } from "../settings";
-import { galleryImages } from "../images/gallery/gallery"
+import { useEffect, useState } from "react";
+import { drawerWidth, footerHeight } from "../../settings";
 import Image from "next/image";
-import EditLock from "../components/EditLock";
-import RestrictedAccess from "../components/Restricted";
-import { authClient } from "../lib/auth-client";
+import EditLock from "@components/EditLock";
+import RestrictedAccess from "@components/Restricted";
+import { authClient } from "@lib/auth-client";
+import Waiting from "@/app/components/Waiting";
 
-export default function Gallery(){
+export default function GalleryYear({params}: {params: Promise<{ year: string }>}) {
   const { data } = authClient.useSession()
   const [locked, setLocked] = useState(true)
   const [uploading, setUploading] = useState(false)
   const [uploadError, setUploadError] = useState<string | null>(null)
   const [uploadedUrls, setUploadedUrls] = useState<string[]>([])
+  const [galleryUrls, setGalleryUrls] = useState<string[]>([])
+  const [resolvedParams, setResolvedParams] = useState<{ year: string } | null>(null) 
+  const [loading, setLoading] = useState<boolean>(true)
+
+  useEffect(() => {
+    async function fetchImages() {
+      setResolvedParams(await params)
+      if (resolvedParams) {
+        try {
+          const res = await fetch(`/api/queries/getImages?prefix=images/${resolvedParams.year}/gallery/`);
+          if (!res.ok) {
+            throw new Error('Failed to fetch images');
+          }
+          const data = await res.json();
+          setGalleryUrls(data.images || []);
+        } catch (error) {
+          console.error('Error fetching images:', error);
+        } finally {
+          setLoading(false);
+        }
+      }
+    }
+    fetchImages();
+  }, [params, resolvedParams]);
 
   async function handleUpload(file: File | null){
     if (!file) return
@@ -23,6 +47,7 @@ export default function Gallery(){
     try {
       const form = new FormData()
       form.append('file', file)
+      form.append('year', resolvedParams?.year || '')
       const res = await fetch('/api/queries/uploadImage', {
         method: 'PUT',
         body: form
@@ -55,6 +80,7 @@ export default function Gallery(){
         p: 2
       }}
     >
+      <Waiting message={`Loading gallery images...`} open={loading}/>
       <EditLock locked={locked} setLocked={setLocked} userFirstName={data?.user.name}/>
       {!locked ? (
         <RestrictedAccess explicit={true}>
@@ -73,25 +99,12 @@ export default function Gallery(){
           </Stack>
         </RestrictedAccess>
       ) : null}
-      <ImageList cols={3}>
-        {uploadedUrls.map((url) => (
+      <ImageList sx={{ width: '100%', height: 'auto' }} cols={4} rowHeight={164}>
+        {galleryUrls.map((url) => (
           <ImageListItem key={url}>
             <Image
               sizes="164px"
               src={url}
-              loading="lazy"
-              alt=""
-              width={164}
-              height={164}
-              style={{ width: 'auto', height: 'auto' }}
-            />
-          </ImageListItem>
-        ))}
-        {galleryImages.map((item) => (
-          <ImageListItem key={item.src}>
-            <Image
-              sizes="164px"
-              src={item.src}
               loading="lazy" 
               alt=""
               width={164}
