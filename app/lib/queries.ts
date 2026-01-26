@@ -1,8 +1,8 @@
 'use server'
 
-import { EventSection, Membership, Show, Sponsorship, SponsorshipPackage, User, Event, MembershipPackage, Schedule, Activity } from "../generated/prisma/client";
+import { EventSection, Membership, Show, SponsorshipPackage, User, Event, MembershipPackage, Schedule, Activity } from "../generated/prisma/client";
 import { Role, State } from "../generated/prisma/enums";
-import { SectionEventandPrizes } from "../types";
+import { SectionEventandPrizes, Sponsor, UserReturn } from "../types";
 import { prisma } from "./prisma";
 
 export async function getUserRole(email: string){
@@ -18,19 +18,72 @@ export async function getUserRole(email: string){
   return user?.role
 }
 
-export async function getUsersWithRole(role: Role): Promise<Partial<User>[]>{
+export async function getUsersWithRole(role: Role): Promise<Partial<UserReturn>[]>{
   const users = await prisma.user.findMany({
     where: {
       role: role,
     },
     select: {
+      id: true,
       email: true,
+      role: true,
+      name: true,
       firstName: true,
       lastName: true,
+      mobileNumber: true,
+      landlineNumber: true,
+      billingAddress: true,
+      shippingAddress: true,
+      organisation: {
+        select: {
+          name: true
+        }
+      },
+      chiefStewardOfEventSections: {
+        select: {
+          name: true,
+          letter: true
+        }
+      },
+      eventResults: {
+        select: {
+          id: true,
+          eventId: true
+        }
+      },
       officialRole: true
     },
   })
   return users
+}
+
+export type OfficialContactUser = Pick<User, "id" | "name" | "email" | "mobileNumber" | "landlineNumber" | "image" | "officialRole"> & {
+  officialRole: NonNullable<User["officialRole"]>
+}
+
+export async function getOwnerOfficials(): Promise<OfficialContactUser[]> {
+  const users = await prisma.user.findMany({
+    where: {
+      role: Role.OWNER,
+      officialRole: {
+        not: null,
+      },
+    },
+    orderBy: {
+      officialRole: "asc",
+    },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      mobileNumber: true,
+      landlineNumber: true,
+      image: true,
+      officialRole: true,
+    },
+  })
+
+  return users as OfficialContactUser[]
 }
 
 export async function getUserFromId(userId: string): Promise<User | null>{
@@ -53,7 +106,7 @@ export async function getUserFromEmail(email: string): Promise<User | null>{
   return user
 }
 
-export async function getSponsors(showYear: number): Promise<Partial<Sponsorship>[]>{
+export async function getSponsors(showYear: number): Promise<Sponsor[]>{
   const sponsors = await prisma.sponsorship.findMany({
     where: {
       show: {year: showYear},
@@ -112,6 +165,21 @@ export async function getShow(year: number): Promise<Show | null> {
     }
   })
   return show
+}
+
+export async function getNextShow(): Promise<Show | null> {
+  const now = new Date()
+  const nextShow = await prisma.show.findFirst({
+    where: {
+      start: {
+        gt: now
+      }
+    },
+    orderBy: {
+      start: 'asc'
+    }
+  })
+  return nextShow
 }
 
 export async function getOrganisation(name: string, contactPersonId: string){
@@ -292,6 +360,15 @@ export async function getValidMembershipPackages(): Promise<MembershipPackage[]>
     }
   })
   console.log(membershipPackages)
+  return membershipPackages
+}
+
+export async function getMembershipPackages(): Promise<MembershipPackage[]> {
+  const membershipPackages = await prisma.membershipPackage.findMany({
+    orderBy: {
+      validFrom: 'desc'
+    }
+  })
   return membershipPackages
 }
 
