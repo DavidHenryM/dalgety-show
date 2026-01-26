@@ -2,10 +2,11 @@
 
 import { Grid } from "@mui/material"
 import UnAuthorised from "../components/UnAuthorised"
+import { useEffect, useState } from "react"
 import { useUserRole } from "../lib/queryHooks"
 import { drawerWidth, footerHeight } from "../settings"
 import { Background } from "../components/Background"
-import { getNextShowDate } from "../utils"
+import { getNextShow } from "../lib/queries"
 import { backgroundImages } from "../images/backgrounds"
 import { UsersRoleTable } from "../components/UsersRoleTable"
 import { SponsorsTable } from "../components/SponsorsTable"
@@ -14,12 +15,22 @@ import { MembershipsTable } from "../components/MembershipsTable"
 
 export default function Admin(){
   const [role, roleLoading] = useUserRole()
+  const [nextShowYear, setNextShowYear] = useState<number | null>(null)
+  const [nextShowLoading, setNextShowLoading] = useState(true)
+  useEffect(() => {
+    getNextShow().then((show) => {
+      setNextShowYear(show?.year ?? null)
+    }).finally(() => setNextShowLoading(false))
+  }, [])
   if (roleLoading){
     return (
       <Waiting message="Authorising..." open={roleLoading}/>
     )
   } else {
     if (role === "SITE_ADMIN" || role === "OWNER"){
+      if (nextShowLoading){
+        return (<Waiting message="Loading latest show..." open={nextShowLoading}/>)
+      }
       return (
         <>
           <Background image={backgroundImages[1]} />
@@ -41,9 +52,11 @@ export default function Admin(){
             }}
           >
             <UsersRoleTable title={"Users"} role="USER"/>
-            <UsersRoleTable title={"Owners"} role="OWNER"/>
+            <UsersRoleTable title={"Office Bearers"} role="OWNER"/>
             <UsersRoleTable title={"Admins"} role="SITE_ADMIN"/>
-            <SponsorsTable title={`Sponsors ${getNextShowDate().getFullYear()}`} showYear={getNextShowDate().getFullYear()}/>
+            {nextShowYear ? (
+              <SponsorsTable title={`Sponsors ${nextShowYear}`} showYear={nextShowYear}/>
+            ) : null}
             {/* <EventsTable title={`Events ${getNextShowDate().getFullYear()}`} showYear={getNextShowDate().getFullYear()} /> */}
             <MembershipsTable title={"Memberships"}/>
           </Grid>

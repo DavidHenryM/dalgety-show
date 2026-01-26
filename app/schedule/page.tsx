@@ -2,13 +2,12 @@
 
 import { useEffect } from "react";
 import { redirect } from 'next/navigation'
-import { getShow } from "../lib/queries";
-import { getNextShowDate } from "../utils";
+import { getNextShow } from "../lib/queries";
 import Waiting from "../components/Waiting";
 
 export default function Schedule(){
   useEffect(()=>{
-    getShow(getNextShowDate().getFullYear()).then((show)=>{
+    getNextShow().then((show)=>{
       if(show){
         redirect(`/schedule/${show.year}`)
       }
