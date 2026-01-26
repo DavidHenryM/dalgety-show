@@ -1,6 +1,5 @@
 import { SignupFormSchema, FormState } from '../lib/definitions'
 import { authClient } from "@lib/auth-client"
-import { z } from 'better-auth'
 
 
 export async function signIn(state: FormState, formData: FormData, callbackURL="/home") : Promise<FormState> {
@@ -22,7 +21,7 @@ export async function signIn(state: FormState, formData: FormData, callbackURL="
   const { name, email } = validatedFields.data
  
   // 3. Insert the user into the database or call an Auth Library's API
-  const { data, error } = await authClient.signIn.magicLink({
+  const magicLinkReturn = await authClient.signIn.magicLink({
     email: email, // required
     name: name ?? null,
     callbackURL: callbackURL,
@@ -30,8 +29,9 @@ export async function signIn(state: FormState, formData: FormData, callbackURL="
     errorCallbackURL: "/error",
   });
 
-  if (error) {
-    const message = typeof error === 'string' ? error : error.message || 'An unknown error occurred'   
+  if (magicLinkReturn.error) {
+    const message = magicLinkReturn.error.message || 'An unknown error occurred'
+    return { errors: { email: [message] } } as FormState
   }
   return {
     message: 'Magic link sent! Please check your email to sign in.'
