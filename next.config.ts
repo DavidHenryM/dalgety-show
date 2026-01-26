@@ -9,7 +9,10 @@ const nextConfig: NextConfig = {
         permanent: true, // true = 308 permanent redirect, false = 307 temporary
       },
     ]
-  }
+  },
+   images: {
+    remotePatterns: [new URL(process.env.IMAGE_UPLOAD_BASE_PATH + '/images/**')],
+  },
 }
 
 
