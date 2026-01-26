@@ -47,8 +47,8 @@ export default function EditLock(props: {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={()=>{setOpenDialog(false); props.setLocked(true)}}>Cancel</Button>
-          <Button onClick={()=>{setOpenDialog(false); props.setLocked(false)}}>Continue</Button>
+          <Button variant="contained" onClick={()=>{setOpenDialog(false); props.setLocked(true)}}>Cancel</Button>
+          <Button variant="contained" onClick={()=>{setOpenDialog(false); props.setLocked(false)}}>Continue</Button>
         </DialogActions>
       </Dialog>
     </RestrictedAccess>
