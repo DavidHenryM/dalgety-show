@@ -1,108 +1,22 @@
 'use client'
 
-import { Alert, Button, ImageList, ImageListItem, Paper, Stack, Typography } from "@mui/material";
-import { useState } from "react";
-import { drawerWidth, footerHeight } from "../settings";
-import { galleryImages } from "../images/gallery/gallery"
-import Image from "next/image";
-import EditLock from "../components/EditLock";
-import RestrictedAccess from "../components/Restricted";
-import { authClient } from "../lib/auth-client";
+import { useEffect, useState } from "react";
+import { redirect } from 'next/navigation'
+import { getShowOfInterest } from "../lib/queries";
+import Waiting from "../components/Waiting";
 
 export default function Gallery(){
-  const { data } = authClient.useSession()
-  const [locked, setLocked] = useState(true)
-  const [uploading, setUploading] = useState(false)
-  const [uploadError, setUploadError] = useState<string | null>(null)
-  const [uploadedUrls, setUploadedUrls] = useState<string[]>([])
-
-  async function handleUpload(file: File | null){
-    if (!file) return
-    setUploading(true)
-    setUploadError(null)
-    try {
-      const form = new FormData()
-      form.append('file', file)
-      const res = await fetch('/api/queries/uploadImage', {
-        method: 'PUT',
-        body: form
-      })
-      if (!res.ok) {
-        const payload = await res.json().catch(() => ({}))
-        throw new Error(payload?.error || 'Upload failed')
+  const [loading, setLoading] = useState(true)
+  useEffect(()=>{
+    getShowOfInterest().then((show)=>{
+      if(show){
+        redirect(`/gallery/${show.year}`)
       }
-      const blob = await res.json()
-      if (blob?.url) {
-        setUploadedUrls((prev) => [blob.url, ...prev])
-      }
-    } catch (err) {
-      setUploadError(err instanceof Error ? err.message : 'Upload failed')
-    } finally {
-      setUploading(false)
-    }
-  }
+      setLoading(false)
+    })
+  },[])
 
-  return (
-    <Paper 
-      sx={{
-        ml: {
-          sm: drawerWidth.sm,
-          md: drawerWidth.md,
-          lg: drawerWidth.lg
-        },
-        mb: footerHeight,
-        position: 'relative',
-        p: 2
-      }}
-    >
-      <EditLock locked={locked} setLocked={setLocked} userFirstName={data?.user.name}/>
-      {!locked ? (
-        <RestrictedAccess explicit={true}>
-          <Stack spacing={1.5} sx={{ mb: 2 }}>
-            <Typography variant="h6" color="primary.main">Upload a gallery image</Typography>
-            <Button variant="contained" component="label" disabled={uploading}>
-              {uploading ? 'Uploading...' : 'Choose image'}
-              <input
-                hidden
-                type="file"
-                accept="image/*"
-                onChange={(e) => handleUpload(e.target.files?.[0] ?? null)}
-              />
-            </Button>
-            {uploadError ? <Alert severity="error">{uploadError}</Alert> : null}
-          </Stack>
-        </RestrictedAccess>
-      ) : null}
-      <ImageList cols={3}>
-        {uploadedUrls.map((url) => (
-          <ImageListItem key={url}>
-            <Image
-              sizes="164px"
-              src={url}
-              loading="lazy"
-              alt=""
-              width={164}
-              height={164}
-              style={{ width: 'auto', height: 'auto' }}
-            />
-          </ImageListItem>
-        ))}
-        {galleryImages.map((item) => (
-          <ImageListItem key={item.src}>
-            <Image
-              sizes="164px"
-              src={item.src}
-              loading="lazy" 
-              alt=""
-              width={164}
-              height={164}
-              style={{ width: 'auto', height: 'auto' }}
-            />
-          </ImageListItem>
-        ))}
-      </ImageList>
-    </Paper>
-  );
+  return (<Waiting message="Loading Gallery" open={loading}/>)
 };  
 
  
