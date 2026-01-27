@@ -2,16 +2,24 @@
 
 import { useEffect } from "react";
 import { redirect } from 'next/navigation'
-import { getNextShow } from "../lib/queries";
+import { getLastShow, getNextShow } from "../lib/queries";
 import Waiting from "../components/Waiting";
 
 export default function Schedule(){
   useEffect(()=>{
-    getNextShow().then((show)=>{
-      if(show){
-        redirect(`/schedule/${show.year}`)
+    async function resolveShow(){
+      const nextShow = await getNextShow()
+      if (nextShow) {
+        redirect(`/schedule/${nextShow.year}`)
+        return
       }
-    })
+      const lastShow = await getLastShow()
+      if (lastShow) {
+        redirect(`/schedule/${lastShow.year}`)
+        return
+      }
+    }
+    resolveShow()
   },[])
 
   return (<Waiting message={"Loading latest schedule"} open={true}></Waiting>)
