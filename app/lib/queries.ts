@@ -313,6 +313,7 @@ export async function getReleasedScheduleForShow(showId: string): Promise<Releas
     where: {
       showId: showId,
       released: {
+        not: null,
         lte: now
       }
     },

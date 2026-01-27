@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { redirect } from 'next/navigation'
-import { getLastShow, getNextShow } from "../lib/queries";
+import { getLatestReleasedSchedule, getNextShow, getReleasedScheduleForShow } from "../lib/queries";
 import Waiting from "../components/Waiting";
 
 export default function Schedule(){
@@ -10,12 +10,15 @@ export default function Schedule(){
     async function resolveShow(){
       const nextShow = await getNextShow()
       if (nextShow) {
-        redirect(`/schedule/${nextShow.year}`)
-        return
+        const releasedNextSchedule = await getReleasedScheduleForShow(nextShow.id)
+        if (releasedNextSchedule) {
+          redirect(`/schedule/${releasedNextSchedule.show.year}`)
+          return
+        }
       }
-      const lastShow = await getLastShow()
-      if (lastShow) {
-        redirect(`/schedule/${lastShow.year}`)
+      const latestReleasedSchedule = await getLatestReleasedSchedule()
+      if (latestReleasedSchedule) {
+        redirect(`/schedule/${latestReleasedSchedule.show.year}`)
         return
       }
     }
