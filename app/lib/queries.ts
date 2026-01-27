@@ -61,7 +61,7 @@ export type OfficialContactUser = Pick<User, "id" | "name" | "email" | "mobileNu
   officialRole: NonNullable<User["officialRole"]>
 }
 
-export async function getOwnerOfficials(): Promise<OfficialContactUser[]> {
+export async function getOwnerOfficials(): Promise<User[]> {
   const users = await prisma.user.findMany({
     where: {
       role: Role.OWNER,
@@ -71,19 +71,10 @@ export async function getOwnerOfficials(): Promise<OfficialContactUser[]> {
     },
     orderBy: {
       officialRole: "asc",
-    },
-    select: {
-      id: true,
-      name: true,
-      email: true,
-      mobileNumber: true,
-      landlineNumber: true,
-      image: true,
-      officialRole: true,
-    },
+    }
   })
 
-  return users as OfficialContactUser[]
+  return users
 }
 
 export async function getUserFromId(userId: string): Promise<User | null>{
@@ -302,6 +293,63 @@ export async function getSchedule(showId: string): Promise<Schedule> {
   const schedule = prisma.schedule.findFirstOrThrow({
     where: {
       showId: showId
+    }
+  })
+  return schedule
+}
+
+export type ReleasedScheduleWithShowYear = {
+  id: string
+  released: Date | null
+  showId: string
+  show: {
+    year: number
+  }
+}
+
+export async function getReleasedScheduleForShow(showId: string): Promise<ReleasedScheduleWithShowYear | null> {
+  const now = new Date()
+  const schedule = await prisma.schedule.findFirst({
+    where: {
+      showId: showId,
+      released: {
+        lte: now
+      }
+    },
+    select: {
+      id: true,
+      released: true,
+      showId: true,
+      show: {
+        select: {
+          year: true
+        }
+      }
+    }
+  })
+  return schedule
+}
+
+export async function getLatestReleasedSchedule(): Promise<ReleasedScheduleWithShowYear | null> {
+  const now = new Date()
+  const schedule = await prisma.schedule.findFirst({
+    where: {
+      released: {
+        lte: now
+      }
+    },
+    orderBy: {
+      released: 'desc'
+    },
+    select: {
+      id: true,
+      released: true,
+      showId: true,
+      show: {
+        select: {
+          year: true
+        }
+      }
     }
   })
   return schedule

@@ -1,17 +1,20 @@
 'use client'
 
-import { Avatar, Box, Button, Divider, Drawer, List, ListItem, ListItemIcon, ListItemText, Tooltip, Typography } from "@mui/material"
+import { Alert, Avatar, Box, Button, Divider, Drawer, IconButton, List, ListItem, ListItemIcon, ListItemText, Stack, TextField, Tooltip, Typography } from "@mui/material"
 import { SignInButton, SignOutButton } from "./SignInOutButton"
-import { Dispatch, SetStateAction, useEffect, useState } from "react"
+import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from "react"
 import type { Address, User } from "../generated/prisma/browser"
 import { GetOrganisationsResult, getOrganisations, getUserFromEmail } from "../lib/queries"
 import PersonIcon from '@mui/icons-material/Person';
 import EmailIcon from '@mui/icons-material/Email';
 import SmartphoneIcon from '@mui/icons-material/Smartphone';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import CloseIcon from '@mui/icons-material/Close';
+import EditIcon from '@mui/icons-material/Edit';
 import { authClient } from "@lib/auth-client"
 import { SessionData } from "../types"
 import Waiting from "./Waiting"
+import { updateUser } from "../lib/mutations"
  
 export default function UserAvatar() {
   const sessionData = authClient.useSession()
@@ -79,6 +82,15 @@ function AccountSettings(
     const [user, setUser] = useState<User | null>(null)
     const [organisations, setOrganisations] = useState<GetOrganisationsResult[]>([])
     const [loading, setLoading] = useState<boolean>(true)
+    const [saving, setSaving] = useState(false)
+    const [uploading, setUploading] = useState(false)
+    const [isEditing, setIsEditing] = useState(false)
+    const [firstName, setFirstName] = useState<string>("")
+    const [lastName, setLastName] = useState<string>("")
+    const [mobileNumber, setMobileNumber] = useState<string>("")
+    const [landlineNumber, setLandlineNumber] = useState<string>("")
+    const [statusMessage, setStatusMessage] = useState<string | null>(null)
+    const [statusSeverity, setStatusSeverity] = useState<'success' | 'error'>('success')
     
     useEffect(()=>{
       async function fetchUserData(){
@@ -100,6 +112,84 @@ function AccountSettings(
       fetchUserData()
     },[props.email])
 
+    useEffect(()=>{
+      if (user){
+        setFirstName(user.firstName ?? "")
+        setLastName(user.lastName ?? "")
+        setMobileNumber(user.mobileNumber ?? "")
+        setLandlineNumber(user.landlineNumber ?? "")
+      }
+    },[user])
+
+    function resetEdits(){
+      if (user){
+        setFirstName(user.firstName ?? "")
+        setLastName(user.lastName ?? "")
+        setMobileNumber(user.mobileNumber ?? "")
+        setLandlineNumber(user.landlineNumber ?? "")
+      }
+    }
+
+    async function handleSave(){
+      if (!user){
+        return
+      }
+      setSaving(true)
+      setStatusMessage(null)
+      try {
+        const cleanedFirstName = firstName.trim()
+        const cleanedLastName = lastName.trim()
+        const cleanedMobile = mobileNumber.trim()
+        const cleanedLandline = landlineNumber.trim()
+        const updatedUser = await updateUser(user.id, {
+          firstName: cleanedFirstName.length > 0 ? cleanedFirstName : null,
+          lastName: cleanedLastName.length > 0 ? cleanedLastName : null,
+          mobileNumber: cleanedMobile.length > 0 ? cleanedMobile : null,
+          landlineNumber: cleanedLandline.length > 0 ? cleanedLandline : null,
+        })
+        setUser(updatedUser)
+        setStatusSeverity('success')
+        setStatusMessage('Account information updated.')
+        setIsEditing(false)
+      } catch (error) {
+        setStatusSeverity('error')
+        setStatusMessage(error instanceof Error ? error.message : 'Failed to update account information.')
+      } finally {
+        setSaving(false)
+      }
+    }
+
+    async function handleAvatarUpload(event: ChangeEvent<HTMLInputElement>){
+      const file = event.target.files?.[0]
+      if (!file){
+        return
+      }
+      setUploading(true)
+      setStatusMessage(null)
+      try {
+        const form = new FormData()
+        form.append('file', file)
+        const response = await fetch('/api/account/avatar', {
+          method: 'POST',
+          body: form,
+        })
+        if (!response.ok){
+          const errorBody = await response.json().catch(()=>({}))
+          throw new Error(errorBody.error || 'Failed to upload avatar.')
+        }
+        const result = await response.json()
+        setUser((prev)=> prev ? { ...prev, image: result.url ?? prev.image } : prev)
+        setStatusSeverity('success')
+        setStatusMessage('Avatar updated.')
+      } catch (error) {
+        setStatusSeverity('error')
+        setStatusMessage(error instanceof Error ? error.message : 'Failed to upload avatar.')
+      } finally {
+        setUploading(false)
+        event.target.value = ''
+      }
+    }
+
   return (
     <Drawer 
       open={props.openAccountSettings} 
@@ -108,15 +198,60 @@ function AccountSettings(
 
     >
       <Waiting message="Loading account information..." open={loading}/>
-      <Box sx={{ width: 350,}} role="presentation" onClick={()=>props.setOpenAccountSettings(false)}>
-        <Typography sx={{color: "primary.main", p:2}} align="center" variant="h6">Account Information</Typography>
+      <Waiting message="Saving account information..." open={saving}/>
+      <Waiting message="Uploading avatar..." open={uploading}/>
+      <Box sx={{ width: 350,}} role="presentation">
+        <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{p:2}}>
+          <Typography sx={{color: "primary.main"}} align="center" variant="h6">Account Information</Typography>
+          <Stack direction="row" spacing={1}>
+            <IconButton aria-label="Edit account information" onClick={()=>setIsEditing(true)} disabled={isEditing}>
+              <EditIcon/>
+            </IconButton>
+            <IconButton aria-label="Close account settings" onClick={()=>props.setOpenAccountSettings(false)}>
+              <CloseIcon/>
+            </IconButton>
+          </Stack>
+        </Stack>
+        <Stack alignItems="center" spacing={1} sx={{px:2, pb:2}}>
+          <Avatar
+            alt={user?.email ?? 'User avatar'}
+            src={user?.image ?? undefined}
+            sx={{ width: 72, height: 72 }}
+          />
+          <Button component="label" variant="contained" size="small" disabled={!isEditing || uploading || loading}>
+            Upload avatar
+            <input hidden accept="image/*" type="file" onChange={handleAvatarUpload}/>
+          </Button>
+        </Stack>
+        {statusMessage ? (
+          <Box sx={{px:2, pb:2}}>
+            <Alert severity={statusSeverity}>{statusMessage}</Alert>
+          </Box>
+        ) : null}
         <List sx={{p:2}}>
           <ListItem>
             <ListItemIcon>
               <PersonIcon/>
             </ListItemIcon>
             <ListItemText>
-              <Typography>{user?.firstName && user?.lastName ? `${user?.firstName} ${user?.lastName}`: "Unknown"}</Typography>
+              <Stack spacing={1}>
+                <TextField
+                  label="First name"
+                  size="small"
+                  value={firstName}
+                  onChange={(event)=>setFirstName(event.target.value)}
+                  fullWidth
+                  disabled={!isEditing}
+                />
+                <TextField
+                  label="Last name"
+                  size="small"
+                  value={lastName}
+                  onChange={(event)=>setLastName(event.target.value)}
+                  fullWidth
+                  disabled={!isEditing}
+                />
+              </Stack>
             </ListItemText>
           </ListItem>
           <ListItem>
@@ -132,9 +267,48 @@ function AccountSettings(
               <SmartphoneIcon/>
             </ListItemIcon>
             <ListItemText>
-            <Typography>{user?.mobileNumber ? user?.mobileNumber : "Unknown"}</Typography>
+            <Stack spacing={1}>
+              <TextField
+                label="Mobile number"
+                size="small"
+                value={mobileNumber}
+                onChange={(event)=>setMobileNumber(event.target.value)}
+                fullWidth
+                disabled={!isEditing}
+              />
+              <TextField
+                label="Landline number"
+                size="small"
+                value={landlineNumber}
+                onChange={(event)=>setLandlineNumber(event.target.value)}
+                fullWidth
+                disabled={!isEditing}
+              />
+            </Stack>
             </ListItemText>
           </ListItem>
+          {isEditing ? (
+            <ListItem>
+              <ListItemText>
+                <Stack spacing={1}>
+                  <Button variant="contained" fullWidth onClick={handleSave} disabled={saving || uploading || loading}>
+                    Save changes
+                  </Button>
+                  <Button
+                    variant="text"
+                    fullWidth
+                    onClick={()=>{
+                      resetEdits()
+                      setIsEditing(false)
+                    }}
+                    disabled={saving || uploading || loading}
+                  >
+                    Cancel
+                  </Button>
+                </Stack>
+              </ListItemText>
+            </ListItem>
+          ) : null}
           <ListItem>
             <ListItemIcon>
               <AdminPanelSettingsIcon/>
