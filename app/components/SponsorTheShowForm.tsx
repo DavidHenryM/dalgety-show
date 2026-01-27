@@ -5,9 +5,9 @@ import { useEffect, useState } from "react";
 import { useSponsorshipPackages } from "../lib/queryHooks";
 import Loading from "../Loading";
 import type { SponsorshipPackage } from "../generated/prisma/browser";
-import { SponsorshipPackageTier } from "../generated/prisma/enums";
+import { OfficialRole, SponsorshipPackageTier } from "../generated/prisma/enums";
 import { useForm, Controller } from "react-hook-form";
-import { createOrganisation, createSponsorship, updateUserName } from "../lib/mutations";
+import { createOrganisation, createSponsorship, emailOfficialRole, updateUserName } from "../lib/mutations";
 import { OrganisationCreateInput, SponsorshipCreateInput } from "../generated/prisma/models";
 import { getOrganisation, getNextShow } from "../lib/queries";
 import Waiting from "./Waiting";
@@ -65,6 +65,24 @@ export function SponsorTheShowForm(props: {email: string | null | undefined}){
     }
     initializeDefaults()
   },[loading, pack, packs])
+
+  async function notifyOfficials(organisationName: string, contactFirstName: string, contactLastName: string) {
+    const email = props.email ? props.email : ""
+    const message = [
+      `New sponsorship proposal received.`,
+      `Organisation: ${organisationName}`,
+      `Contact: ${contactFirstName} ${contactLastName}`,
+      `Email: ${email}`,
+      `Tier: ${selectedTier}`,
+      `Amount: $${dollarAmount}`
+    ].join("\n")
+
+    await emailOfficialRole({
+      role: OfficialRole.PUBLICITY_OFFICER,
+      subject: "New sponsorship proposal",
+      text: message
+    })
+  }
   
   const onSubmit = (data: unknown) => {
     setSubmitting(true)
@@ -101,7 +119,8 @@ export function SponsorTheShowForm(props: {email: string | null | undefined}){
                     show: {connect: {id: nextShow?.id}},
                     organisation: {connect: {id: createdOrganisation.id}}
                   }
-                  createSponsorship(sponsorshipData).then((createdSponsorship)=>{
+                  createSponsorship(sponsorshipData).then(async (createdSponsorship)=>{
+                    await notifyOfficials(thisOrganisationData.name, data.firstName as string, data.lastName as string)
                     setAlertTitle("Sponsorship proposal received successfully")
                     setAlertMessage("We now have your information and we'll be in touch shortly to sort out the next steps. Many thanks for your support.")
                     setAlertOpen(true)
@@ -117,7 +136,8 @@ export function SponsorTheShowForm(props: {email: string | null | undefined}){
                   show: {connect: {id: nextShow?.id}},
                   organisation: {connect: {id: organisation.id}}
                 }
-                createSponsorship(sponsorshipData).then((createdSponsorship)=>{
+                createSponsorship(sponsorshipData).then(async (createdSponsorship)=>{
+                  await notifyOfficials(thisOrganisationData.name, data.firstName as string, data.lastName as string)
                   setAlertTitle("Sponsorship proposal received successfully")
                   setAlertMessage("We now have your information and we'll be in touch shortly to sort out the next steps. Many thanks for your support.")
                   setAlertOpen(true)

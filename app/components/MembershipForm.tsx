@@ -4,8 +4,8 @@ import { Button, Divider, FormControlLabel, FormLabel, Grid, InputAdornment, Inp
 import { useEffect, useState } from "react";
 import Loading from "../Loading";
 import type { MembershipPackage } from "../generated/prisma/browser";
-import { MembershipType } from "../generated/prisma/enums";
-import { createMembership, updateUserName } from "../lib/mutations";
+import { MembershipType, OfficialRole } from "../generated/prisma/enums";
+import { createMembership, emailOfficialRole, updateUserName } from "../lib/mutations";
 import { getValidMembershipPackages } from "../lib/queries";
 import Waiting from "./Waiting";
 import { useForm, SubmitHandler, Controller } from "react-hook-form"
@@ -52,7 +52,20 @@ export function MembershipForm(props: {email: string | null | undefined}){
     setSubmitting(true)
     const email = props.email ? props.email : ""
     updateUserName(email, data.firstName, data.lastName).then((user)=>{
-      createMembership(data.memberType, data.cost, user.id).then((result)=>{
+      createMembership(data.memberType, data.cost, user.id).then(async (result)=>{
+        const memberTypeLabel = data.memberType.toString()
+        const message = [
+          `New membership application received.`,
+          `Name: ${data.firstName} ${data.lastName}`,
+          `Email: ${email}`,
+          `Membership type: ${memberTypeLabel}`,
+          `Cost: $${data.cost}`,
+        ].join("\n")
+        await emailOfficialRole({
+          role: OfficialRole.TREASURER,
+          subject: "New membership application",
+          text: message
+        })
         setAlertTitle("Membership application submitted succesfully")
         setAlertMessage("We've got your details and will be in touch shortly to sort out the next steps. Welcome to the team!")
         setAlertOpen(true)
