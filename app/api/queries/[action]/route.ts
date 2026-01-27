@@ -8,6 +8,7 @@ import {
   getMemberships,
   getSponsorshipPackages,
   getShow,
+  getShowOfInterest,
   getOrganisation,
   getEvents,
   getEventSections,
@@ -82,6 +83,10 @@ export async function GET(request: NextRequest, context: { params: Promise<{ act
       case 'getShow':{
         const year = Number(params.get('year'))
         const r = await getShow(year)
+        return NextResponse.json(r)
+      }
+      case 'getShowOfInterest':{
+        const r = await getShowOfInterest()
         return NextResponse.json(r)
       }
       case 'getOrganisation':{
