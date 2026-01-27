@@ -1,7 +1,7 @@
 'use client'
 
 import type { EventSection, Prize } from '@generated/browser'
-import { getEventSectionByName, getSectionEventsAndPrizes, getShow } from '@lib/queries'
+import { getEventSectionByName, getLatestReleasedSchedule, getReleasedScheduleForShow, getSectionEventsAndPrizes, getShow, getUserRole } from '@lib/queries'
 import { getDateString } from '@app/utils'
 import { Card, CardContent, CardMedia, Divider, Grid, Stack, Typography } from '@mui/material'
 import { use, useEffect, useState } from 'react'
@@ -13,6 +13,7 @@ import { EventsSectionTable } from '@/app/components/EventsSectionTable'
 import RestrictedAccess from '@/app/components/Restricted'
 import Content from '@/app/components/Content'
 import { SectionEventandPrizes } from '@/app/types'
+import { useRouter } from 'next/navigation'
  
 export default function EventDetails({params}: {params: Promise<{ year: string, section: string }>}) {
   const path = use(params)
@@ -23,27 +24,40 @@ export default function EventDetails({params}: {params: Promise<{ year: string, 
   const [eventSection, setEventSection] = useState<EventSection>()
   const [locked, setLocked] = useState<boolean>(true)
   const { data } = authClient.useSession()
+  const router = useRouter()
 
   useEffect(()=>{
     async function fetchData(){
       setLoading(true)
-      getShow(showYear).then((show)=>{
-        if (show){
-          getEventSectionByName(sectionName, show.id).then((thisEventSection)=>{
-            console.log(thisEventSection)
-            if (thisEventSection){
-              setEventSection(thisEventSection)
-              getSectionEventsAndPrizes(thisEventSection.id).then((theseEvents)=>{
-                setEvents(theseEvents)
-                console.log(theseEvents)
-              }).finally(()=>setLoading(false))
-            } 
-          })
-        } 
-      }).finally(()=>setLoading(false))
+      try{
+        const show = await getShow(showYear)
+        if (!show){
+          return
+        }
+        const role = data?.user?.email ? await getUserRole(data.user.email) : null
+        if (role !== 'SITE_ADMIN' && role !== 'OWNER'){
+          const releasedSchedule = await getReleasedScheduleForShow(show.id)
+          if (!releasedSchedule){
+            const latestReleased = await getLatestReleasedSchedule()
+            if (latestReleased){
+              const targetSection = encodeURIComponent(sectionName)
+              router.replace(`/events/${latestReleased.show.year}/${targetSection}`)
+            }
+            return
+          }
+        }
+        const thisEventSection = await getEventSectionByName(sectionName, show.id)
+        if (thisEventSection){
+          setEventSection(thisEventSection)
+          const theseEvents = await getSectionEventsAndPrizes(thisEventSection.id)
+          setEvents(theseEvents)
+        }
+      } finally {
+        setLoading(false)
+      }
     }
     fetchData()
-  },[showYear, sectionName])
+  },[showYear, sectionName, router, data?.user?.email])
 
   return (
     <>
@@ -159,13 +173,4 @@ function FormatedPrizeName(props: {name: string | null}){
       <Typography>{props.name}</Typography>
     </Stack>
   )
-}
-
-function getMailto(email: string, showYear: number, sectionName: string, eventName: string): string | undefined{
-  const mailTo = `mailto:${email}`
-  const subject = `subject=Dalgety Show ${showYear}: ${sectionName} section, ${eventName}  `
-  const body = `Hi, I would like to register for the event as part of the ${sectionName} in the Dalgety Show in ${showYear}`
-  const url = URL.parse(mailTo + "?" + subject + "&" + body)
-  
-  return url?.toString() 
 }

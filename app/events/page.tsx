@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { redirect } from 'next/navigation'
-import { getLastShow, getShowOfInterest } from "../lib/queries";
+import { getLatestReleasedSchedule } from "../lib/queries";
 import Waiting from "../components/Waiting";
 
 
@@ -11,14 +11,9 @@ export default function Events(){
   useEffect(()=>{
     async function fetchData(){
       setLoading(true)
-      const show = await getShowOfInterest()
-      if (show) {
-        redirect(`/events/${show.year}`)
-        return
-      }
-      const lastShow = await getLastShow()
-      if (lastShow) {
-        redirect(`/events/${lastShow.year}`)
+      const latestReleasedSchedule = await getLatestReleasedSchedule()
+      if (latestReleasedSchedule) {
+        redirect(`/events/${latestReleasedSchedule.show.year}`)
         return
       }
       setLoading(false)
