@@ -201,8 +201,8 @@ export function ActivitiesTable(props: {title: string, showYear: number}){
                 ? `Release scheduled ${schedule.released.toLocaleString()}`
                 : `Released ${schedule.released.toLocaleString()}`}
             </Typography>
-            <Button variant="outlined" onClick={() => setConfirmReleaseOpen(true)} disabled={!schedule || (!!schedule.released && schedule.released <= new Date())}>Release now</Button>
-            <Button variant="outlined" color="warning" onClick={() => setConfirmUnreleaseOpen(true)} disabled={!schedule || !schedule.released}>Unrelease</Button>
+            <Button variant="contained" onClick={() => setConfirmReleaseOpen(true)} disabled={!schedule || (!!schedule.released && schedule.released <= new Date())}>Release now</Button>
+            <Button variant="contained" color="warning" onClick={() => setConfirmUnreleaseOpen(true)} disabled={!schedule || !schedule.released}>Unrelease</Button>
           </Stack>
           <Stack direction="row" spacing={2} sx={{ mb: 1, alignItems: 'center' }}>
             <TextField
@@ -213,12 +213,12 @@ export function ActivitiesTable(props: {title: string, showYear: number}){
               InputLabelProps={{ shrink: true }}
               size="small"
             />
-            <Button variant="outlined" onClick={handleSetReleaseDate} disabled={!schedule || !releaseInput}>Set release date</Button>
+            <Button variant="contained" onClick={handleSetReleaseDate} disabled={!schedule || !releaseInput}>Set release date</Button>
           </Stack>
           <Stack direction="row" spacing={2} sx={{ mb: 1 }}>
             <Button variant="contained" onClick={openNew} disabled={!schedule}>New Activity</Button>
-            <Button variant="outlined" onClick={openEdit} disabled={selection.ids.size !== 1}>Edit</Button>
-            <Button variant="outlined" color="error" onClick={handleDelete} disabled={selection.ids.size !== 1}>Delete</Button>
+            <Button variant="contained" onClick={openEdit} disabled={selection.ids.size !== 1}>Edit</Button>
+            <Button variant="contained" color="error" onClick={handleDelete} disabled={selection.ids.size !== 1}>Delete</Button>
           </Stack>
           <div style={{ height: 420, width: '100%' }}>
             <DataGrid

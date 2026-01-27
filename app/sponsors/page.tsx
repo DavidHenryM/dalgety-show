@@ -193,7 +193,7 @@ export default function Sponsors(){
               height: 120
             }}>
               <Link href="/sponsors/sponsor">
-                <Button variant="outlined" sx={{p:2}}>Become a Sponsor</Button>
+                <Button variant="contained" sx={{p:2}}>Become a Sponsor</Button>
               </Link>
             </Container>
           </Paper>

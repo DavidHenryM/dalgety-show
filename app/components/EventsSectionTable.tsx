@@ -280,8 +280,8 @@ export function EventsSectionTable(props: { title: string; showYear: number; sec
         <Typography variant="subtitle1">Prizes</Typography>
         <Stack direction="row" spacing={2}>
           <Button variant="contained" onClick={() => openPrizeNew(eventId)}>New Prize</Button>
-          <Button variant="outlined" onClick={() => openPrizeEdit(eventId, prizeRows)} disabled={Array.from(prizeSelection.ids).length !== 1 || activeEventId !== eventId}>Edit</Button>
-          <Button variant="outlined" color="error" onClick={() => handlePrizeDelete(eventId, prizeRows)} disabled={Array.from(prizeSelection.ids).length !== 1 || activeEventId !== eventId}>Delete</Button>
+          <Button variant="contained" onClick={() => openPrizeEdit(eventId, prizeRows)} disabled={Array.from(prizeSelection.ids).length !== 1 || activeEventId !== eventId}>Edit</Button>
+          <Button variant="contained" color="error" onClick={() => handlePrizeDelete(eventId, prizeRows)} disabled={Array.from(prizeSelection.ids).length !== 1 || activeEventId !== eventId}>Delete</Button>
         </Stack>
         <div style={{ height: 280, width: '100%' }}>
           <DataGrid
@@ -309,8 +309,8 @@ export function EventsSectionTable(props: { title: string; showYear: number; sec
         <AccordionDetails>
           <Stack direction="row" spacing={2} sx={{ mb: 1 }}>
             <Button variant="contained" onClick={openNew} disabled={!section || !show}>New Event</Button>
-            <Button variant="outlined" onClick={openEdit} disabled={selection.ids.size !== 1}>Edit</Button>
-            <Button variant="outlined" color="error" onClick={handleDelete} disabled={selection.ids.size !== 1}>Delete</Button>
+            <Button variant="contained" onClick={openEdit} disabled={selection.ids.size !== 1}>Edit</Button>
+            <Button variant="contained" color="error" onClick={handleDelete} disabled={selection.ids.size !== 1}>Delete</Button>
           </Stack>
           <div style={{ height: 420, width: '100%' }}>
             <DataGrid

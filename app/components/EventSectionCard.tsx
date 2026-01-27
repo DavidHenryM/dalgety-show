@@ -57,9 +57,9 @@ export function EventSectionCard(props: {section: EventSection, locked: boolean,
         }
       </CardContent>
       <CardActions>
-        {/* <Button size="small" variant="outlined" onClick={()=>handleSeeEvents(section)}>See events</Button> */}
+        {/* <Button size="small" variant="contained" onClick={()=>handleSeeEvents(section)}>See events</Button> */}
         <Link href={`${show?.year}/${section.name}`}>
-          <Button size="small" variant="outlined">See events</Button>
+          <Button size="small" variant="contained">See events</Button>
         </Link>
       </CardActions>
     </Card>

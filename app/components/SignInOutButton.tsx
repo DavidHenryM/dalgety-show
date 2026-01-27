@@ -7,7 +7,7 @@ export function SignInButton() {
   return (
     <Link href="/signin">
       <Button 
-        variant="outlined" 
+        variant="contained" 
         sx={{color: "primary.main", backgroundColor: "secondary.main"}} 
       >
         Sign In
@@ -24,7 +24,7 @@ export function SignOutButton() {
   }
   return (
       <Button 
-        variant="outlined" 
+        variant="contained" 
         sx={{color: "primary.main", backgroundColor: "secondary.main"}} 
         onClick={handleClick}>
           Sign Out

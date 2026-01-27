@@ -133,8 +133,8 @@ export function EventsTable(props: {title: string, showYear: number}){
         <AccordionDetails>
           <Stack direction="row" spacing={2} sx={{ mb: 1 }}>
             <Button variant="contained" onClick={openNew}>New Event</Button>
-            <Button variant="outlined" onClick={openEdit} disabled={selection.length!==1}>Edit</Button>
-            <Button variant="outlined" color="error" onClick={handleDelete} disabled={selection.length!==1}>Delete</Button>
+            <Button variant="contained" onClick={openEdit} disabled={selection.length!==1}>Edit</Button>
+            <Button variant="contained" color="error" onClick={handleDelete} disabled={selection.length!==1}>Delete</Button>
           </Stack>
           <div style={{ height: 420, width: '100%' }}>
             <DataGrid
