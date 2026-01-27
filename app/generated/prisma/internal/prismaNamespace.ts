@@ -80,12 +80,12 @@ export type PrismaVersion = {
 }
 
 /**
- * Prisma Client JS version: 7.2.0
- * Query Engine version: 0c8ef2ce45c83248ab3df073180d5eda9e8be7a3
+ * Prisma Client JS version: 7.3.0
+ * Query Engine version: 9d6ad21cbbceab97458517b147a6a09ff43aa735
  */
 export const prismaVersion: PrismaVersion = {
-  client: "7.2.0",
-  engine: "0c8ef2ce45c83248ab3df073180d5eda9e8be7a3"
+  client: "7.3.0",
+  engine: "9d6ad21cbbceab97458517b147a6a09ff43aa735"
 }
 
 /**
@@ -403,7 +403,11 @@ export const ModelName = {
   Show: 'Show',
   Membership: 'Membership',
   MembershipPackage: 'MembershipPackage',
-  SponsorshipPackage: 'SponsorshipPackage'
+  SponsorshipPackage: 'SponsorshipPackage',
+  StallApplication: 'StallApplication',
+  StallSiteCategory: 'StallSiteCategory',
+  StallSite: 'StallSite',
+  StallInformation: 'StallInformation'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -419,7 +423,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "verification" | "account" | "session" | "authenticator" | "dataEdit" | "address" | "organisation" | "eventSection" | "event" | "eventResult" | "prize" | "eventSectionSponsorship" | "schedule" | "activity" | "sponsorship" | "show" | "membership" | "membershipPackage" | "sponsorshipPackage"
+    modelProps: "user" | "verification" | "account" | "session" | "authenticator" | "dataEdit" | "address" | "organisation" | "eventSection" | "event" | "eventResult" | "prize" | "eventSectionSponsorship" | "schedule" | "activity" | "sponsorship" | "show" | "membership" | "membershipPackage" | "sponsorshipPackage" | "stallApplication" | "stallSiteCategory" | "stallSite" | "stallInformation"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1903,6 +1907,302 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    StallApplication: {
+      payload: Prisma.$StallApplicationPayload<ExtArgs>
+      fields: Prisma.StallApplicationFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.StallApplicationFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StallApplicationPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.StallApplicationFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StallApplicationPayload>
+        }
+        findFirst: {
+          args: Prisma.StallApplicationFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StallApplicationPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.StallApplicationFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StallApplicationPayload>
+        }
+        findMany: {
+          args: Prisma.StallApplicationFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StallApplicationPayload>[]
+        }
+        create: {
+          args: Prisma.StallApplicationCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StallApplicationPayload>
+        }
+        createMany: {
+          args: Prisma.StallApplicationCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.StallApplicationCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StallApplicationPayload>[]
+        }
+        delete: {
+          args: Prisma.StallApplicationDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StallApplicationPayload>
+        }
+        update: {
+          args: Prisma.StallApplicationUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StallApplicationPayload>
+        }
+        deleteMany: {
+          args: Prisma.StallApplicationDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.StallApplicationUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.StallApplicationUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StallApplicationPayload>[]
+        }
+        upsert: {
+          args: Prisma.StallApplicationUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StallApplicationPayload>
+        }
+        aggregate: {
+          args: Prisma.StallApplicationAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateStallApplication>
+        }
+        groupBy: {
+          args: Prisma.StallApplicationGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.StallApplicationGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.StallApplicationCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.StallApplicationCountAggregateOutputType> | number
+        }
+      }
+    }
+    StallSiteCategory: {
+      payload: Prisma.$StallSiteCategoryPayload<ExtArgs>
+      fields: Prisma.StallSiteCategoryFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.StallSiteCategoryFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StallSiteCategoryPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.StallSiteCategoryFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StallSiteCategoryPayload>
+        }
+        findFirst: {
+          args: Prisma.StallSiteCategoryFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StallSiteCategoryPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.StallSiteCategoryFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StallSiteCategoryPayload>
+        }
+        findMany: {
+          args: Prisma.StallSiteCategoryFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StallSiteCategoryPayload>[]
+        }
+        create: {
+          args: Prisma.StallSiteCategoryCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StallSiteCategoryPayload>
+        }
+        createMany: {
+          args: Prisma.StallSiteCategoryCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.StallSiteCategoryCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StallSiteCategoryPayload>[]
+        }
+        delete: {
+          args: Prisma.StallSiteCategoryDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StallSiteCategoryPayload>
+        }
+        update: {
+          args: Prisma.StallSiteCategoryUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StallSiteCategoryPayload>
+        }
+        deleteMany: {
+          args: Prisma.StallSiteCategoryDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.StallSiteCategoryUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.StallSiteCategoryUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StallSiteCategoryPayload>[]
+        }
+        upsert: {
+          args: Prisma.StallSiteCategoryUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StallSiteCategoryPayload>
+        }
+        aggregate: {
+          args: Prisma.StallSiteCategoryAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateStallSiteCategory>
+        }
+        groupBy: {
+          args: Prisma.StallSiteCategoryGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.StallSiteCategoryGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.StallSiteCategoryCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.StallSiteCategoryCountAggregateOutputType> | number
+        }
+      }
+    }
+    StallSite: {
+      payload: Prisma.$StallSitePayload<ExtArgs>
+      fields: Prisma.StallSiteFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.StallSiteFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StallSitePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.StallSiteFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StallSitePayload>
+        }
+        findFirst: {
+          args: Prisma.StallSiteFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StallSitePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.StallSiteFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StallSitePayload>
+        }
+        findMany: {
+          args: Prisma.StallSiteFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StallSitePayload>[]
+        }
+        create: {
+          args: Prisma.StallSiteCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StallSitePayload>
+        }
+        createMany: {
+          args: Prisma.StallSiteCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.StallSiteCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StallSitePayload>[]
+        }
+        delete: {
+          args: Prisma.StallSiteDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StallSitePayload>
+        }
+        update: {
+          args: Prisma.StallSiteUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StallSitePayload>
+        }
+        deleteMany: {
+          args: Prisma.StallSiteDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.StallSiteUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.StallSiteUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StallSitePayload>[]
+        }
+        upsert: {
+          args: Prisma.StallSiteUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StallSitePayload>
+        }
+        aggregate: {
+          args: Prisma.StallSiteAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateStallSite>
+        }
+        groupBy: {
+          args: Prisma.StallSiteGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.StallSiteGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.StallSiteCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.StallSiteCountAggregateOutputType> | number
+        }
+      }
+    }
+    StallInformation: {
+      payload: Prisma.$StallInformationPayload<ExtArgs>
+      fields: Prisma.StallInformationFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.StallInformationFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StallInformationPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.StallInformationFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StallInformationPayload>
+        }
+        findFirst: {
+          args: Prisma.StallInformationFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StallInformationPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.StallInformationFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StallInformationPayload>
+        }
+        findMany: {
+          args: Prisma.StallInformationFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StallInformationPayload>[]
+        }
+        create: {
+          args: Prisma.StallInformationCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StallInformationPayload>
+        }
+        createMany: {
+          args: Prisma.StallInformationCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.StallInformationCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StallInformationPayload>[]
+        }
+        delete: {
+          args: Prisma.StallInformationDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StallInformationPayload>
+        }
+        update: {
+          args: Prisma.StallInformationUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StallInformationPayload>
+        }
+        deleteMany: {
+          args: Prisma.StallInformationDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.StallInformationUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.StallInformationUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StallInformationPayload>[]
+        }
+        upsert: {
+          args: Prisma.StallInformationUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StallInformationPayload>
+        }
+        aggregate: {
+          args: Prisma.StallInformationAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateStallInformation>
+        }
+        groupBy: {
+          args: Prisma.StallInformationGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.StallInformationGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.StallInformationCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.StallInformationCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -2216,6 +2516,68 @@ export const SponsorshipPackageScalarFieldEnum = {
 export type SponsorshipPackageScalarFieldEnum = (typeof SponsorshipPackageScalarFieldEnum)[keyof typeof SponsorshipPackageScalarFieldEnum]
 
 
+export const StallApplicationScalarFieldEnum = {
+  id: 'id',
+  applicantId: 'applicantId',
+  organisationId: 'organisationId',
+  stallSiteCategoryId: 'stallSiteCategoryId',
+  preferredLocation: 'preferredLocation',
+  itemsToBeSoldOrDisplayed: 'itemsToBeSoldOrDisplayed',
+  layoutOrSpecialFeatures: 'layoutOrSpecialFeatures',
+  stallSetupImageLink: 'stallSetupImageLink',
+  publicLiabilityInsuranceLink: 'publicLiabilityInsuranceLink',
+  applicationDate: 'applicationDate',
+  approved: 'approved',
+  approvedDate: 'approvedDate',
+  notes: 'notes'
+} as const
+
+export type StallApplicationScalarFieldEnum = (typeof StallApplicationScalarFieldEnum)[keyof typeof StallApplicationScalarFieldEnum]
+
+
+export const StallSiteCategoryScalarFieldEnum = {
+  id: 'id',
+  showId: 'showId',
+  name: 'name',
+  description: 'description',
+  sizeWidth: 'sizeWidth',
+  sizeDepth: 'sizeDepth',
+  powerSupply: 'powerSupply',
+  covered: 'covered',
+  basePrice: 'basePrice'
+} as const
+
+export type StallSiteCategoryScalarFieldEnum = (typeof StallSiteCategoryScalarFieldEnum)[keyof typeof StallSiteCategoryScalarFieldEnum]
+
+
+export const StallSiteScalarFieldEnum = {
+  id: 'id',
+  siteNumber: 'siteNumber',
+  siteCategoryId: 'siteCategoryId',
+  applicationId: 'applicationId'
+} as const
+
+export type StallSiteScalarFieldEnum = (typeof StallSiteScalarFieldEnum)[keyof typeof StallSiteScalarFieldEnum]
+
+
+export const StallInformationScalarFieldEnum = {
+  id: 'id',
+  showId: 'showId',
+  welcomeMessage: 'welcomeMessage',
+  insuranceDetails: 'insuranceDetails',
+  safetyGuidelines: 'safetyGuidelines',
+  setupInstructions: 'setupInstructions',
+  paymentDetails: 'paymentDetails',
+  cancellationPolicy: 'cancellationPolicy',
+  siteMap: 'siteMap',
+  contactInformation: 'contactInformation',
+  thankyouMessage: 'thankyouMessage',
+  applicationDeadline: 'applicationDeadline'
+} as const
+
+export type StallInformationScalarFieldEnum = (typeof StallInformationScalarFieldEnum)[keyof typeof StallInformationScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -2521,6 +2883,10 @@ export type GlobalOmitConfig = {
   membership?: Prisma.MembershipOmit
   membershipPackage?: Prisma.MembershipPackageOmit
   sponsorshipPackage?: Prisma.SponsorshipPackageOmit
+  stallApplication?: Prisma.StallApplicationOmit
+  stallSiteCategory?: Prisma.StallSiteCategoryOmit
+  stallSite?: Prisma.StallSiteOmit
+  stallInformation?: Prisma.StallInformationOmit
 }
 
 /* Types for Logging */

@@ -186,6 +186,7 @@ export type OrganisationWhereInput = {
   shippingAddress?: Prisma.XOR<Prisma.AddressNullableScalarRelationFilter, Prisma.AddressWhereInput> | null
   contactPerson?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   sponsorships?: Prisma.SponsorshipListRelationFilter
+  stallApplications?: Prisma.StallApplicationListRelationFilter
 }
 
 export type OrganisationOrderByWithRelationInput = {
@@ -198,6 +199,7 @@ export type OrganisationOrderByWithRelationInput = {
   shippingAddress?: Prisma.AddressOrderByWithRelationInput
   contactPerson?: Prisma.UserOrderByWithRelationInput
   sponsorships?: Prisma.SponsorshipOrderByRelationAggregateInput
+  stallApplications?: Prisma.StallApplicationOrderByRelationAggregateInput
 }
 
 export type OrganisationWhereUniqueInput = Prisma.AtLeast<{
@@ -213,6 +215,7 @@ export type OrganisationWhereUniqueInput = Prisma.AtLeast<{
   shippingAddress?: Prisma.XOR<Prisma.AddressNullableScalarRelationFilter, Prisma.AddressWhereInput> | null
   contactPerson?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   sponsorships?: Prisma.SponsorshipListRelationFilter
+  stallApplications?: Prisma.StallApplicationListRelationFilter
 }, "id" | "name" | "billingAddressId" | "shippingAddressId">
 
 export type OrganisationOrderByWithAggregationInput = {
@@ -244,6 +247,7 @@ export type OrganisationCreateInput = {
   shippingAddress?: Prisma.AddressCreateNestedOneWithoutShippingOrgInput
   contactPerson: Prisma.UserCreateNestedOneWithoutOrganisationInput
   sponsorships?: Prisma.SponsorshipCreateNestedManyWithoutOrganisationInput
+  stallApplications?: Prisma.StallApplicationCreateNestedManyWithoutOrganisationInput
 }
 
 export type OrganisationUncheckedCreateInput = {
@@ -253,6 +257,7 @@ export type OrganisationUncheckedCreateInput = {
   shippingAddressId?: string | null
   contactPersonId: string
   sponsorships?: Prisma.SponsorshipUncheckedCreateNestedManyWithoutOrganisationInput
+  stallApplications?: Prisma.StallApplicationUncheckedCreateNestedManyWithoutOrganisationInput
 }
 
 export type OrganisationUpdateInput = {
@@ -262,6 +267,7 @@ export type OrganisationUpdateInput = {
   shippingAddress?: Prisma.AddressUpdateOneWithoutShippingOrgNestedInput
   contactPerson?: Prisma.UserUpdateOneRequiredWithoutOrganisationNestedInput
   sponsorships?: Prisma.SponsorshipUpdateManyWithoutOrganisationNestedInput
+  stallApplications?: Prisma.StallApplicationUpdateManyWithoutOrganisationNestedInput
 }
 
 export type OrganisationUncheckedUpdateInput = {
@@ -271,6 +277,7 @@ export type OrganisationUncheckedUpdateInput = {
   shippingAddressId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactPersonId?: Prisma.StringFieldUpdateOperationsInput | string
   sponsorships?: Prisma.SponsorshipUncheckedUpdateManyWithoutOrganisationNestedInput
+  stallApplications?: Prisma.StallApplicationUncheckedUpdateManyWithoutOrganisationNestedInput
 }
 
 export type OrganisationCreateManyInput = {
@@ -458,12 +465,29 @@ export type OrganisationUpdateOneRequiredWithoutSponsorshipsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.OrganisationUpdateToOneWithWhereWithoutSponsorshipsInput, Prisma.OrganisationUpdateWithoutSponsorshipsInput>, Prisma.OrganisationUncheckedUpdateWithoutSponsorshipsInput>
 }
 
+export type OrganisationCreateNestedOneWithoutStallApplicationsInput = {
+  create?: Prisma.XOR<Prisma.OrganisationCreateWithoutStallApplicationsInput, Prisma.OrganisationUncheckedCreateWithoutStallApplicationsInput>
+  connectOrCreate?: Prisma.OrganisationCreateOrConnectWithoutStallApplicationsInput
+  connect?: Prisma.OrganisationWhereUniqueInput
+}
+
+export type OrganisationUpdateOneWithoutStallApplicationsNestedInput = {
+  create?: Prisma.XOR<Prisma.OrganisationCreateWithoutStallApplicationsInput, Prisma.OrganisationUncheckedCreateWithoutStallApplicationsInput>
+  connectOrCreate?: Prisma.OrganisationCreateOrConnectWithoutStallApplicationsInput
+  upsert?: Prisma.OrganisationUpsertWithoutStallApplicationsInput
+  disconnect?: Prisma.OrganisationWhereInput | boolean
+  delete?: Prisma.OrganisationWhereInput | boolean
+  connect?: Prisma.OrganisationWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.OrganisationUpdateToOneWithWhereWithoutStallApplicationsInput, Prisma.OrganisationUpdateWithoutStallApplicationsInput>, Prisma.OrganisationUncheckedUpdateWithoutStallApplicationsInput>
+}
+
 export type OrganisationCreateWithoutContactPersonInput = {
   id?: string
   name: string
   billingAddress?: Prisma.AddressCreateNestedOneWithoutBillingOrgInput
   shippingAddress?: Prisma.AddressCreateNestedOneWithoutShippingOrgInput
   sponsorships?: Prisma.SponsorshipCreateNestedManyWithoutOrganisationInput
+  stallApplications?: Prisma.StallApplicationCreateNestedManyWithoutOrganisationInput
 }
 
 export type OrganisationUncheckedCreateWithoutContactPersonInput = {
@@ -472,6 +496,7 @@ export type OrganisationUncheckedCreateWithoutContactPersonInput = {
   billingAddressId?: string | null
   shippingAddressId?: string | null
   sponsorships?: Prisma.SponsorshipUncheckedCreateNestedManyWithoutOrganisationInput
+  stallApplications?: Prisma.StallApplicationUncheckedCreateNestedManyWithoutOrganisationInput
 }
 
 export type OrganisationCreateOrConnectWithoutContactPersonInput = {
@@ -517,6 +542,7 @@ export type OrganisationCreateWithoutBillingAddressInput = {
   shippingAddress?: Prisma.AddressCreateNestedOneWithoutShippingOrgInput
   contactPerson: Prisma.UserCreateNestedOneWithoutOrganisationInput
   sponsorships?: Prisma.SponsorshipCreateNestedManyWithoutOrganisationInput
+  stallApplications?: Prisma.StallApplicationCreateNestedManyWithoutOrganisationInput
 }
 
 export type OrganisationUncheckedCreateWithoutBillingAddressInput = {
@@ -525,6 +551,7 @@ export type OrganisationUncheckedCreateWithoutBillingAddressInput = {
   shippingAddressId?: string | null
   contactPersonId: string
   sponsorships?: Prisma.SponsorshipUncheckedCreateNestedManyWithoutOrganisationInput
+  stallApplications?: Prisma.StallApplicationUncheckedCreateNestedManyWithoutOrganisationInput
 }
 
 export type OrganisationCreateOrConnectWithoutBillingAddressInput = {
@@ -538,6 +565,7 @@ export type OrganisationCreateWithoutShippingAddressInput = {
   billingAddress?: Prisma.AddressCreateNestedOneWithoutBillingOrgInput
   contactPerson: Prisma.UserCreateNestedOneWithoutOrganisationInput
   sponsorships?: Prisma.SponsorshipCreateNestedManyWithoutOrganisationInput
+  stallApplications?: Prisma.StallApplicationCreateNestedManyWithoutOrganisationInput
 }
 
 export type OrganisationUncheckedCreateWithoutShippingAddressInput = {
@@ -546,6 +574,7 @@ export type OrganisationUncheckedCreateWithoutShippingAddressInput = {
   billingAddressId?: string | null
   contactPersonId: string
   sponsorships?: Prisma.SponsorshipUncheckedCreateNestedManyWithoutOrganisationInput
+  stallApplications?: Prisma.StallApplicationUncheckedCreateNestedManyWithoutOrganisationInput
 }
 
 export type OrganisationCreateOrConnectWithoutShippingAddressInput = {
@@ -570,6 +599,7 @@ export type OrganisationUpdateWithoutBillingAddressInput = {
   shippingAddress?: Prisma.AddressUpdateOneWithoutShippingOrgNestedInput
   contactPerson?: Prisma.UserUpdateOneRequiredWithoutOrganisationNestedInput
   sponsorships?: Prisma.SponsorshipUpdateManyWithoutOrganisationNestedInput
+  stallApplications?: Prisma.StallApplicationUpdateManyWithoutOrganisationNestedInput
 }
 
 export type OrganisationUncheckedUpdateWithoutBillingAddressInput = {
@@ -578,6 +608,7 @@ export type OrganisationUncheckedUpdateWithoutBillingAddressInput = {
   shippingAddressId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactPersonId?: Prisma.StringFieldUpdateOperationsInput | string
   sponsorships?: Prisma.SponsorshipUncheckedUpdateManyWithoutOrganisationNestedInput
+  stallApplications?: Prisma.StallApplicationUncheckedUpdateManyWithoutOrganisationNestedInput
 }
 
 export type OrganisationUpsertWithoutShippingAddressInput = {
@@ -597,6 +628,7 @@ export type OrganisationUpdateWithoutShippingAddressInput = {
   billingAddress?: Prisma.AddressUpdateOneWithoutBillingOrgNestedInput
   contactPerson?: Prisma.UserUpdateOneRequiredWithoutOrganisationNestedInput
   sponsorships?: Prisma.SponsorshipUpdateManyWithoutOrganisationNestedInput
+  stallApplications?: Prisma.StallApplicationUpdateManyWithoutOrganisationNestedInput
 }
 
 export type OrganisationUncheckedUpdateWithoutShippingAddressInput = {
@@ -605,6 +637,7 @@ export type OrganisationUncheckedUpdateWithoutShippingAddressInput = {
   billingAddressId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactPersonId?: Prisma.StringFieldUpdateOperationsInput | string
   sponsorships?: Prisma.SponsorshipUncheckedUpdateManyWithoutOrganisationNestedInput
+  stallApplications?: Prisma.StallApplicationUncheckedUpdateManyWithoutOrganisationNestedInput
 }
 
 export type OrganisationCreateWithoutSponsorshipsInput = {
@@ -613,6 +646,7 @@ export type OrganisationCreateWithoutSponsorshipsInput = {
   billingAddress?: Prisma.AddressCreateNestedOneWithoutBillingOrgInput
   shippingAddress?: Prisma.AddressCreateNestedOneWithoutShippingOrgInput
   contactPerson: Prisma.UserCreateNestedOneWithoutOrganisationInput
+  stallApplications?: Prisma.StallApplicationCreateNestedManyWithoutOrganisationInput
 }
 
 export type OrganisationUncheckedCreateWithoutSponsorshipsInput = {
@@ -621,6 +655,7 @@ export type OrganisationUncheckedCreateWithoutSponsorshipsInput = {
   billingAddressId?: string | null
   shippingAddressId?: string | null
   contactPersonId: string
+  stallApplications?: Prisma.StallApplicationUncheckedCreateNestedManyWithoutOrganisationInput
 }
 
 export type OrganisationCreateOrConnectWithoutSponsorshipsInput = {
@@ -645,6 +680,7 @@ export type OrganisationUpdateWithoutSponsorshipsInput = {
   billingAddress?: Prisma.AddressUpdateOneWithoutBillingOrgNestedInput
   shippingAddress?: Prisma.AddressUpdateOneWithoutShippingOrgNestedInput
   contactPerson?: Prisma.UserUpdateOneRequiredWithoutOrganisationNestedInput
+  stallApplications?: Prisma.StallApplicationUpdateManyWithoutOrganisationNestedInput
 }
 
 export type OrganisationUncheckedUpdateWithoutSponsorshipsInput = {
@@ -653,6 +689,59 @@ export type OrganisationUncheckedUpdateWithoutSponsorshipsInput = {
   billingAddressId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shippingAddressId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactPersonId?: Prisma.StringFieldUpdateOperationsInput | string
+  stallApplications?: Prisma.StallApplicationUncheckedUpdateManyWithoutOrganisationNestedInput
+}
+
+export type OrganisationCreateWithoutStallApplicationsInput = {
+  id?: string
+  name: string
+  billingAddress?: Prisma.AddressCreateNestedOneWithoutBillingOrgInput
+  shippingAddress?: Prisma.AddressCreateNestedOneWithoutShippingOrgInput
+  contactPerson: Prisma.UserCreateNestedOneWithoutOrganisationInput
+  sponsorships?: Prisma.SponsorshipCreateNestedManyWithoutOrganisationInput
+}
+
+export type OrganisationUncheckedCreateWithoutStallApplicationsInput = {
+  id?: string
+  name: string
+  billingAddressId?: string | null
+  shippingAddressId?: string | null
+  contactPersonId: string
+  sponsorships?: Prisma.SponsorshipUncheckedCreateNestedManyWithoutOrganisationInput
+}
+
+export type OrganisationCreateOrConnectWithoutStallApplicationsInput = {
+  where: Prisma.OrganisationWhereUniqueInput
+  create: Prisma.XOR<Prisma.OrganisationCreateWithoutStallApplicationsInput, Prisma.OrganisationUncheckedCreateWithoutStallApplicationsInput>
+}
+
+export type OrganisationUpsertWithoutStallApplicationsInput = {
+  update: Prisma.XOR<Prisma.OrganisationUpdateWithoutStallApplicationsInput, Prisma.OrganisationUncheckedUpdateWithoutStallApplicationsInput>
+  create: Prisma.XOR<Prisma.OrganisationCreateWithoutStallApplicationsInput, Prisma.OrganisationUncheckedCreateWithoutStallApplicationsInput>
+  where?: Prisma.OrganisationWhereInput
+}
+
+export type OrganisationUpdateToOneWithWhereWithoutStallApplicationsInput = {
+  where?: Prisma.OrganisationWhereInput
+  data: Prisma.XOR<Prisma.OrganisationUpdateWithoutStallApplicationsInput, Prisma.OrganisationUncheckedUpdateWithoutStallApplicationsInput>
+}
+
+export type OrganisationUpdateWithoutStallApplicationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  billingAddress?: Prisma.AddressUpdateOneWithoutBillingOrgNestedInput
+  shippingAddress?: Prisma.AddressUpdateOneWithoutShippingOrgNestedInput
+  contactPerson?: Prisma.UserUpdateOneRequiredWithoutOrganisationNestedInput
+  sponsorships?: Prisma.SponsorshipUpdateManyWithoutOrganisationNestedInput
+}
+
+export type OrganisationUncheckedUpdateWithoutStallApplicationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  billingAddressId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shippingAddressId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPersonId?: Prisma.StringFieldUpdateOperationsInput | string
+  sponsorships?: Prisma.SponsorshipUncheckedUpdateManyWithoutOrganisationNestedInput
 }
 
 export type OrganisationCreateManyContactPersonInput = {
@@ -668,6 +757,7 @@ export type OrganisationUpdateWithoutContactPersonInput = {
   billingAddress?: Prisma.AddressUpdateOneWithoutBillingOrgNestedInput
   shippingAddress?: Prisma.AddressUpdateOneWithoutShippingOrgNestedInput
   sponsorships?: Prisma.SponsorshipUpdateManyWithoutOrganisationNestedInput
+  stallApplications?: Prisma.StallApplicationUpdateManyWithoutOrganisationNestedInput
 }
 
 export type OrganisationUncheckedUpdateWithoutContactPersonInput = {
@@ -676,6 +766,7 @@ export type OrganisationUncheckedUpdateWithoutContactPersonInput = {
   billingAddressId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   shippingAddressId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sponsorships?: Prisma.SponsorshipUncheckedUpdateManyWithoutOrganisationNestedInput
+  stallApplications?: Prisma.StallApplicationUncheckedUpdateManyWithoutOrganisationNestedInput
 }
 
 export type OrganisationUncheckedUpdateManyWithoutContactPersonInput = {
@@ -692,10 +783,12 @@ export type OrganisationUncheckedUpdateManyWithoutContactPersonInput = {
 
 export type OrganisationCountOutputType = {
   sponsorships: number
+  stallApplications: number
 }
 
 export type OrganisationCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   sponsorships?: boolean | OrganisationCountOutputTypeCountSponsorshipsArgs
+  stallApplications?: boolean | OrganisationCountOutputTypeCountStallApplicationsArgs
 }
 
 /**
@@ -715,6 +808,13 @@ export type OrganisationCountOutputTypeCountSponsorshipsArgs<ExtArgs extends run
   where?: Prisma.SponsorshipWhereInput
 }
 
+/**
+ * OrganisationCountOutputType without action
+ */
+export type OrganisationCountOutputTypeCountStallApplicationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.StallApplicationWhereInput
+}
+
 
 export type OrganisationSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -726,6 +826,7 @@ export type OrganisationSelect<ExtArgs extends runtime.Types.Extensions.Internal
   shippingAddress?: boolean | Prisma.Organisation$shippingAddressArgs<ExtArgs>
   contactPerson?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   sponsorships?: boolean | Prisma.Organisation$sponsorshipsArgs<ExtArgs>
+  stallApplications?: boolean | Prisma.Organisation$stallApplicationsArgs<ExtArgs>
   _count?: boolean | Prisma.OrganisationCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["organisation"]>
 
@@ -765,6 +866,7 @@ export type OrganisationInclude<ExtArgs extends runtime.Types.Extensions.Interna
   shippingAddress?: boolean | Prisma.Organisation$shippingAddressArgs<ExtArgs>
   contactPerson?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   sponsorships?: boolean | Prisma.Organisation$sponsorshipsArgs<ExtArgs>
+  stallApplications?: boolean | Prisma.Organisation$stallApplicationsArgs<ExtArgs>
   _count?: boolean | Prisma.OrganisationCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type OrganisationIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -785,6 +887,7 @@ export type $OrganisationPayload<ExtArgs extends runtime.Types.Extensions.Intern
     shippingAddress: Prisma.$AddressPayload<ExtArgs> | null
     contactPerson: Prisma.$UserPayload<ExtArgs>
     sponsorships: Prisma.$SponsorshipPayload<ExtArgs>[]
+    stallApplications: Prisma.$StallApplicationPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1190,6 +1293,7 @@ export interface Prisma__OrganisationClient<T, Null = never, ExtArgs extends run
   shippingAddress<T extends Prisma.Organisation$shippingAddressArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Organisation$shippingAddressArgs<ExtArgs>>): Prisma.Prisma__AddressClient<runtime.Types.Result.GetResult<Prisma.$AddressPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   contactPerson<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   sponsorships<T extends Prisma.Organisation$sponsorshipsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Organisation$sponsorshipsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SponsorshipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  stallApplications<T extends Prisma.Organisation$stallApplicationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Organisation$stallApplicationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StallApplicationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1688,6 +1792,30 @@ export type Organisation$sponsorshipsArgs<ExtArgs extends runtime.Types.Extensio
   take?: number
   skip?: number
   distinct?: Prisma.SponsorshipScalarFieldEnum | Prisma.SponsorshipScalarFieldEnum[]
+}
+
+/**
+ * Organisation.stallApplications
+ */
+export type Organisation$stallApplicationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the StallApplication
+   */
+  select?: Prisma.StallApplicationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the StallApplication
+   */
+  omit?: Prisma.StallApplicationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StallApplicationInclude<ExtArgs> | null
+  where?: Prisma.StallApplicationWhereInput
+  orderBy?: Prisma.StallApplicationOrderByWithRelationInput | Prisma.StallApplicationOrderByWithRelationInput[]
+  cursor?: Prisma.StallApplicationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.StallApplicationScalarFieldEnum | Prisma.StallApplicationScalarFieldEnum[]
 }
 
 /**

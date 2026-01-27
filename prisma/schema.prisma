@@ -45,7 +45,8 @@ model User {
   memberships                 Membership[]
   officialRole                OfficialRole?
 
-  dataEdits DataEdit[]
+  dataEdits         DataEdit[]
+  stallApplications StallApplication[]
 
   @@unique([email])
   @@map("user")
@@ -145,8 +146,10 @@ model Organisation {
   shippingAddress   Address?      @relation(name: "OrgShippingAddress", fields: [shippingAddressId], references: [id])
   shippingAddressId String?       @unique
   contactPerson     User          @relation(fields: [contactPersonId], references: [id])
-  contactPersonId   String        
+  contactPersonId   String
   sponsorships      Sponsorship[]
+
+  stallApplications StallApplication[]
 }
 
 model EventSection {
@@ -261,6 +264,10 @@ model Show {
   eventSections EventSection[]
   sponsorships  Sponsorship[]
   schedule      Schedule?
+
+  stallInformations StallInformation[]
+
+  stallSiteCategories StallSiteCategory[]
 }
 
 model Membership {
@@ -290,6 +297,67 @@ model SponsorshipPackage {
   minimumAmount Int
   maximumAmount Int
   sponsorships  Sponsorship[]
+}
+
+model StallApplication {
+  id                           String            @id @default(cuid())
+  applicant                    User              @relation(fields: [applicantId], references: [id])
+  applicantId                  String
+  organisation                 Organisation?     @relation(fields: [organisationId], references: [id])
+  organisationId               String?
+  stallSiteCategory            StallSiteCategory @relation(fields: [stallSiteCategoryId], references: [id])
+  stallSiteCategoryId          String
+  preferredLocation            String            @db.Text
+  itemsToBeSoldOrDisplayed     String            @db.Text
+  layoutOrSpecialFeatures      String?           @db.Text
+  stallSetupImageLink          String?
+  publicLiabilityInsuranceLink String?
+  applicationDate              DateTime          @default(now())
+  approved                     Boolean           @default(false)
+  approvedDate                 DateTime?
+  notes                        String?           @db.Text
+  stallSites StallSite[]
+}
+
+model StallSiteCategory {
+  id          String      @id @default(cuid())
+  show        Show        @relation(fields: [showId], references: [id])
+  showId      String
+  name        String
+  description String?
+  sizeWidth   Float
+  sizeDepth   Float
+  powerSupply Boolean     @default(false)
+  covered     Boolean     @default(false)
+  basePrice   Float
+  stallSites  StallSite[]
+
+  stallApplications StallApplication[]
+}
+
+model StallSite {
+  id             String            @id @default(cuid())
+  siteNumber     Int               @unique
+  siteCategory   StallSiteCategory @relation(fields: [siteCategoryId], references: [id])
+  siteCategoryId String
+  application    StallApplication  @relation(fields: [applicationId], references: [id])
+  applicationId  String
+}
+
+model StallInformation {
+  id                  String    @id @default(cuid())
+  showId              String    @unique
+  show                Show      @relation(fields: [showId], references: [id])
+  welcomeMessage      String?   @db.Text
+  insuranceDetails    String?   @db.Text
+  safetyGuidelines    String?   @db.Text
+  setupInstructions   String?   @db.Text
+  paymentDetails      String?   @db.Text
+  cancellationPolicy  String?   @db.Text
+  siteMap             String?   @db.Text
+  contactInformation  String?   @db.Text
+  thankyouMessage      String?   @db.Text
+  applicationDeadline DateTime?
 }
 
 enum DATA_OPERATION {

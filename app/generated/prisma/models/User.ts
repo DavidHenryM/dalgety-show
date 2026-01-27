@@ -323,6 +323,7 @@ export type UserWhereInput = {
   eventResults?: Prisma.EventResultListRelationFilter
   memberships?: Prisma.MembershipListRelationFilter
   dataEdits?: Prisma.DataEditListRelationFilter
+  stallApplications?: Prisma.StallApplicationListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -354,6 +355,7 @@ export type UserOrderByWithRelationInput = {
   eventResults?: Prisma.EventResultOrderByRelationAggregateInput
   memberships?: Prisma.MembershipOrderByRelationAggregateInput
   dataEdits?: Prisma.DataEditOrderByRelationAggregateInput
+  stallApplications?: Prisma.StallApplicationOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -388,6 +390,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   eventResults?: Prisma.EventResultListRelationFilter
   memberships?: Prisma.MembershipListRelationFilter
   dataEdits?: Prisma.DataEditListRelationFilter
+  stallApplications?: Prisma.StallApplicationListRelationFilter
 }, "id" | "username" | "billingAddressId" | "shippingAddressId" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -465,6 +468,7 @@ export type UserCreateInput = {
   eventResults?: Prisma.EventResultCreateNestedManyWithoutWinnerInput
   memberships?: Prisma.MembershipCreateNestedManyWithoutMemberInput
   dataEdits?: Prisma.DataEditCreateNestedManyWithoutEditedByInput
+  stallApplications?: Prisma.StallApplicationCreateNestedManyWithoutApplicantInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -494,6 +498,7 @@ export type UserUncheckedCreateInput = {
   eventResults?: Prisma.EventResultUncheckedCreateNestedManyWithoutWinnerInput
   memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutMemberInput
   dataEdits?: Prisma.DataEditUncheckedCreateNestedManyWithoutEditedByInput
+  stallApplications?: Prisma.StallApplicationUncheckedCreateNestedManyWithoutApplicantInput
 }
 
 export type UserUpdateInput = {
@@ -523,6 +528,7 @@ export type UserUpdateInput = {
   eventResults?: Prisma.EventResultUpdateManyWithoutWinnerNestedInput
   memberships?: Prisma.MembershipUpdateManyWithoutMemberNestedInput
   dataEdits?: Prisma.DataEditUpdateManyWithoutEditedByNestedInput
+  stallApplications?: Prisma.StallApplicationUpdateManyWithoutApplicantNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -552,6 +558,7 @@ export type UserUncheckedUpdateInput = {
   eventResults?: Prisma.EventResultUncheckedUpdateManyWithoutWinnerNestedInput
   memberships?: Prisma.MembershipUncheckedUpdateManyWithoutMemberNestedInput
   dataEdits?: Prisma.DataEditUncheckedUpdateManyWithoutEditedByNestedInput
+  stallApplications?: Prisma.StallApplicationUncheckedUpdateManyWithoutApplicantNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -972,6 +979,20 @@ export type UserUpdateOneRequiredWithoutMembershipsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutMembershipsInput, Prisma.UserUpdateWithoutMembershipsInput>, Prisma.UserUncheckedUpdateWithoutMembershipsInput>
 }
 
+export type UserCreateNestedOneWithoutStallApplicationsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutStallApplicationsInput, Prisma.UserUncheckedCreateWithoutStallApplicationsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutStallApplicationsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutStallApplicationsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutStallApplicationsInput, Prisma.UserUncheckedCreateWithoutStallApplicationsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutStallApplicationsInput
+  upsert?: Prisma.UserUpsertWithoutStallApplicationsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutStallApplicationsInput, Prisma.UserUpdateWithoutStallApplicationsInput>, Prisma.UserUncheckedUpdateWithoutStallApplicationsInput>
+}
+
 export type UserCreateWithoutAccountsInput = {
   id?: string
   name: string
@@ -998,6 +1019,7 @@ export type UserCreateWithoutAccountsInput = {
   eventResults?: Prisma.EventResultCreateNestedManyWithoutWinnerInput
   memberships?: Prisma.MembershipCreateNestedManyWithoutMemberInput
   dataEdits?: Prisma.DataEditCreateNestedManyWithoutEditedByInput
+  stallApplications?: Prisma.StallApplicationCreateNestedManyWithoutApplicantInput
 }
 
 export type UserUncheckedCreateWithoutAccountsInput = {
@@ -1026,6 +1048,7 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   eventResults?: Prisma.EventResultUncheckedCreateNestedManyWithoutWinnerInput
   memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutMemberInput
   dataEdits?: Prisma.DataEditUncheckedCreateNestedManyWithoutEditedByInput
+  stallApplications?: Prisma.StallApplicationUncheckedCreateNestedManyWithoutApplicantInput
 }
 
 export type UserCreateOrConnectWithoutAccountsInput = {
@@ -1070,6 +1093,7 @@ export type UserUpdateWithoutAccountsInput = {
   eventResults?: Prisma.EventResultUpdateManyWithoutWinnerNestedInput
   memberships?: Prisma.MembershipUpdateManyWithoutMemberNestedInput
   dataEdits?: Prisma.DataEditUpdateManyWithoutEditedByNestedInput
+  stallApplications?: Prisma.StallApplicationUpdateManyWithoutApplicantNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -1098,6 +1122,7 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   eventResults?: Prisma.EventResultUncheckedUpdateManyWithoutWinnerNestedInput
   memberships?: Prisma.MembershipUncheckedUpdateManyWithoutMemberNestedInput
   dataEdits?: Prisma.DataEditUncheckedUpdateManyWithoutEditedByNestedInput
+  stallApplications?: Prisma.StallApplicationUncheckedUpdateManyWithoutApplicantNestedInput
 }
 
 export type UserCreateWithoutSessionsInput = {
@@ -1126,6 +1151,7 @@ export type UserCreateWithoutSessionsInput = {
   eventResults?: Prisma.EventResultCreateNestedManyWithoutWinnerInput
   memberships?: Prisma.MembershipCreateNestedManyWithoutMemberInput
   dataEdits?: Prisma.DataEditCreateNestedManyWithoutEditedByInput
+  stallApplications?: Prisma.StallApplicationCreateNestedManyWithoutApplicantInput
 }
 
 export type UserUncheckedCreateWithoutSessionsInput = {
@@ -1154,6 +1180,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   eventResults?: Prisma.EventResultUncheckedCreateNestedManyWithoutWinnerInput
   memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutMemberInput
   dataEdits?: Prisma.DataEditUncheckedCreateNestedManyWithoutEditedByInput
+  stallApplications?: Prisma.StallApplicationUncheckedCreateNestedManyWithoutApplicantInput
 }
 
 export type UserCreateOrConnectWithoutSessionsInput = {
@@ -1198,6 +1225,7 @@ export type UserUpdateWithoutSessionsInput = {
   eventResults?: Prisma.EventResultUpdateManyWithoutWinnerNestedInput
   memberships?: Prisma.MembershipUpdateManyWithoutMemberNestedInput
   dataEdits?: Prisma.DataEditUpdateManyWithoutEditedByNestedInput
+  stallApplications?: Prisma.StallApplicationUpdateManyWithoutApplicantNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -1226,6 +1254,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   eventResults?: Prisma.EventResultUncheckedUpdateManyWithoutWinnerNestedInput
   memberships?: Prisma.MembershipUncheckedUpdateManyWithoutMemberNestedInput
   dataEdits?: Prisma.DataEditUncheckedUpdateManyWithoutEditedByNestedInput
+  stallApplications?: Prisma.StallApplicationUncheckedUpdateManyWithoutApplicantNestedInput
 }
 
 export type UserCreateWithoutAuthenticatorInput = {
@@ -1254,6 +1283,7 @@ export type UserCreateWithoutAuthenticatorInput = {
   eventResults?: Prisma.EventResultCreateNestedManyWithoutWinnerInput
   memberships?: Prisma.MembershipCreateNestedManyWithoutMemberInput
   dataEdits?: Prisma.DataEditCreateNestedManyWithoutEditedByInput
+  stallApplications?: Prisma.StallApplicationCreateNestedManyWithoutApplicantInput
 }
 
 export type UserUncheckedCreateWithoutAuthenticatorInput = {
@@ -1282,6 +1312,7 @@ export type UserUncheckedCreateWithoutAuthenticatorInput = {
   eventResults?: Prisma.EventResultUncheckedCreateNestedManyWithoutWinnerInput
   memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutMemberInput
   dataEdits?: Prisma.DataEditUncheckedCreateNestedManyWithoutEditedByInput
+  stallApplications?: Prisma.StallApplicationUncheckedCreateNestedManyWithoutApplicantInput
 }
 
 export type UserCreateOrConnectWithoutAuthenticatorInput = {
@@ -1326,6 +1357,7 @@ export type UserUpdateWithoutAuthenticatorInput = {
   eventResults?: Prisma.EventResultUpdateManyWithoutWinnerNestedInput
   memberships?: Prisma.MembershipUpdateManyWithoutMemberNestedInput
   dataEdits?: Prisma.DataEditUpdateManyWithoutEditedByNestedInput
+  stallApplications?: Prisma.StallApplicationUpdateManyWithoutApplicantNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAuthenticatorInput = {
@@ -1354,6 +1386,7 @@ export type UserUncheckedUpdateWithoutAuthenticatorInput = {
   eventResults?: Prisma.EventResultUncheckedUpdateManyWithoutWinnerNestedInput
   memberships?: Prisma.MembershipUncheckedUpdateManyWithoutMemberNestedInput
   dataEdits?: Prisma.DataEditUncheckedUpdateManyWithoutEditedByNestedInput
+  stallApplications?: Prisma.StallApplicationUncheckedUpdateManyWithoutApplicantNestedInput
 }
 
 export type UserCreateWithoutDataEditsInput = {
@@ -1382,6 +1415,7 @@ export type UserCreateWithoutDataEditsInput = {
   stewardOfEventSections?: Prisma.EventSectionCreateNestedManyWithoutStewardsInput
   eventResults?: Prisma.EventResultCreateNestedManyWithoutWinnerInput
   memberships?: Prisma.MembershipCreateNestedManyWithoutMemberInput
+  stallApplications?: Prisma.StallApplicationCreateNestedManyWithoutApplicantInput
 }
 
 export type UserUncheckedCreateWithoutDataEditsInput = {
@@ -1410,6 +1444,7 @@ export type UserUncheckedCreateWithoutDataEditsInput = {
   stewardOfEventSections?: Prisma.EventSectionUncheckedCreateNestedManyWithoutStewardsInput
   eventResults?: Prisma.EventResultUncheckedCreateNestedManyWithoutWinnerInput
   memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutMemberInput
+  stallApplications?: Prisma.StallApplicationUncheckedCreateNestedManyWithoutApplicantInput
 }
 
 export type UserCreateOrConnectWithoutDataEditsInput = {
@@ -1454,6 +1489,7 @@ export type UserUpdateWithoutDataEditsInput = {
   stewardOfEventSections?: Prisma.EventSectionUpdateManyWithoutStewardsNestedInput
   eventResults?: Prisma.EventResultUpdateManyWithoutWinnerNestedInput
   memberships?: Prisma.MembershipUpdateManyWithoutMemberNestedInput
+  stallApplications?: Prisma.StallApplicationUpdateManyWithoutApplicantNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDataEditsInput = {
@@ -1482,6 +1518,7 @@ export type UserUncheckedUpdateWithoutDataEditsInput = {
   stewardOfEventSections?: Prisma.EventSectionUncheckedUpdateManyWithoutStewardsNestedInput
   eventResults?: Prisma.EventResultUncheckedUpdateManyWithoutWinnerNestedInput
   memberships?: Prisma.MembershipUncheckedUpdateManyWithoutMemberNestedInput
+  stallApplications?: Prisma.StallApplicationUncheckedUpdateManyWithoutApplicantNestedInput
 }
 
 export type UserCreateWithoutBillingAddressInput = {
@@ -1510,6 +1547,7 @@ export type UserCreateWithoutBillingAddressInput = {
   eventResults?: Prisma.EventResultCreateNestedManyWithoutWinnerInput
   memberships?: Prisma.MembershipCreateNestedManyWithoutMemberInput
   dataEdits?: Prisma.DataEditCreateNestedManyWithoutEditedByInput
+  stallApplications?: Prisma.StallApplicationCreateNestedManyWithoutApplicantInput
 }
 
 export type UserUncheckedCreateWithoutBillingAddressInput = {
@@ -1538,6 +1576,7 @@ export type UserUncheckedCreateWithoutBillingAddressInput = {
   eventResults?: Prisma.EventResultUncheckedCreateNestedManyWithoutWinnerInput
   memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutMemberInput
   dataEdits?: Prisma.DataEditUncheckedCreateNestedManyWithoutEditedByInput
+  stallApplications?: Prisma.StallApplicationUncheckedCreateNestedManyWithoutApplicantInput
 }
 
 export type UserCreateOrConnectWithoutBillingAddressInput = {
@@ -1571,6 +1610,7 @@ export type UserCreateWithoutShippingAddressInput = {
   eventResults?: Prisma.EventResultCreateNestedManyWithoutWinnerInput
   memberships?: Prisma.MembershipCreateNestedManyWithoutMemberInput
   dataEdits?: Prisma.DataEditCreateNestedManyWithoutEditedByInput
+  stallApplications?: Prisma.StallApplicationCreateNestedManyWithoutApplicantInput
 }
 
 export type UserUncheckedCreateWithoutShippingAddressInput = {
@@ -1599,6 +1639,7 @@ export type UserUncheckedCreateWithoutShippingAddressInput = {
   eventResults?: Prisma.EventResultUncheckedCreateNestedManyWithoutWinnerInput
   memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutMemberInput
   dataEdits?: Prisma.DataEditUncheckedCreateNestedManyWithoutEditedByInput
+  stallApplications?: Prisma.StallApplicationUncheckedCreateNestedManyWithoutApplicantInput
 }
 
 export type UserCreateOrConnectWithoutShippingAddressInput = {
@@ -1643,6 +1684,7 @@ export type UserUpdateWithoutBillingAddressInput = {
   eventResults?: Prisma.EventResultUpdateManyWithoutWinnerNestedInput
   memberships?: Prisma.MembershipUpdateManyWithoutMemberNestedInput
   dataEdits?: Prisma.DataEditUpdateManyWithoutEditedByNestedInput
+  stallApplications?: Prisma.StallApplicationUpdateManyWithoutApplicantNestedInput
 }
 
 export type UserUncheckedUpdateWithoutBillingAddressInput = {
@@ -1671,6 +1713,7 @@ export type UserUncheckedUpdateWithoutBillingAddressInput = {
   eventResults?: Prisma.EventResultUncheckedUpdateManyWithoutWinnerNestedInput
   memberships?: Prisma.MembershipUncheckedUpdateManyWithoutMemberNestedInput
   dataEdits?: Prisma.DataEditUncheckedUpdateManyWithoutEditedByNestedInput
+  stallApplications?: Prisma.StallApplicationUncheckedUpdateManyWithoutApplicantNestedInput
 }
 
 export type UserUpsertWithoutShippingAddressInput = {
@@ -1710,6 +1753,7 @@ export type UserUpdateWithoutShippingAddressInput = {
   eventResults?: Prisma.EventResultUpdateManyWithoutWinnerNestedInput
   memberships?: Prisma.MembershipUpdateManyWithoutMemberNestedInput
   dataEdits?: Prisma.DataEditUpdateManyWithoutEditedByNestedInput
+  stallApplications?: Prisma.StallApplicationUpdateManyWithoutApplicantNestedInput
 }
 
 export type UserUncheckedUpdateWithoutShippingAddressInput = {
@@ -1738,6 +1782,7 @@ export type UserUncheckedUpdateWithoutShippingAddressInput = {
   eventResults?: Prisma.EventResultUncheckedUpdateManyWithoutWinnerNestedInput
   memberships?: Prisma.MembershipUncheckedUpdateManyWithoutMemberNestedInput
   dataEdits?: Prisma.DataEditUncheckedUpdateManyWithoutEditedByNestedInput
+  stallApplications?: Prisma.StallApplicationUncheckedUpdateManyWithoutApplicantNestedInput
 }
 
 export type UserCreateWithoutOrganisationInput = {
@@ -1766,6 +1811,7 @@ export type UserCreateWithoutOrganisationInput = {
   eventResults?: Prisma.EventResultCreateNestedManyWithoutWinnerInput
   memberships?: Prisma.MembershipCreateNestedManyWithoutMemberInput
   dataEdits?: Prisma.DataEditCreateNestedManyWithoutEditedByInput
+  stallApplications?: Prisma.StallApplicationCreateNestedManyWithoutApplicantInput
 }
 
 export type UserUncheckedCreateWithoutOrganisationInput = {
@@ -1794,6 +1840,7 @@ export type UserUncheckedCreateWithoutOrganisationInput = {
   eventResults?: Prisma.EventResultUncheckedCreateNestedManyWithoutWinnerInput
   memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutMemberInput
   dataEdits?: Prisma.DataEditUncheckedCreateNestedManyWithoutEditedByInput
+  stallApplications?: Prisma.StallApplicationUncheckedCreateNestedManyWithoutApplicantInput
 }
 
 export type UserCreateOrConnectWithoutOrganisationInput = {
@@ -1838,6 +1885,7 @@ export type UserUpdateWithoutOrganisationInput = {
   eventResults?: Prisma.EventResultUpdateManyWithoutWinnerNestedInput
   memberships?: Prisma.MembershipUpdateManyWithoutMemberNestedInput
   dataEdits?: Prisma.DataEditUpdateManyWithoutEditedByNestedInput
+  stallApplications?: Prisma.StallApplicationUpdateManyWithoutApplicantNestedInput
 }
 
 export type UserUncheckedUpdateWithoutOrganisationInput = {
@@ -1866,6 +1914,7 @@ export type UserUncheckedUpdateWithoutOrganisationInput = {
   eventResults?: Prisma.EventResultUncheckedUpdateManyWithoutWinnerNestedInput
   memberships?: Prisma.MembershipUncheckedUpdateManyWithoutMemberNestedInput
   dataEdits?: Prisma.DataEditUncheckedUpdateManyWithoutEditedByNestedInput
+  stallApplications?: Prisma.StallApplicationUncheckedUpdateManyWithoutApplicantNestedInput
 }
 
 export type UserCreateWithoutChiefStewardOfEventSectionsInput = {
@@ -1894,6 +1943,7 @@ export type UserCreateWithoutChiefStewardOfEventSectionsInput = {
   eventResults?: Prisma.EventResultCreateNestedManyWithoutWinnerInput
   memberships?: Prisma.MembershipCreateNestedManyWithoutMemberInput
   dataEdits?: Prisma.DataEditCreateNestedManyWithoutEditedByInput
+  stallApplications?: Prisma.StallApplicationCreateNestedManyWithoutApplicantInput
 }
 
 export type UserUncheckedCreateWithoutChiefStewardOfEventSectionsInput = {
@@ -1922,6 +1972,7 @@ export type UserUncheckedCreateWithoutChiefStewardOfEventSectionsInput = {
   eventResults?: Prisma.EventResultUncheckedCreateNestedManyWithoutWinnerInput
   memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutMemberInput
   dataEdits?: Prisma.DataEditUncheckedCreateNestedManyWithoutEditedByInput
+  stallApplications?: Prisma.StallApplicationUncheckedCreateNestedManyWithoutApplicantInput
 }
 
 export type UserCreateOrConnectWithoutChiefStewardOfEventSectionsInput = {
@@ -1955,6 +2006,7 @@ export type UserCreateWithoutStewardOfEventSectionsInput = {
   eventResults?: Prisma.EventResultCreateNestedManyWithoutWinnerInput
   memberships?: Prisma.MembershipCreateNestedManyWithoutMemberInput
   dataEdits?: Prisma.DataEditCreateNestedManyWithoutEditedByInput
+  stallApplications?: Prisma.StallApplicationCreateNestedManyWithoutApplicantInput
 }
 
 export type UserUncheckedCreateWithoutStewardOfEventSectionsInput = {
@@ -1983,6 +2035,7 @@ export type UserUncheckedCreateWithoutStewardOfEventSectionsInput = {
   eventResults?: Prisma.EventResultUncheckedCreateNestedManyWithoutWinnerInput
   memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutMemberInput
   dataEdits?: Prisma.DataEditUncheckedCreateNestedManyWithoutEditedByInput
+  stallApplications?: Prisma.StallApplicationUncheckedCreateNestedManyWithoutApplicantInput
 }
 
 export type UserCreateOrConnectWithoutStewardOfEventSectionsInput = {
@@ -2027,6 +2080,7 @@ export type UserUpdateWithoutChiefStewardOfEventSectionsInput = {
   eventResults?: Prisma.EventResultUpdateManyWithoutWinnerNestedInput
   memberships?: Prisma.MembershipUpdateManyWithoutMemberNestedInput
   dataEdits?: Prisma.DataEditUpdateManyWithoutEditedByNestedInput
+  stallApplications?: Prisma.StallApplicationUpdateManyWithoutApplicantNestedInput
 }
 
 export type UserUncheckedUpdateWithoutChiefStewardOfEventSectionsInput = {
@@ -2055,6 +2109,7 @@ export type UserUncheckedUpdateWithoutChiefStewardOfEventSectionsInput = {
   eventResults?: Prisma.EventResultUncheckedUpdateManyWithoutWinnerNestedInput
   memberships?: Prisma.MembershipUncheckedUpdateManyWithoutMemberNestedInput
   dataEdits?: Prisma.DataEditUncheckedUpdateManyWithoutEditedByNestedInput
+  stallApplications?: Prisma.StallApplicationUncheckedUpdateManyWithoutApplicantNestedInput
 }
 
 export type UserUpsertWithWhereUniqueWithoutStewardOfEventSectionsInput = {
@@ -2122,6 +2177,7 @@ export type UserCreateWithoutEventResultsInput = {
   stewardOfEventSections?: Prisma.EventSectionCreateNestedManyWithoutStewardsInput
   memberships?: Prisma.MembershipCreateNestedManyWithoutMemberInput
   dataEdits?: Prisma.DataEditCreateNestedManyWithoutEditedByInput
+  stallApplications?: Prisma.StallApplicationCreateNestedManyWithoutApplicantInput
 }
 
 export type UserUncheckedCreateWithoutEventResultsInput = {
@@ -2150,6 +2206,7 @@ export type UserUncheckedCreateWithoutEventResultsInput = {
   stewardOfEventSections?: Prisma.EventSectionUncheckedCreateNestedManyWithoutStewardsInput
   memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutMemberInput
   dataEdits?: Prisma.DataEditUncheckedCreateNestedManyWithoutEditedByInput
+  stallApplications?: Prisma.StallApplicationUncheckedCreateNestedManyWithoutApplicantInput
 }
 
 export type UserCreateOrConnectWithoutEventResultsInput = {
@@ -2199,6 +2256,7 @@ export type UserCreateWithoutMembershipsInput = {
   stewardOfEventSections?: Prisma.EventSectionCreateNestedManyWithoutStewardsInput
   eventResults?: Prisma.EventResultCreateNestedManyWithoutWinnerInput
   dataEdits?: Prisma.DataEditCreateNestedManyWithoutEditedByInput
+  stallApplications?: Prisma.StallApplicationCreateNestedManyWithoutApplicantInput
 }
 
 export type UserUncheckedCreateWithoutMembershipsInput = {
@@ -2227,6 +2285,7 @@ export type UserUncheckedCreateWithoutMembershipsInput = {
   stewardOfEventSections?: Prisma.EventSectionUncheckedCreateNestedManyWithoutStewardsInput
   eventResults?: Prisma.EventResultUncheckedCreateNestedManyWithoutWinnerInput
   dataEdits?: Prisma.DataEditUncheckedCreateNestedManyWithoutEditedByInput
+  stallApplications?: Prisma.StallApplicationUncheckedCreateNestedManyWithoutApplicantInput
 }
 
 export type UserCreateOrConnectWithoutMembershipsInput = {
@@ -2271,6 +2330,7 @@ export type UserUpdateWithoutMembershipsInput = {
   stewardOfEventSections?: Prisma.EventSectionUpdateManyWithoutStewardsNestedInput
   eventResults?: Prisma.EventResultUpdateManyWithoutWinnerNestedInput
   dataEdits?: Prisma.DataEditUpdateManyWithoutEditedByNestedInput
+  stallApplications?: Prisma.StallApplicationUpdateManyWithoutApplicantNestedInput
 }
 
 export type UserUncheckedUpdateWithoutMembershipsInput = {
@@ -2298,6 +2358,139 @@ export type UserUncheckedUpdateWithoutMembershipsInput = {
   chiefStewardOfEventSections?: Prisma.EventSectionUncheckedUpdateManyWithoutChiefStewardNestedInput
   stewardOfEventSections?: Prisma.EventSectionUncheckedUpdateManyWithoutStewardsNestedInput
   eventResults?: Prisma.EventResultUncheckedUpdateManyWithoutWinnerNestedInput
+  dataEdits?: Prisma.DataEditUncheckedUpdateManyWithoutEditedByNestedInput
+  stallApplications?: Prisma.StallApplicationUncheckedUpdateManyWithoutApplicantNestedInput
+}
+
+export type UserCreateWithoutStallApplicationsInput = {
+  id?: string
+  name: string
+  email: string
+  emailVerified?: boolean
+  image?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  firstName?: string | null
+  lastName?: string | null
+  username?: string | null
+  mobileNumber?: string | null
+  landlineNumber?: string | null
+  addressid?: number | null
+  role?: $Enums.Role
+  officialRole?: $Enums.OfficialRole | null
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  Authenticator?: Prisma.AuthenticatorCreateNestedManyWithoutUserInput
+  billingAddress?: Prisma.AddressCreateNestedOneWithoutBillingUserInput
+  shippingAddress?: Prisma.AddressCreateNestedOneWithoutShippingUserInput
+  organisation?: Prisma.OrganisationCreateNestedManyWithoutContactPersonInput
+  chiefStewardOfEventSections?: Prisma.EventSectionCreateNestedManyWithoutChiefStewardInput
+  stewardOfEventSections?: Prisma.EventSectionCreateNestedManyWithoutStewardsInput
+  eventResults?: Prisma.EventResultCreateNestedManyWithoutWinnerInput
+  memberships?: Prisma.MembershipCreateNestedManyWithoutMemberInput
+  dataEdits?: Prisma.DataEditCreateNestedManyWithoutEditedByInput
+}
+
+export type UserUncheckedCreateWithoutStallApplicationsInput = {
+  id?: string
+  name: string
+  email: string
+  emailVerified?: boolean
+  image?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  firstName?: string | null
+  lastName?: string | null
+  username?: string | null
+  mobileNumber?: string | null
+  landlineNumber?: string | null
+  billingAddressId?: string | null
+  shippingAddressId?: string | null
+  addressid?: number | null
+  role?: $Enums.Role
+  officialRole?: $Enums.OfficialRole | null
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  Authenticator?: Prisma.AuthenticatorUncheckedCreateNestedManyWithoutUserInput
+  organisation?: Prisma.OrganisationUncheckedCreateNestedManyWithoutContactPersonInput
+  chiefStewardOfEventSections?: Prisma.EventSectionUncheckedCreateNestedManyWithoutChiefStewardInput
+  stewardOfEventSections?: Prisma.EventSectionUncheckedCreateNestedManyWithoutStewardsInput
+  eventResults?: Prisma.EventResultUncheckedCreateNestedManyWithoutWinnerInput
+  memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutMemberInput
+  dataEdits?: Prisma.DataEditUncheckedCreateNestedManyWithoutEditedByInput
+}
+
+export type UserCreateOrConnectWithoutStallApplicationsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutStallApplicationsInput, Prisma.UserUncheckedCreateWithoutStallApplicationsInput>
+}
+
+export type UserUpsertWithoutStallApplicationsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutStallApplicationsInput, Prisma.UserUncheckedUpdateWithoutStallApplicationsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutStallApplicationsInput, Prisma.UserUncheckedCreateWithoutStallApplicationsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutStallApplicationsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutStallApplicationsInput, Prisma.UserUncheckedUpdateWithoutStallApplicationsInput>
+}
+
+export type UserUpdateWithoutStallApplicationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobileNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  landlineNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressid?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  officialRole?: Prisma.NullableEnumOfficialRoleFieldUpdateOperationsInput | $Enums.OfficialRole | null
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  Authenticator?: Prisma.AuthenticatorUpdateManyWithoutUserNestedInput
+  billingAddress?: Prisma.AddressUpdateOneWithoutBillingUserNestedInput
+  shippingAddress?: Prisma.AddressUpdateOneWithoutShippingUserNestedInput
+  organisation?: Prisma.OrganisationUpdateManyWithoutContactPersonNestedInput
+  chiefStewardOfEventSections?: Prisma.EventSectionUpdateManyWithoutChiefStewardNestedInput
+  stewardOfEventSections?: Prisma.EventSectionUpdateManyWithoutStewardsNestedInput
+  eventResults?: Prisma.EventResultUpdateManyWithoutWinnerNestedInput
+  memberships?: Prisma.MembershipUpdateManyWithoutMemberNestedInput
+  dataEdits?: Prisma.DataEditUpdateManyWithoutEditedByNestedInput
+}
+
+export type UserUncheckedUpdateWithoutStallApplicationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  firstName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobileNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  landlineNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  billingAddressId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shippingAddressId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressid?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  officialRole?: Prisma.NullableEnumOfficialRoleFieldUpdateOperationsInput | $Enums.OfficialRole | null
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  Authenticator?: Prisma.AuthenticatorUncheckedUpdateManyWithoutUserNestedInput
+  organisation?: Prisma.OrganisationUncheckedUpdateManyWithoutContactPersonNestedInput
+  chiefStewardOfEventSections?: Prisma.EventSectionUncheckedUpdateManyWithoutChiefStewardNestedInput
+  stewardOfEventSections?: Prisma.EventSectionUncheckedUpdateManyWithoutStewardsNestedInput
+  eventResults?: Prisma.EventResultUncheckedUpdateManyWithoutWinnerNestedInput
+  memberships?: Prisma.MembershipUncheckedUpdateManyWithoutMemberNestedInput
   dataEdits?: Prisma.DataEditUncheckedUpdateManyWithoutEditedByNestedInput
 }
 
@@ -2327,6 +2520,7 @@ export type UserUpdateWithoutStewardOfEventSectionsInput = {
   eventResults?: Prisma.EventResultUpdateManyWithoutWinnerNestedInput
   memberships?: Prisma.MembershipUpdateManyWithoutMemberNestedInput
   dataEdits?: Prisma.DataEditUpdateManyWithoutEditedByNestedInput
+  stallApplications?: Prisma.StallApplicationUpdateManyWithoutApplicantNestedInput
 }
 
 export type UserUncheckedUpdateWithoutStewardOfEventSectionsInput = {
@@ -2355,6 +2549,7 @@ export type UserUncheckedUpdateWithoutStewardOfEventSectionsInput = {
   eventResults?: Prisma.EventResultUncheckedUpdateManyWithoutWinnerNestedInput
   memberships?: Prisma.MembershipUncheckedUpdateManyWithoutMemberNestedInput
   dataEdits?: Prisma.DataEditUncheckedUpdateManyWithoutEditedByNestedInput
+  stallApplications?: Prisma.StallApplicationUncheckedUpdateManyWithoutApplicantNestedInput
 }
 
 export type UserUncheckedUpdateManyWithoutStewardOfEventSectionsInput = {
@@ -2403,6 +2598,7 @@ export type UserUpdateWithoutEventResultsInput = {
   stewardOfEventSections?: Prisma.EventSectionUpdateManyWithoutStewardsNestedInput
   memberships?: Prisma.MembershipUpdateManyWithoutMemberNestedInput
   dataEdits?: Prisma.DataEditUpdateManyWithoutEditedByNestedInput
+  stallApplications?: Prisma.StallApplicationUpdateManyWithoutApplicantNestedInput
 }
 
 export type UserUncheckedUpdateWithoutEventResultsInput = {
@@ -2431,6 +2627,7 @@ export type UserUncheckedUpdateWithoutEventResultsInput = {
   stewardOfEventSections?: Prisma.EventSectionUncheckedUpdateManyWithoutStewardsNestedInput
   memberships?: Prisma.MembershipUncheckedUpdateManyWithoutMemberNestedInput
   dataEdits?: Prisma.DataEditUncheckedUpdateManyWithoutEditedByNestedInput
+  stallApplications?: Prisma.StallApplicationUncheckedUpdateManyWithoutApplicantNestedInput
 }
 
 export type UserUncheckedUpdateManyWithoutEventResultsInput = {
@@ -2468,6 +2665,7 @@ export type UserCountOutputType = {
   eventResults: number
   memberships: number
   dataEdits: number
+  stallApplications: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2480,6 +2678,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   eventResults?: boolean | UserCountOutputTypeCountEventResultsArgs
   memberships?: boolean | UserCountOutputTypeCountMembershipsArgs
   dataEdits?: boolean | UserCountOutputTypeCountDataEditsArgs
+  stallApplications?: boolean | UserCountOutputTypeCountStallApplicationsArgs
 }
 
 /**
@@ -2555,6 +2754,13 @@ export type UserCountOutputTypeCountDataEditsArgs<ExtArgs extends runtime.Types.
   where?: Prisma.DataEditWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountStallApplicationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.StallApplicationWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -2585,6 +2791,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   eventResults?: boolean | Prisma.User$eventResultsArgs<ExtArgs>
   memberships?: boolean | Prisma.User$membershipsArgs<ExtArgs>
   dataEdits?: boolean | Prisma.User$dataEditsArgs<ExtArgs>
+  stallApplications?: boolean | Prisma.User$stallApplicationsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -2665,6 +2872,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   eventResults?: boolean | Prisma.User$eventResultsArgs<ExtArgs>
   memberships?: boolean | Prisma.User$membershipsArgs<ExtArgs>
   dataEdits?: boolean | Prisma.User$dataEditsArgs<ExtArgs>
+  stallApplications?: boolean | Prisma.User$stallApplicationsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2690,6 +2898,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     eventResults: Prisma.$EventResultPayload<ExtArgs>[]
     memberships: Prisma.$MembershipPayload<ExtArgs>[]
     dataEdits: Prisma.$DataEditPayload<ExtArgs>[]
+    stallApplications: Prisma.$StallApplicationPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -3114,6 +3323,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   eventResults<T extends Prisma.User$eventResultsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$eventResultsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EventResultPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   memberships<T extends Prisma.User$membershipsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$membershipsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MembershipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   dataEdits<T extends Prisma.User$dataEditsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$dataEditsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DataEditPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  stallApplications<T extends Prisma.User$stallApplicationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$stallApplicationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StallApplicationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3816,6 +4026,30 @@ export type User$dataEditsArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   distinct?: Prisma.DataEditScalarFieldEnum | Prisma.DataEditScalarFieldEnum[]
+}
+
+/**
+ * User.stallApplications
+ */
+export type User$stallApplicationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the StallApplication
+   */
+  select?: Prisma.StallApplicationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the StallApplication
+   */
+  omit?: Prisma.StallApplicationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StallApplicationInclude<ExtArgs> | null
+  where?: Prisma.StallApplicationWhereInput
+  orderBy?: Prisma.StallApplicationOrderByWithRelationInput | Prisma.StallApplicationOrderByWithRelationInput[]
+  cursor?: Prisma.StallApplicationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.StallApplicationScalarFieldEnum | Prisma.StallApplicationScalarFieldEnum[]
 }
 
 /**

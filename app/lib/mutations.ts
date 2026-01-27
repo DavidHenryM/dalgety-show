@@ -5,12 +5,220 @@ import { MembershipType, Role, OfficialRole, State, SponsorshipPackageTier } fro
 import { EventCreateInput, EventUpdateInput, OrganisationCreateInput, SponsorshipCreateInput } from "../generated/prisma/models";
 import { EventTableForm } from "../types";
 import { prisma } from "./prisma";
+import { sendEmail } from "./email";
 
 export async function createSponsorship(sponsorshipData: SponsorshipCreateInput){
   const createdSponsorship= await prisma.sponsorship.create({
     data: sponsorshipData
   })
   return createdSponsorship
+}
+
+export async function createStallApplication(data: {
+  email: string
+  organisationName?: string | null
+  stallSiteCategoryId: string
+  preferredLocation: string
+  itemsToBeSoldOrDisplayed: string
+  layoutOrSpecialFeatures?: string | null
+  stallSetupImageLink?: string | null
+  publicLiabilityInsuranceLink?: string | null
+  notes?: string | null
+}) {
+  const applicant = await prisma.user.findUnique({
+    where: {
+      email: data.email
+    }
+  })
+  if (!applicant) {
+    throw new Error('Applicant not found')
+  }
+
+  const category = await prisma.stallSiteCategory.findUnique({
+    where: {
+      id: data.stallSiteCategoryId
+    }
+  })
+  if (!category) {
+    throw new Error('Stall category not found')
+  }
+
+  let organisationId: string | undefined
+  const organisationName = data.organisationName?.trim()
+  if (organisationName) {
+    const existingOrganisation = await prisma.organisation.findUnique({
+      where: {
+        name: organisationName
+      }
+    })
+    if (existingOrganisation) {
+      organisationId = existingOrganisation.id
+    } else {
+      const createdOrganisation = await prisma.organisation.create({
+        data: {
+          name: organisationName,
+          contactPersonId: applicant.id
+        }
+      })
+      organisationId = createdOrganisation.id
+    }
+  }
+
+  const stallApplication = await prisma.stallApplication.create({
+    data: {
+      applicantId: applicant.id,
+      organisationId,
+      stallSiteCategoryId: data.stallSiteCategoryId,
+      preferredLocation: data.preferredLocation,
+      itemsToBeSoldOrDisplayed: data.itemsToBeSoldOrDisplayed,
+      layoutOrSpecialFeatures: data.layoutOrSpecialFeatures ?? null,
+      stallSetupImageLink: data.stallSetupImageLink ?? null,
+      publicLiabilityInsuranceLink: data.publicLiabilityInsuranceLink ?? null,
+      notes: data.notes ?? null
+    }
+  })
+
+  return stallApplication
+}
+
+export async function updateStallInformation(showId: string, data: {
+  welcomeMessage?: string | null
+  insuranceDetails?: string | null
+  safetyGuidelines?: string | null
+  setupInstructions?: string | null
+  paymentDetails?: string | null
+  cancellationPolicy?: string | null
+  siteMap?: string | null
+  contactInformation?: string | null
+  thankyouMessage?: string | null
+}) {
+  const stallInformation = await prisma.stallInformation.upsert({
+    where: {
+      showId: showId
+    },
+    update: {
+      ...data
+    },
+    create: {
+      showId: showId,
+      ...data
+    }
+  })
+  return stallInformation
+}
+
+export async function createStallSiteCategory(data: {
+  showId: string
+  name: string
+  description?: string | null
+  sizeWidth: number
+  sizeDepth: number
+  powerSupply?: boolean
+  covered?: boolean
+  basePrice: number
+}) {
+  const category = await prisma.stallSiteCategory.create({
+    data: {
+      showId: data.showId,
+      name: data.name,
+      description: data.description ?? null,
+      sizeWidth: data.sizeWidth,
+      sizeDepth: data.sizeDepth,
+      powerSupply: data.powerSupply ?? false,
+      covered: data.covered ?? false,
+      basePrice: data.basePrice
+    }
+  })
+  return category
+}
+
+export async function updateStallSiteCategory(id: string, data: {
+  name: string
+  description?: string | null
+  sizeWidth: number
+  sizeDepth: number
+  powerSupply?: boolean
+  covered?: boolean
+  basePrice: number
+}) {
+  const category = await prisma.stallSiteCategory.update({
+    where: { id },
+    data: {
+      name: data.name,
+      description: data.description ?? null,
+      sizeWidth: data.sizeWidth,
+      sizeDepth: data.sizeDepth,
+      powerSupply: data.powerSupply ?? false,
+      covered: data.covered ?? false,
+      basePrice: data.basePrice
+    }
+  })
+  return category
+}
+
+export async function deleteStallSiteCategory(id: string) {
+  const category = await prisma.stallSiteCategory.delete({
+    where: { id }
+  })
+  return category
+}
+
+export async function assignStallSiteToApplication(stallSiteId: string, applicationId: string) {
+  const stallSite = await prisma.stallSite.update({
+    where: { id: stallSiteId },
+    data: { applicationId }
+  })
+  return stallSite
+}
+
+export async function emailOfficialRole(options: { role: OfficialRole; subject: string; text: string }) {
+  try {
+    const recipients = await prisma.user.findMany({
+      where: {
+        role: Role.OWNER,
+        officialRole: options.role
+      },
+      select: {
+        email: true
+      }
+    })
+
+    const emails = recipients.map((recipient) => recipient.email).filter(Boolean)
+    if (emails.length === 0) {
+      console.warn("emailOfficialRole: no recipients", {
+        role: options.role,
+        subject: options.subject
+      })
+      return { sent: false, recipients: [] as string[] }
+    }
+
+    console.info("emailOfficialRole: sending email", {
+      role: options.role,
+      subject: options.subject,
+      recipients: emails
+    })
+
+    await sendEmail({
+      to: emails.join(', '),
+      subject: options.subject,
+      text: options.text
+    })
+
+    console.info("emailOfficialRole: email sent", {
+      role: options.role,
+      subject: options.subject,
+      recipients: emails
+    })
+
+    return { sent: true, recipients: emails }
+  } catch (error) {
+    console.error("emailOfficialRole: failed to send email", {
+      role: options.role,
+      subject: options.subject,
+      error: error instanceof Error ? error.message : String(error)
+    })
+    return { sent: false, recipients: [] as string[] }
+  }
 }
 
 export async function updateUserName(email: string, firstName: string, lastName: string){

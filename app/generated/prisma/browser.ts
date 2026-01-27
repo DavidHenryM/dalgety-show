@@ -117,3 +117,23 @@ export type MembershipPackage = Prisma.MembershipPackageModel
  * 
  */
 export type SponsorshipPackage = Prisma.SponsorshipPackageModel
+/**
+ * Model StallApplication
+ * 
+ */
+export type StallApplication = Prisma.StallApplicationModel
+/**
+ * Model StallSiteCategory
+ * 
+ */
+export type StallSiteCategory = Prisma.StallSiteCategoryModel
+/**
+ * Model StallSite
+ * 
+ */
+export type StallSite = Prisma.StallSiteModel
+/**
+ * Model StallInformation
+ * 
+ */
+export type StallInformation = Prisma.StallInformationModel

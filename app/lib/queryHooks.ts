@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from "react"
-import { getAllMemberships, GetAllMemberShipsResult, getSponsors, getSponsorshipPackages, getUserRole, getUsersWithRole, getShow, getEvents, getEventSections, getSchedule, getActivities, getMembershipPackages } from "./queries"
+import { getAllMemberships, GetAllMemberShipsResult, getSponsors, getSponsorshipPackages, getUserRole, getUsersWithRole, getShow, getEvents, getEventSections, getSchedule, getActivities, getMembershipPackages, getStallApplications } from "./queries"
 import { Role } from "@generated/enums"
 import type { SponsorshipPackage, Event, EventSection, Schedule, Activity, MembershipPackage } from "@generated/browser"
 import { sleep } from "../utils"
@@ -85,6 +85,21 @@ import { Sponsor, UserReturn } from "../types"
     getMembers()
     },[])
     return [members, loading]
+  }
+
+  export function useStallApplications(refreshKey: number = 0): [Awaited<ReturnType<typeof getStallApplications>>, boolean] {
+    const [applications, setApplications] = useState<Awaited<ReturnType<typeof getStallApplications>>>([])
+    const [loading, setLoading] = useState<boolean>(true)
+    useEffect(() => {
+      async function getApps(){
+        getStallApplications().then((items)=>{
+          setApplications(items)
+          setLoading(false)
+        })
+      }
+      getApps()
+    },[refreshKey])
+    return [applications, loading]
   }
 
   export function useSponsorshipPackages(refreshKey: number = 0): [Partial<SponsorshipPackage>[], boolean] {

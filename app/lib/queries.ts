@@ -158,6 +158,29 @@ export async function getSponsorshipPackages(): Promise<Partial<SponsorshipPacka
   return sponsorshipPackages
 }
 
+export async function getStallSiteCategories(showId: string) {
+  const categories = await prisma.stallSiteCategory.findMany({
+    where: {
+      showId: showId
+    },
+    select: {
+      id: true,
+      showId: true,
+      name: true,
+      description: true,
+      sizeWidth: true,
+      sizeDepth: true,
+      powerSupply: true,
+      covered: true,
+      basePrice: true
+    },
+    orderBy: {
+      name: 'asc'
+    }
+  })
+  return categories
+}
+
 export async function getShow(year: number): Promise<Show | null> {
   const show = await prisma.show.findFirst({
     where: {
@@ -180,6 +203,55 @@ export async function getNextShow(): Promise<Show | null> {
     }
   })
   return nextShow
+}
+
+export async function getLastShow(): Promise<Show | null> {
+  const now = new Date()
+  const lastShow = await prisma.show.findFirst({
+    where: {
+      start: {
+        lte: now
+      }
+    },
+    orderBy: {
+      start: 'desc'
+    }
+  })
+  return lastShow
+}
+
+export async function getShowOfInterest(): Promise<Show | null> {
+  const now = new Date()
+  const sixMonthsFromNow = new Date(now)
+  sixMonthsFromNow.setMonth(sixMonthsFromNow.getMonth() + 6)
+
+  const nextShow = await prisma.show.findFirst({
+    where: {
+      start: {
+        gt: now
+      }
+    },
+    orderBy: {
+      start: 'asc'
+    }
+  })
+
+  if (nextShow && nextShow.start <= sixMonthsFromNow) {
+    return nextShow
+  }
+
+  const lastShow = await prisma.show.findFirst({
+    where: {
+      start: {
+        lte: now
+      }
+    },
+    orderBy: {
+      start: 'desc'
+    }
+  })
+
+  return lastShow ?? nextShow ?? null
 }
 
 export async function getOrganisation(name: string, contactPersonId: string){
@@ -233,6 +305,63 @@ export async function getSchedule(showId: string): Promise<Schedule> {
     }
   })
   return schedule
+}
+
+export async function getStallInformation(showId: string) {
+  const stallInformation = await prisma.stallInformation.findFirst({
+    where: {
+      showId: showId
+    }
+  })
+  return stallInformation
+}
+
+export async function getStallApplications() {
+  const applications = await prisma.stallApplication.findMany({
+    include: {
+      applicant: {
+        select: {
+          firstName: true,
+          lastName: true,
+          email: true
+        }
+      },
+      organisation: {
+        select: {
+          name: true
+        }
+      },
+      stallSiteCategory: {
+        select: {
+          name: true
+        }
+      },
+      stallSites: {
+        select: {
+          id: true,
+          siteNumber: true,
+          applicationId: true,
+          siteCategoryId: true
+        }
+      }
+    },
+    orderBy: {
+      applicationDate: 'desc'
+    }
+  })
+  return applications
+}
+
+export async function getStallSitesByCategory(categoryId: string) {
+  const stallSites = await prisma.stallSite.findMany({
+    where: {
+      siteCategoryId: categoryId
+    },
+    orderBy: {
+      siteNumber: 'asc'
+    }
+  })
+  return stallSites
 }
 
 export async function getActivities(scheduleId: string): Promise<Activity[]> {
@@ -320,7 +449,19 @@ export async function getSectionEventsAndPrizes(sectionId: string): Promise<Sect
       sectionId: sectionId
     },
     include: {
-      prizes: true
+      prizes: true,
+      results: {
+        include: {
+          prize: true,
+          winner: {
+            select: {
+              firstName: true,
+              lastName: true,
+              name: true
+            }
+          }
+        }
+      }
     }
   })
   return sectionEvents

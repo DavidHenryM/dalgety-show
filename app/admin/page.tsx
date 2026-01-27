@@ -12,6 +12,7 @@ import { UsersRoleTable } from "../components/UsersRoleTable"
 import { SponsorsTable } from "../components/SponsorsTable"
 import Waiting from "../components/Waiting"
 import { MembershipsTable } from "../components/MembershipsTable"
+import { StallApplicationsTable } from "../components/StallApplicationsTable"
 
 export default function Admin(){
   const [role, roleLoading] = useUserRole()
@@ -59,6 +60,7 @@ export default function Admin(){
             ) : null}
             {/* <EventsTable title={`Events ${getNextShowDate().getFullYear()}`} showYear={getNextShowDate().getFullYear()} /> */}
             <MembershipsTable title={"Memberships"}/>
+            <StallApplicationsTable title={"Stall Applications"} />
           </Grid>
         </>
       )

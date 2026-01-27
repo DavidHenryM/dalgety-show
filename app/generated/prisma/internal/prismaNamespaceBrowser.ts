@@ -70,7 +70,11 @@ export const ModelName = {
   Show: 'Show',
   Membership: 'Membership',
   MembershipPackage: 'MembershipPackage',
-  SponsorshipPackage: 'SponsorshipPackage'
+  SponsorshipPackage: 'SponsorshipPackage',
+  StallApplication: 'StallApplication',
+  StallSiteCategory: 'StallSiteCategory',
+  StallSite: 'StallSite',
+  StallInformation: 'StallInformation'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -79,12 +83,12 @@ export type ModelName = (typeof ModelName)[keyof typeof ModelName]
  * Enums
  */
 
-export const TransactionIsolationLevel = {
+export const TransactionIsolationLevel = runtime.makeStrictEnum({
   ReadUncommitted: 'ReadUncommitted',
   ReadCommitted: 'ReadCommitted',
   RepeatableRead: 'RepeatableRead',
   Serializable: 'Serializable'
-} as const
+} as const)
 
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
@@ -361,6 +365,68 @@ export const SponsorshipPackageScalarFieldEnum = {
 } as const
 
 export type SponsorshipPackageScalarFieldEnum = (typeof SponsorshipPackageScalarFieldEnum)[keyof typeof SponsorshipPackageScalarFieldEnum]
+
+
+export const StallApplicationScalarFieldEnum = {
+  id: 'id',
+  applicantId: 'applicantId',
+  organisationId: 'organisationId',
+  stallSiteCategoryId: 'stallSiteCategoryId',
+  preferredLocation: 'preferredLocation',
+  itemsToBeSoldOrDisplayed: 'itemsToBeSoldOrDisplayed',
+  layoutOrSpecialFeatures: 'layoutOrSpecialFeatures',
+  stallSetupImageLink: 'stallSetupImageLink',
+  publicLiabilityInsuranceLink: 'publicLiabilityInsuranceLink',
+  applicationDate: 'applicationDate',
+  approved: 'approved',
+  approvedDate: 'approvedDate',
+  notes: 'notes'
+} as const
+
+export type StallApplicationScalarFieldEnum = (typeof StallApplicationScalarFieldEnum)[keyof typeof StallApplicationScalarFieldEnum]
+
+
+export const StallSiteCategoryScalarFieldEnum = {
+  id: 'id',
+  showId: 'showId',
+  name: 'name',
+  description: 'description',
+  sizeWidth: 'sizeWidth',
+  sizeDepth: 'sizeDepth',
+  powerSupply: 'powerSupply',
+  covered: 'covered',
+  basePrice: 'basePrice'
+} as const
+
+export type StallSiteCategoryScalarFieldEnum = (typeof StallSiteCategoryScalarFieldEnum)[keyof typeof StallSiteCategoryScalarFieldEnum]
+
+
+export const StallSiteScalarFieldEnum = {
+  id: 'id',
+  siteNumber: 'siteNumber',
+  siteCategoryId: 'siteCategoryId',
+  applicationId: 'applicationId'
+} as const
+
+export type StallSiteScalarFieldEnum = (typeof StallSiteScalarFieldEnum)[keyof typeof StallSiteScalarFieldEnum]
+
+
+export const StallInformationScalarFieldEnum = {
+  id: 'id',
+  showId: 'showId',
+  welcomeMessage: 'welcomeMessage',
+  insuranceDetails: 'insuranceDetails',
+  safetyGuidelines: 'safetyGuidelines',
+  setupInstructions: 'setupInstructions',
+  paymentDetails: 'paymentDetails',
+  cancellationPolicy: 'cancellationPolicy',
+  siteMap: 'siteMap',
+  contactInformation: 'contactInformation',
+  thankyouMessage: 'thankyouMessage',
+  applicationDeadline: 'applicationDeadline'
+} as const
+
+export type StallInformationScalarFieldEnum = (typeof StallInformationScalarFieldEnum)[keyof typeof StallInformationScalarFieldEnum]
 
 
 export const SortOrder = {
