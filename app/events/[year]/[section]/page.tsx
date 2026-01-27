@@ -97,6 +97,29 @@ export default function EventDetails({params}: {params: Promise<{ year: string, 
                             )
                           })
                         }
+                        {event.results && event.results.length > 0 ? (
+                          <>
+                            <Divider sx={{ my: 1 }} />
+                            <Typography variant="subtitle2" color="primary.main">Results</Typography>
+                            {event.results.map((result, resultIndex) => {
+                              const winnerNames = result.winner
+                                .map((winner) => {
+                                  if (winner.firstName || winner.lastName) {
+                                    return `${winner.firstName ?? ''} ${winner.lastName ?? ''}`.trim()
+                                  }
+                                  return winner.name
+                                })
+                                .filter((name) => name.length > 0)
+                              if (winnerNames.length === 0) return null
+                              const prizeLabel = result.prize?.prizeName ? `${result.prize.prizeName}: ` : ''
+                              return (
+                                <Typography key={`result-${resultIndex}`} variant="body2">
+                                  {prizeLabel}{winnerNames.join(', ')}
+                                </Typography>
+                              )
+                            })}
+                          </>
+                        ) : null}
                     </CardContent>
                 </Card>
                 </Grid>

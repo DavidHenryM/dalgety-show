@@ -66,6 +66,23 @@ export type SectionEventandPrizes =
         eventResultId: string | null;
         eventId: string;
     }[];
+  results: {
+    id: string;
+    prizeId: string | null;
+    eventId: string;
+    prize: {
+      id: string;
+      prizeName: string | null;
+      cashPrizeValue: number | null;
+      trophyName: string | null;
+      ribbonName: string | null;
+    } | null;
+    winner: {
+      firstName: string | null;
+      lastName: string | null;
+      name: string;
+    }[];
+  }[];
 } & {
     name: string;
     id: string;
