@@ -35,6 +35,7 @@ export default function ScheduleYear({params}: {params: Promise<{ year: string }
       <Waiting message={"loading schedule"} open={loading} />
       <Typography variant="h2" color="primary.main" justifySelf={"center"}>Program</Typography>
       <Typography variant="h5" color="primary.main" justifySelf={"center"}>OF EVENTS & ATTRACTIONS</Typography>
+      <Typography variant="h5" color="primary.main" justifySelf={"center"}>{year}</Typography>
       <EditLock locked={locked} setLocked={setLocked} userFirstName={session.data?.user.name}/>
       <Divider sx={{mb: 2}}/>
 
