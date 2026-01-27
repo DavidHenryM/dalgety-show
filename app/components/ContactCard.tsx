@@ -1,3 +1,5 @@
+"use client"
+
 import { Avatar,  Link, Paper, Stack, Typography } from "@mui/material";
 import EmailIcon from '@mui/icons-material/Email';
 import SmartphoneIcon from '@mui/icons-material/Smartphone';
@@ -5,12 +7,11 @@ import { User } from "../generated/prisma/browser";
 
 
 const ContactCard = (props: { contact: User }) => {
-  console.log(props.contact);
   return (
     <Paper elevation={8} sx={{p:2, backgroundColor: "secondary.main", color: "primary.main"}} >
       <Stack direction="column" spacing={2}>
         <Typography variant={"h5"}>
-          {props.contact.officialRole}
+          {props.contact.officialRole?.replaceAll("_", " ")}
         </Typography>
         <Stack direction={"row"} sx={{alignContent: "center", paddingLeft: 1}}>     
           <Avatar src={props.contact.image ? props.contact.image : "../images/woman-farmer.png"}/>
