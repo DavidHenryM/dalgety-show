@@ -11,6 +11,7 @@ import { darkTheme, lightTheme } from "./theme";
 import { TopBar } from './components/TopBar';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import { Analytics } from "@vercel/analytics/next"
 
 const arvo = Arvo({
   variable: "--font-arvo",
@@ -66,6 +67,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${arvo.variable} antialiased`}>
         <AppRouterCacheProvider>
+          <Analytics/>
           <ThemeProvider theme={theme}>      
             <TopBar darkModeActive={darkModeActive} setDarkModeActiveAction={setDarkModeActive} drawerOpen={drawerOpen} setDrawerOpenAction={setDrawerOpen}/>
             <Navbar drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} setDarkModeActive={setDarkModeActive} darkModeActive={darkModeActive}/>
