@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { EventSection, Show } from "../generated/prisma/client"
+import type { EventSection, Show } from "../generated/prisma/browser"
 import { Button, Card, CardActions, CardContent, CardMedia, Grid, IconButton, Link, TextField, Typography } from "@mui/material"
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
@@ -16,9 +16,8 @@ export function EventSectionCard(props: {section: EventSection, locked: boolean,
   const show = props.show
 
   function handelUpdateEventSection(sectionId: string, data: {description: string | null}){
-    console.log(data)
     updateEventSection(sectionId, data).then((eventSection)=>{
-      setSection({...section, ...data})
+      setSection({...section, ...eventSection})
     }).catch((e)=>console.error("Error whilst updating event section data: ", e))
   }
   
@@ -58,9 +57,9 @@ export function EventSectionCard(props: {section: EventSection, locked: boolean,
         }
       </CardContent>
       <CardActions>
-        {/* <Button size="small" variant="outlined" onClick={()=>handleSeeEvents(section)}>See events</Button> */}
+        {/* <Button size="small" variant="contained" onClick={()=>handleSeeEvents(section)}>See events</Button> */}
         <Link href={`${show?.year}/${section.name}`}>
-          <Button size="small" variant="outlined">See events</Button>
+          <Button size="small" variant="contained">See events</Button>
         </Link>
       </CardActions>
     </Card>

@@ -52,10 +52,11 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   User: 'User',
+  Verification: 'Verification',
   Account: 'Account',
   Session: 'Session',
-  VerificationToken: 'VerificationToken',
   Authenticator: 'Authenticator',
+  DataEdit: 'DataEdit',
   Address: 'Address',
   Organisation: 'Organisation',
   EventSection: 'EventSection',
@@ -63,11 +64,17 @@ export const ModelName = {
   EventResult: 'EventResult',
   Prize: 'Prize',
   EventSectionSponsorship: 'EventSectionSponsorship',
+  Schedule: 'Schedule',
+  Activity: 'Activity',
   Sponsorship: 'Sponsorship',
   Show: 'Show',
   Membership: 'Membership',
   MembershipPackage: 'MembershipPackage',
-  SponsorshipPackage: 'SponsorshipPackage'
+  SponsorshipPackage: 'SponsorshipPackage',
+  StallApplication: 'StallApplication',
+  StallSiteCategory: 'StallSiteCategory',
+  StallSite: 'StallSite',
+  StallInformation: 'StallInformation'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -76,26 +83,27 @@ export type ModelName = (typeof ModelName)[keyof typeof ModelName]
  * Enums
  */
 
-export const TransactionIsolationLevel = {
+export const TransactionIsolationLevel = runtime.makeStrictEnum({
   ReadUncommitted: 'ReadUncommitted',
   ReadCommitted: 'ReadCommitted',
   RepeatableRead: 'RepeatableRead',
   Serializable: 'Serializable'
-} as const
+} as const)
 
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
 export const UserScalarFieldEnum = {
   id: 'id',
-  firstName: 'firstName',
-  lastName: 'lastName',
-  username: 'username',
+  name: 'name',
   email: 'email',
   emailVerified: 'emailVerified',
   image: 'image',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
+  firstName: 'firstName',
+  lastName: 'lastName',
+  username: 'username',
   mobileNumber: 'mobileNumber',
   landlineNumber: 'landlineNumber',
   billingAddressId: 'billingAddressId',
@@ -116,22 +124,29 @@ export const RelationLoadStrategy = {
 export type RelationLoadStrategy = (typeof RelationLoadStrategy)[keyof typeof RelationLoadStrategy]
 
 
+export const VerificationScalarFieldEnum = {
+  id: 'id',
+  identifier: 'identifier',
+  value: 'value',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type VerificationScalarFieldEnum = (typeof VerificationScalarFieldEnum)[keyof typeof VerificationScalarFieldEnum]
+
+
 export const AccountScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
-  type: 'type',
-  provider: 'provider',
-  providerAccountId: 'providerAccountId',
-  refresh_token: 'refresh_token',
-  access_token: 'access_token',
-  expires_at: 'expires_at',
-  token_type: 'token_type',
-  scope: 'scope',
-  id_token: 'id_token',
-  session_state: 'session_state',
-  refresh_token_expires_in: 'refresh_token_expires_in',
+  providerId: 'providerId',
+  accountId: 'accountId',
+  accessToken: 'accessToken',
+  refreshToken: 'refreshToken',
+  expiresAt: 'expiresAt',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  type: 'type'
 } as const
 
 export type AccountScalarFieldEnum = (typeof AccountScalarFieldEnum)[keyof typeof AccountScalarFieldEnum]
@@ -139,23 +154,16 @@ export type AccountScalarFieldEnum = (typeof AccountScalarFieldEnum)[keyof typeo
 
 export const SessionScalarFieldEnum = {
   id: 'id',
-  sessionToken: 'sessionToken',
-  userId: 'userId',
-  expires: 'expires',
+  expiresAt: 'expiresAt',
+  token: 'token',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  ipAddress: 'ipAddress',
+  userAgent: 'userAgent',
+  userId: 'userId'
 } as const
 
 export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeof SessionScalarFieldEnum]
-
-
-export const VerificationTokenScalarFieldEnum = {
-  identifier: 'identifier',
-  token: 'token',
-  expires: 'expires'
-} as const
-
-export type VerificationTokenScalarFieldEnum = (typeof VerificationTokenScalarFieldEnum)[keyof typeof VerificationTokenScalarFieldEnum]
 
 
 export const AuthenticatorScalarFieldEnum = {
@@ -170,6 +178,18 @@ export const AuthenticatorScalarFieldEnum = {
 } as const
 
 export type AuthenticatorScalarFieldEnum = (typeof AuthenticatorScalarFieldEnum)[keyof typeof AuthenticatorScalarFieldEnum]
+
+
+export const DataEditScalarFieldEnum = {
+  id: 'id',
+  table: 'table',
+  field: 'field',
+  operation: 'operation',
+  editedById: 'editedById',
+  editedAt: 'editedAt'
+} as const
+
+export type DataEditScalarFieldEnum = (typeof DataEditScalarFieldEnum)[keyof typeof DataEditScalarFieldEnum]
 
 
 export const AddressScalarFieldEnum = {
@@ -266,6 +286,28 @@ export const EventSectionSponsorshipScalarFieldEnum = {
 export type EventSectionSponsorshipScalarFieldEnum = (typeof EventSectionSponsorshipScalarFieldEnum)[keyof typeof EventSectionSponsorshipScalarFieldEnum]
 
 
+export const ScheduleScalarFieldEnum = {
+  id: 'id',
+  showId: 'showId',
+  released: 'released'
+} as const
+
+export type ScheduleScalarFieldEnum = (typeof ScheduleScalarFieldEnum)[keyof typeof ScheduleScalarFieldEnum]
+
+
+export const ActivityScalarFieldEnum = {
+  id: 'id',
+  time: 'time',
+  name: 'name',
+  description: 'description',
+  link: 'link',
+  icon: 'icon',
+  scheduleId: 'scheduleId'
+} as const
+
+export type ActivityScalarFieldEnum = (typeof ActivityScalarFieldEnum)[keyof typeof ActivityScalarFieldEnum]
+
+
 export const SponsorshipScalarFieldEnum = {
   id: 'id',
   packageId: 'packageId',
@@ -323,6 +365,68 @@ export const SponsorshipPackageScalarFieldEnum = {
 } as const
 
 export type SponsorshipPackageScalarFieldEnum = (typeof SponsorshipPackageScalarFieldEnum)[keyof typeof SponsorshipPackageScalarFieldEnum]
+
+
+export const StallApplicationScalarFieldEnum = {
+  id: 'id',
+  applicantId: 'applicantId',
+  organisationId: 'organisationId',
+  stallSiteCategoryId: 'stallSiteCategoryId',
+  preferredLocation: 'preferredLocation',
+  itemsToBeSoldOrDisplayed: 'itemsToBeSoldOrDisplayed',
+  layoutOrSpecialFeatures: 'layoutOrSpecialFeatures',
+  stallSetupImageLink: 'stallSetupImageLink',
+  publicLiabilityInsuranceLink: 'publicLiabilityInsuranceLink',
+  applicationDate: 'applicationDate',
+  approved: 'approved',
+  approvedDate: 'approvedDate',
+  notes: 'notes'
+} as const
+
+export type StallApplicationScalarFieldEnum = (typeof StallApplicationScalarFieldEnum)[keyof typeof StallApplicationScalarFieldEnum]
+
+
+export const StallSiteCategoryScalarFieldEnum = {
+  id: 'id',
+  showId: 'showId',
+  name: 'name',
+  description: 'description',
+  sizeWidth: 'sizeWidth',
+  sizeDepth: 'sizeDepth',
+  powerSupply: 'powerSupply',
+  covered: 'covered',
+  basePrice: 'basePrice'
+} as const
+
+export type StallSiteCategoryScalarFieldEnum = (typeof StallSiteCategoryScalarFieldEnum)[keyof typeof StallSiteCategoryScalarFieldEnum]
+
+
+export const StallSiteScalarFieldEnum = {
+  id: 'id',
+  siteNumber: 'siteNumber',
+  siteCategoryId: 'siteCategoryId',
+  applicationId: 'applicationId'
+} as const
+
+export type StallSiteScalarFieldEnum = (typeof StallSiteScalarFieldEnum)[keyof typeof StallSiteScalarFieldEnum]
+
+
+export const StallInformationScalarFieldEnum = {
+  id: 'id',
+  showId: 'showId',
+  welcomeMessage: 'welcomeMessage',
+  insuranceDetails: 'insuranceDetails',
+  safetyGuidelines: 'safetyGuidelines',
+  setupInstructions: 'setupInstructions',
+  paymentDetails: 'paymentDetails',
+  cancellationPolicy: 'cancellationPolicy',
+  siteMap: 'siteMap',
+  contactInformation: 'contactInformation',
+  thankyouMessage: 'thankyouMessage',
+  applicationDeadline: 'applicationDeadline'
+} as const
+
+export type StallInformationScalarFieldEnum = (typeof StallInformationScalarFieldEnum)[keyof typeof StallInformationScalarFieldEnum]
 
 
 export const SortOrder = {

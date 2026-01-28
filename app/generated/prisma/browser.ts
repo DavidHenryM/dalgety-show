@@ -23,6 +23,11 @@ export * from './enums';
  */
 export type User = Prisma.UserModel
 /**
+ * Model Verification
+ * 
+ */
+export type Verification = Prisma.VerificationModel
+/**
  * Model Account
  * 
  */
@@ -33,15 +38,15 @@ export type Account = Prisma.AccountModel
  */
 export type Session = Prisma.SessionModel
 /**
- * Model VerificationToken
- * 
- */
-export type VerificationToken = Prisma.VerificationTokenModel
-/**
  * Model Authenticator
  * 
  */
 export type Authenticator = Prisma.AuthenticatorModel
+/**
+ * Model DataEdit
+ * 
+ */
+export type DataEdit = Prisma.DataEditModel
 /**
  * Model Address
  * 
@@ -78,6 +83,16 @@ export type Prize = Prisma.PrizeModel
  */
 export type EventSectionSponsorship = Prisma.EventSectionSponsorshipModel
 /**
+ * Model Schedule
+ * 
+ */
+export type Schedule = Prisma.ScheduleModel
+/**
+ * Model Activity
+ * 
+ */
+export type Activity = Prisma.ActivityModel
+/**
  * Model Sponsorship
  * 
  */
@@ -102,3 +117,23 @@ export type MembershipPackage = Prisma.MembershipPackageModel
  * 
  */
 export type SponsorshipPackage = Prisma.SponsorshipPackageModel
+/**
+ * Model StallApplication
+ * 
+ */
+export type StallApplication = Prisma.StallApplicationModel
+/**
+ * Model StallSiteCategory
+ * 
+ */
+export type StallSiteCategory = Prisma.StallSiteCategoryModel
+/**
+ * Model StallSite
+ * 
+ */
+export type StallSite = Prisma.StallSiteModel
+/**
+ * Model StallInformation
+ * 
+ */
+export type StallInformation = Prisma.StallInformationModel

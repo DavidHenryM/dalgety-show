@@ -1,6 +1,7 @@
 import { Box } from "@mui/material";
+import { StaticImageData } from "next/image";
 
-export function Background(props: {image: any}){
+export function Background(props: {image: StaticImageData}){
   return (
     <Box
       sx={{

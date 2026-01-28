@@ -1,25 +1,25 @@
 'use client'
 
 import { useEffect, useState } from "react"
-import { getAllMemberships, GetAllMemberShipsResult, getMemberships, getSponsors, getSponsorshipPackages, getUserRole, getUsersWithRole, getShow, getEvents, getEventSections } from "./queries"
-import { Role } from "../generated/prisma/enums"
-import { useSession } from "next-auth/react"
-import { Membership, Sponsorship, SponsorshipPackage, User, Event, EventSection } from "../generated/prisma/client"
+import { getAllMemberships, GetAllMemberShipsResult, getSponsors, getSponsorshipPackages, getUserRole, getUsersWithRole, getShow, getEvents, getEventSections, getSchedule, getActivities, getMembershipPackages, getStallApplications } from "./queries"
+import { Role } from "@generated/enums"
+import type { SponsorshipPackage, Event, EventSection, Schedule, Activity, MembershipPackage } from "@generated/browser"
 import { sleep } from "../utils"
-
+import { authClient } from "./auth-client"
+import { Sponsor, UserReturn } from "../types"
   
   export function useUserRole(): [Role | undefined, boolean] {
     const [userRole, setUserRole] = useState<Role | undefined>()
     const [loading, setLoading] = useState<boolean>(true)
-    const { data: session } = useSession()
+    const session = authClient.useSession()
+    
     useEffect(() => {
       async function getRole(){
-        if(session){
-          if (session.user){
-            if (session.user.email){
-              return getUserRole(session.user.email).then((role)=>{
+        if(session.data){
+          if (session.data.user){
+            if (session.data.user.email){
+              return getUserRole(session.data.user.email).then((role)=>{
                 return role
-                
               })
             }
           }
@@ -34,12 +34,12 @@ import { sleep } from "../utils"
           setLoading(false)
         })
       })
-    },[session])
+    },[session.data])
     return [userRole, loading]
 }
 
-  export function useUsersWithRole(role: Role): [Partial<User>[], boolean] {
-    const [users, setUsers] = useState<Partial<User>[]>([])
+  export function useUsersWithRole(role: Role, refreshKey: number = 0): [Partial<UserReturn>[], boolean] {
+    const [users, setUsers] = useState<Partial<UserReturn>[]>([])
     const [loading, setLoading] = useState<boolean>(true)
     useEffect(() => {
       async function getUsers(){
@@ -53,12 +53,12 @@ import { sleep } from "../utils"
         }
       }
     getUsers()
-    },[])
+    },[role, refreshKey])
     return [users, loading]
 }
 
-  export function useSponsors(showYear: number): [any[], boolean] {
-    const [sponsors, setSponsors] = useState<Partial<Sponsorship>[]>([])
+  export function useSponsors(showYear: number): [Partial<Sponsor>[], boolean] {
+    const [sponsors, setSponsors] = useState<Partial<Sponsor>[]>([])
     const [loading, setLoading] = useState<boolean>(true)
     useEffect(() => {
       async function getSponsorships(){
@@ -68,7 +68,7 @@ import { sleep } from "../utils"
         })
       }
     getSponsorships()
-    },[])
+    },[showYear])
     return [sponsors, loading]
 }
 
@@ -87,7 +87,22 @@ import { sleep } from "../utils"
     return [members, loading]
   }
 
-  export function useSponsorshipPackages(): [any[], boolean] {
+  export function useStallApplications(refreshKey: number = 0): [Awaited<ReturnType<typeof getStallApplications>>, boolean] {
+    const [applications, setApplications] = useState<Awaited<ReturnType<typeof getStallApplications>>>([])
+    const [loading, setLoading] = useState<boolean>(true)
+    useEffect(() => {
+      async function getApps(){
+        getStallApplications().then((items)=>{
+          setApplications(items)
+          setLoading(false)
+        })
+      }
+      getApps()
+    },[refreshKey])
+    return [applications, loading]
+  }
+
+  export function useSponsorshipPackages(refreshKey: number = 0): [Partial<SponsorshipPackage>[], boolean] {
     const [packs, setPacks] = useState<Partial<SponsorshipPackage>[]>([])
     const [loading, setLoading] = useState<boolean>(true)
     useEffect(() => {
@@ -98,9 +113,24 @@ import { sleep } from "../utils"
         })
       }
     getSponsorshipPacks()
-    },[])
+    },[refreshKey])
     return [packs, loading]
 }
+
+  export function useMembershipPackages(refreshKey: number = 0): [MembershipPackage[], boolean] {
+    const [packages, setPackages] = useState<MembershipPackage[]>([])
+    const [loading, setLoading] = useState<boolean>(true)
+    useEffect(() => {
+      async function getPackages(){
+        setLoading(true)
+        const packs = await getMembershipPackages()
+        setPackages(packs)
+        setLoading(false)
+      }
+      getPackages()
+    }, [refreshKey])
+    return [packages, loading]
+  }
 
 export function useEvents(showYear: number, refreshKey: number = 0): [Event[], boolean] {
   const [events, setEvents] = useState<Event[]>([])
@@ -144,4 +174,44 @@ export function useEventSections(showYear: number, refreshKey: number = 0): [Eve
     getShowSections()
   },[showYear, refreshKey])
   return [sections, loading]
+}
+
+export function useSchedule(showYear: number, refreshKey: number = 0): [Schedule | undefined, Activity[], boolean] {
+  const [schedule, setSchedule] = useState<Schedule>()
+  const [activities, setActivities] = useState<Activity[]>([])
+  const [loading, setLoading] = useState<boolean>(true)
+  useEffect(() => {
+    async function getShowSchedule(){
+      setLoading(true)
+      if (!showYear) {
+        throw new Error("No show year provided")
+      }
+      const show = await getShow(showYear)
+      if (show){
+        try {
+          getSchedule(show.id).then((newSchedule)=>{
+            setSchedule(newSchedule)
+            console.log("Schedule fetched:", newSchedule)
+            return newSchedule
+          }).then((newSchedule)=>{
+            getActivities(newSchedule.id).then((newActivities)=>{
+              setActivities(newActivities)
+              console.log("Activities fetched:", newActivities)
+            })
+          })
+          
+          
+        } catch (error) {
+          throw new Error("No schedule found for this show: " + error)
+        }
+      }
+    }
+
+    getShowSchedule().finally(()=>{
+      setLoading(false)
+    })
+
+  },[showYear, refreshKey])
+
+  return [schedule, activities, loading]
 }

@@ -1,73 +1,82 @@
 'use client'
 
-import { Background } from '@/app/components/Background'
-import { EventSection, Show, Prize } from '@/app/generated/prisma/client'
-import { backgroundImages } from '@/app/images/backgrounds'
-import { getEventSectionByName, getSectionEventsAndPrizes, getShow } from '@/app/lib/queries'
-import { drawerWidth, footerHeight } from '@/app/settings'
-import { getDateString } from '@/app/utils'
-import { Card, CardContent, CardMedia, Divider, Grid, Paper, Stack, Typography } from '@mui/material'
+import type { EventSection, Prize } from '@generated/browser'
+import { getEventSectionByName, getLatestReleasedSchedule, getReleasedScheduleForShow, getSectionEventsAndPrizes, getShow, getUserRole } from '@lib/queries'
+import { getDateString } from '@app/utils'
+import { Card, CardContent, CardMedia, Divider, Grid, Stack, Typography } from '@mui/material'
 import { use, useEffect, useState } from 'react'
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import Waiting from '@/app/components/Waiting'
+import EditLock from '@/app/components/EditLock'
+import { authClient } from '@lib/auth-client'
+import { EventsSectionTable } from '@/app/components/EventsSectionTable'
+import RestrictedAccess from '@/app/components/Restricted'
+import Content from '@/app/components/Content'
+import { SectionEventandPrizes } from '@/app/types'
+import { useRouter } from 'next/navigation'
  
 export default function EventDetails({params}: {params: Promise<{ year: string, section: string }>}) {
   const path = use(params)
   const showYear = Number(path.year)
   const sectionName = path.section.replaceAll("%20", " ")
   const [loading, setLoading] = useState(true)
-  const [events, setEvents] = useState<any[]>([])
-  const [show, setShow] = useState<Show>()
+  const [events, setEvents] = useState<SectionEventandPrizes[]>([])
   const [eventSection, setEventSection] = useState<EventSection>()
+  const [locked, setLocked] = useState<boolean>(true)
+  const { data } = authClient.useSession()
+  const router = useRouter()
 
   useEffect(()=>{
-    setLoading(true)
-    getShow(showYear).then((show)=>{
-      if (show){
-        setShow(show)
-        getEventSectionByName(sectionName, show.id).then((thisEventSection)=>{
-          console.log(thisEventSection)
-          if (thisEventSection){
-            setEventSection(thisEventSection)
-            getSectionEventsAndPrizes(thisEventSection.id).then((theseEvents)=>{
-              setEvents(theseEvents)
-              console.log(theseEvents)
-            }).finally(()=>setLoading(false))
-          } 
-        })
-      } 
-    })
-  },[])
+    async function fetchData(){
+      setLoading(true)
+      try{
+        const show = await getShow(showYear)
+        if (!show){
+          return
+        }
+        const role = data?.user?.email ? await getUserRole(data.user.email) : null
+        if (role !== 'SITE_ADMIN' && role !== 'OWNER'){
+          const releasedSchedule = await getReleasedScheduleForShow(show.id)
+          if (!releasedSchedule){
+            const latestReleased = await getLatestReleasedSchedule()
+            if (latestReleased){
+              const targetSection = encodeURIComponent(sectionName)
+              router.replace(`/events/${latestReleased.show.year}/${targetSection}`)
+            }
+            return
+          }
+        }
+        const thisEventSection = await getEventSectionByName(sectionName, show.id)
+        if (thisEventSection){
+          setEventSection(thisEventSection)
+          const theseEvents = await getSectionEventsAndPrizes(thisEventSection.id)
+          setEvents(theseEvents)
+        }
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchData()
+  },[showYear, sectionName, router, data?.user?.email])
 
   return (
     <>
       <Waiting message={`Loading ${sectionName} events...`} open={loading}/>
-      <Background image={backgroundImages[1]} />
-      <Grid 
-        container 
-        spacing={2} 
-        sx={{
-          p: {
-            sm: 1, 
-            md: 2, 
-            lg: 10
-          }, 
-          ml: {
-            sm: drawerWidth.sm,
-            md: drawerWidth.md,
-            lg: drawerWidth.lg
-          },
-          mb: footerHeight
-        }}
-      >
-        <Grid size={12}>
-          <Paper sx={{p:2, backgroundColor: "secondary.main"}}>
+      <Content backgroundImageIndex={1}>
+           <EditLock locked={locked} setLocked={setLocked} userFirstName={data?.user.name}/>
       {
         eventSection?.letter ? 
           <Typography variant="h5" color="primary.main">{`Section ${eventSection.letter} ${eventSection.name}`}</Typography> :
           <Typography variant="h5" color="primary.main">{eventSection?.name}</Typography>
       }
       <Divider/>
+        {!locked ? (
+          <RestrictedAccess explicit={true}>
+            <Grid sx={{ mt: 2 }}>
+              <EventsSectionTable title="Section Events" showYear={showYear} sectionName={sectionName} />
+            </Grid>
+          </RestrictedAccess>
+        ) : null}
         <Typography variant="subtitle1" color="primary.main">{eventSection?.details}</Typography>
         <Divider/>
         <Grid container sx={{p:2}} spacing={5}>
@@ -78,7 +87,7 @@ export default function EventDetails({params}: {params: Promise<{ year: string, 
                   <Card sx={{ width: 345, backgroundColor: "secondary.main", color: "primary.main" }} elevation={8}>
                     <CardMedia
                       sx={{ height: 140 }}
-                      image={event.image ? event.image : eventSection?.image}
+                      image={event.image ? event.image : (eventSection?.image ? eventSection?.image : undefined)}
                       title={event.name}
                     />
                     <CardContent>
@@ -102,6 +111,29 @@ export default function EventDetails({params}: {params: Promise<{ year: string, 
                             )
                           })
                         }
+                        {event.results && event.results.length > 0 ? (
+                          <>
+                            <Divider sx={{ my: 1 }} />
+                            <Typography variant="subtitle2" color="primary.main">Results</Typography>
+                            {event.results.map((result, resultIndex) => {
+                              const winnerNames = result.winner
+                                .map((winner) => {
+                                  if (winner.firstName || winner.lastName) {
+                                    return `${winner.firstName ?? ''} ${winner.lastName ?? ''}`.trim()
+                                  }
+                                  return winner.name
+                                })
+                                .filter((name) => name.length > 0)
+                              if (winnerNames.length === 0) return null
+                              const prizeLabel = result.prize?.prizeName ? `${result.prize.prizeName}: ` : ''
+                              return (
+                                <Typography key={`result-${resultIndex}`} variant="body2">
+                                  {prizeLabel}{winnerNames.join(', ')}
+                                </Typography>
+                              )
+                            })}
+                          </>
+                        ) : null}
                     </CardContent>
                 </Card>
                 </Grid>
@@ -119,9 +151,7 @@ export default function EventDetails({params}: {params: Promise<{ year: string, 
             </Typography> : <></>
           }
         </Grid>
-        </Paper>
-        </Grid>
-      </Grid>
+      </Content>
     </>
   )
 }
@@ -143,13 +173,4 @@ function FormatedPrizeName(props: {name: string | null}){
       <Typography>{props.name}</Typography>
     </Stack>
   )
-}
-
-function getMailto(email: string, showYear: number, sectionName: string, eventName: string): string | undefined{
-  const mailTo = `mailto:${email}`
-  const subject = `subject=Dalgety Show ${showYear}: ${sectionName} section, ${eventName}  `
-  const body = `Hi, I would like to register for the event as part of the ${sectionName} in the Dalgety Show in ${showYear}`
-  const url = URL.parse(mailTo + "?" + subject + "&" + body)
-  
-  return url?.toString() 
 }

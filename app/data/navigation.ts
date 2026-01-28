@@ -8,27 +8,21 @@ import CollectionsIcon from '@mui/icons-material/Collections';
 import ContactMailIcon from '@mui/icons-material/ContactMail';
 import CardMembershipIcon from '@mui/icons-material/CardMembership';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
-import Home from "../home/page";
-import Events from "../events/[year]/page";
-import Schedule from "../schedule/page";
-import Membership from "../membership/page";
-import Gallery from "../gallery/page";
-import About from "../about/page";
-import Contact from "../contact/page";
-import Sponsors from "../sponsors/page";
-import Admin from "../admin/page";
+import StorefrontIcon from '@mui/icons-material/Storefront';
+
 
 export const navigation: NavItem[] = [
-  { label: "HOME", path: "../home/", Icon: HomeIcon, Content: Home},
-  { label: "EVENTS", path: "../events/", Icon: EmojiEventsIcon, Content: Events},
-  { label: "SCHEDULE", path: "../schedule/", Icon: CalendarMonthIcon, Content: Schedule},
-  { label: "MEMBERSHIP", path: "../membership/", Icon: CardMembershipIcon , Content: Membership},
-  { label: "SPONSORS", path: "../sponsors/", Icon: FavoriteIcon, Content: Sponsors},
-  { label: "GALLERY", path: "../gallery/", Icon: CollectionsIcon , Content: Gallery},
-  { label: "CONTACT", path: "../contact/",  Icon: ContactMailIcon, Content: Contact},
-  { label: "ABOUT", path: "../about/", Icon: InfoIcon, Content: About},
+  { label: "HOME", path: "../home/", Icon: HomeIcon},
+  { label: "EVENTS", path: "../events/", Icon: EmojiEventsIcon},
+  { label: "SCHEDULE", path: "../schedule/", Icon: CalendarMonthIcon},
+  { label: "MEMBERSHIP", path: "../membership/", Icon: CardMembershipIcon },
+  { label: "STALLS", path: "../stalls/", Icon: StorefrontIcon },
+  { label: "SPONSORS", path: "../sponsors/", Icon: FavoriteIcon},
+  { label: "GALLERY", path: "../gallery/", Icon: CollectionsIcon },
+  { label: "CONTACT", path: "../contact/",  Icon: ContactMailIcon},
+  { label: "ABOUT", path: "../about/", Icon: InfoIcon},
 ];
 
 export const adminNavigation: NavItem[] = [
-  { label: "ADMIN", path: "../admin/", Icon: AdminPanelSettingsIcon, Content: Admin},
+  { label: "ADMIN", path: "../admin/", Icon: AdminPanelSettingsIcon},
 ];

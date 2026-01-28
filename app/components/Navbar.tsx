@@ -1,8 +1,8 @@
 import { adminNavigation, navigation } from "../data/navigation"
-import { Box, Container, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, Tooltip, Typography, useMediaQuery, useTheme} from "@mui/material"
-import { useEffect, type Dispatch } from "react"
+import { Box, Container, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, Typography, useMediaQuery, useTheme} from "@mui/material"
+import { useEffect, useState, type Dispatch } from "react"
 import { CountDownCard } from "./CountDownCard"
-import { getNextShowDate } from "../utils"
+import { getNextShow } from "../lib/queries"
 import { drawerWidth } from "../settings"
 import CloseIcon from '@mui/icons-material/Close'
 import logo from '../images/dalgety-show-logo.png'
@@ -18,12 +18,24 @@ export default function Navbar(props: {
 }) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-  const [role, loading] = useUserRole()
+  const [role] = useUserRole()
+  const [nextShowDate, setNextShowDate] = useState<Date | null>(null)
+  
   useEffect(()=>{
     if (isMobile){
       props.setDrawerOpen(false)
     }
-  },[isMobile])
+  },[isMobile, props])
+
+  useEffect(() => {
+    getNextShow().then((show) => {
+      if (show?.start) {
+        setNextShowDate(new Date(show.start))
+      } else {
+        setNextShowDate(null)
+      }
+    })
+  }, [])
 
 
   function handleMenuClick(){
@@ -34,6 +46,7 @@ export default function Navbar(props: {
 
   return (
     <>
+      {/* <Waiting message="loading user role" open={loading}/> */}
       <Drawer
         sx={{
           display: 'flex', flexDirection: 'column',
@@ -76,18 +89,16 @@ export default function Navbar(props: {
         <List>
           {navigation.map((nav) => (
             <ListItem key={nav.label} disablePadding>
-              <Tooltip title={nav.label}>
-                <Link href={`/${nav.label.toLocaleLowerCase()}`}>
-                <ListItemButton onClick={()=>(handleMenuClick())}>
-                  <ListItemIcon>
-                    <nav.Icon/>
-                  </ListItemIcon>
-                  <Typography variant="h6">
-                    {nav.label}
-                  </Typography>
-                </ListItemButton>
-                </Link>
-              </Tooltip>
+              <Link href={`/${nav.label.toLocaleLowerCase()}`}>
+              <ListItemButton onClick={()=>(handleMenuClick())}>
+                <ListItemIcon>
+                  <nav.Icon/>
+                </ListItemIcon>
+                <Typography variant="h6">
+                  {nav.label}
+                </Typography>
+              </ListItemButton>
+              </Link>
             </ListItem>
           ))}
         </List>
@@ -97,8 +108,7 @@ export default function Navbar(props: {
         <List>
           {adminNavigation.map((nav) => (
             <ListItem key={nav.label} disablePadding>
-              <Tooltip title={nav.label}>
-                <Link href={`/${nav.label.toLocaleLowerCase()}`}>
+              <Link href={`/${nav.label.toLocaleLowerCase()}`}>
                 <ListItemButton onClick={()=>(handleMenuClick())}>
                   <ListItemIcon>
                     <nav.Icon/>
@@ -107,15 +117,14 @@ export default function Navbar(props: {
                     {nav.label}
                   </Typography>
                 </ListItemButton>
-                </Link>
-              </Tooltip>
+              </Link>
             </ListItem>
           ))}
         </List>
         : <></>}
         <Divider />
         <Container sx={{alignItems: "flex-end", marginTop: 'auto', marginBottom: 2}}>
-          <CountDownCard countDownTo={getNextShowDate()}/>
+          {nextShowDate ? <CountDownCard countDownTo={nextShowDate}/> : null}
         </Container>
       </Drawer>
     </>

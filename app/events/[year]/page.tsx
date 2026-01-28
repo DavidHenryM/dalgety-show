@@ -1,28 +1,24 @@
 "use client"
 
-import { Button, Card, CardActions, CardContent, CardMedia, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Fab, Grid, IconButton, Link, Paper, Popover, Slide, Stack, TextField, Tooltip, Typography } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Grid, Paper, Stack, Typography } from "@mui/material";
 import { drawerWidth, footerHeight } from "../../settings";
 import { Background } from "../../components/Background";
 import { backgroundImages } from "../../images/backgrounds";
-import { Dispatch, forwardRef, SetStateAction, use, useEffect, useState } from "react";
-import { getEvents, getEventSections, GetEventSectionsResult, GetEventsResult, getSectionEvents, getShow } from "../../lib/queries";
-import { getDateString, getNextShowDate } from "../../utils";
-import Loading from "../../Loading";
-import { Event, EventSection, Show } from "../../generated/prisma/client";
-import { TransitionProps } from "@mui/material/transitions";
+import { Dispatch, SetStateAction, use, useEffect, useState } from "react";
+import { getEventSections, getShow } from "@lib/queries";
+import { getDateString } from "../../utils";
+import type { Event, EventSection, Show } from "@generated/browser";
 import Skeleton from '@mui/material/Skeleton';
-import LockOutlineIcon from '@mui/icons-material/LockOutline';
-import LockOpenIcon from '@mui/icons-material/LockOpen';
-import RestrictedAccess from "@/app/components/Restricted";
-import { useSession } from "next-auth/react";
-
-import { EventSectionCard } from "@/app/components/EventSectionCard";
-
-
+import { EventSectionCard } from "@components/EventSectionCard";
+import { EventsTable } from "@components/EventsTable";
+import RestrictedAccess from "@components/Restricted";
+import EditLock from "@components/EditLock";
+import { TransitionUp } from "@components/Tansitions";
+import { authClient } from "@lib/auth-client";
 
 export default function EventsYear({params}: {params: Promise<{ year: string }>}) {
   const { year } = use(params)
-  const { data: session } = useSession()
+  const session = authClient.useSession()
   const [eventSections, setEventSections] = useState<EventSection[]>([])
   const [loading, setLoading] = useState<boolean>(true)
   const [show, setShow] = useState<Show>()
@@ -30,12 +26,9 @@ export default function EventsYear({params}: {params: Promise<{ year: string }>}
   const [eventsDetails, setEventsDetails] = useState<Event[]>([])
   const [selectedSection, setSelectedSection] = useState<EventSection>()
   const [locked, setLocked] = useState<boolean>(true)
-  const [openDialog, setOpenDialog] = useState(false);
-
-
+  
 
   useEffect(()=>{
-    setLoading(true)
     getShow(Number(year)).then((thisShow)=>{
       if (thisShow){
         setShow(thisShow)
@@ -52,21 +45,7 @@ export default function EventsYear({params}: {params: Promise<{ year: string }>}
       }
     })
     
-  },[])
-
-  function handleLockUnlock(): void {
-    if(locked){
-      setOpenDialog(true)
-    } else {
-      setLocked(true)
-    }
-  }
-  function handleCloseDialog(): void {
-    setOpenDialog(false)
-    setLocked(!locked)
-  }
-
-
+  },[year])
 
   return (
     <>
@@ -89,42 +68,19 @@ export default function EventsYear({params}: {params: Promise<{ year: string }>}
         }}
       >
         <Grid size={12}>
-
           <Paper sx={{p:2, backgroundColor: "secondary.main",  position: 'relative'}}>
-            <RestrictedAccess explicit={false}>
-              <Tooltip title={locked ? "Unlock for editing" : "Lock editing"}>
-                <Fab sx={{position: 'absolute', top: 10, right: 10}} color={locked ? "success" : "error"} aria-label="unlock" onClick={handleLockUnlock}>
-                  {locked ? <LockOutlineIcon/> : <LockOpenIcon/>}
-                </Fab>
-              </Tooltip>
-              <Dialog
-                open={openDialog}
-                slots={{
-                  transition: Transition,
-                }}
-                keepMounted
-                onClose={()=>setOpenDialog(false)}
-                aria-describedby="alert-dialog-slide-description"
-              >
-                <DialogTitle>{`Hey ${session?.user?.name ?? "there"}, are you sure you want to edit this?!`}</DialogTitle>
-                <DialogContent>
-                  <DialogContentText id="alert-dialog-slide-description">
-                    Once this is edited it will become visible to the public.
-                  </DialogContentText>
-                  <DialogContentText id="alert-dialog-slide-description">
-                    Are you sure you want to continue?
-                  </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                  <Button onClick={()=>{setOpenDialog(false); setLocked(true)}}>Cancel</Button>
-                  <Button onClick={()=>{setOpenDialog(false); setLocked(false)}}>Continue</Button>
-                </DialogActions>
-              </Dialog>
-            </RestrictedAccess>
+            <EditLock locked={locked} setLocked={setLocked} userFirstName={session.data?.user.name}/>
             <Typography sx={{p:2}} variant="h4" color="primary.main" justifySelf="center">{`Events ${show?.year ? show?.year : ""}`}</Typography>
             <Divider />
+            {!locked ? (
+              <RestrictedAccess explicit={true}>
+                <Grid sx={{ mt: 2 }}>
+                  <EventsTable title="Events" showYear={Number(year)} />
+                </Grid>
+              </RestrictedAccess>
+            ) : null}
             <Grid container sx={{p:2}} size={12} spacing={2}>
-            { loading ? 
+            { loading || session.isPending || session.isRefetching ? 
               new Array(12).fill(0).map((item, index)=>{
                 return (
                   <Grid key={`skeleton-${index}`} size={{sm: 12, md: 12, lg: 8, xl:6}}>
@@ -136,7 +92,9 @@ export default function EventsYear({params}: {params: Promise<{ year: string }>}
               })
             : 
               eventSections.map((section, index)=>{
-                return(<EventSectionCard section={section} key={index} locked={locked} show={show}></EventSectionCard>)
+                if (show){
+                  return(<EventSectionCard section={section} key={index} locked={locked} show={show}></EventSectionCard>)
+                }
               })
             }
             </Grid>
@@ -159,7 +117,7 @@ function EventDialog(props: {open: boolean, setOpen: Dispatch<SetStateAction<boo
     <Dialog
       open={props.open}
       slots={{
-        transition: Transition,
+        transition: TransitionUp,
       }}
       keepMounted
       onClose={handleClose}
@@ -212,11 +170,4 @@ function EventDialog(props: {open: boolean, setOpen: Dispatch<SetStateAction<boo
   )
 }
 
-const Transition = forwardRef(function Transition(
-  props: TransitionProps & {
-    children: React.ReactElement<any, any>;
-  },
-  ref: React.Ref<unknown>,
-) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
+

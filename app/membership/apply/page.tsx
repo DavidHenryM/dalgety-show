@@ -1,23 +1,24 @@
 "use client"
 
-import Content from "@/app/components/Content";
-import { MembershipForm } from "@/app/components/MembershipForm";
-import { serverSignIn } from "@/app/serverSignInOut";
-import { useSession } from "next-auth/react";
-import { useEffect } from "react";
+import { authClient } from "@lib/auth-client";
+import Content from "@components/Content";
+import { MembershipForm } from "@components/MembershipForm";
+import SignInPage from "@/app/signin/page";
+import Waiting from "@/app/components/Waiting";
 
 
 export default function MembershipApply(){
-    const { data: session, status: status } = useSession()
-    useEffect(()=>{
-      if (status === "unauthenticated"){
-        serverSignIn()
-      }
-    },[session])
+  const session = authClient.useSession()
+
+  if (!session.data && !session.isPending && !session.isRefetching){
+    return (<SignInPage></SignInPage>)
+  } 
+
 
   return (
     <Content backgroundImageIndex={1}>
-      <MembershipForm email={session?.user?.email}/>
+      <Waiting message="Loading session..." open={session.isPending || session.isRefetching}/>
+      <MembershipForm email={session.data?.user?.email}/>
     </Content>
 
   )

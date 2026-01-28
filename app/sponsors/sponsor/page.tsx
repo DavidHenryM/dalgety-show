@@ -1,28 +1,25 @@
 'use client'
 
-import { Background } from "@/app/components/Background";
-import { SponsorTheShowForm } from "@/app/components/SponsorTheShowForm";
-import Waiting from "@/app/components/Waiting";
-import { backgroundImages } from "@/app/images/backgrounds";
-import Loading from "@/app/Loading";
-import { serverSignIn } from "@/app/serverSignInOut";
-import { drawerWidth, footerHeight } from "@/app/settings";
+import { Background } from "@components/Background";
+import { SponsorTheShowForm } from "@components/SponsorTheShowForm";
+import Waiting from "@components/Waiting";
+import { backgroundImages } from "@app/images/backgrounds";
+import { signIn } from "@lib/session";
+import { drawerWidth, footerHeight } from "@app/settings";
 import { Grid, Paper } from "@mui/material";
-import { useSession } from "next-auth/react";
 import { useEffect } from "react";
-
+import { authClient } from "@/app/lib/auth-client";
 
 export default function SponsorTheShow(){
-  const { data: session, status: status } = useSession()
-  console.log(session)
+ const session = authClient.useSession()
 
   useEffect(()=>{
-    console.log(session)
-    if (status === "unauthenticated"){
-      serverSignIn()
+    if (session.data?.user.email){
+      signIn(session.data.user.email, '/sponsors/sponsor').catch((err)=>{
+        console.error("Error during sign-in:", err)
+      })    
     }
-  },[session])
-
+  },[session.data])
   return (
     <>
       <Background image={backgroundImages[0]} />
@@ -45,8 +42,8 @@ export default function SponsorTheShow(){
       >
         <Grid size={12} spacing={2} p={2} sx={{justifyItems:"center"}}>
           <Paper sx={{p:2}}>
-            <Waiting message="loading" open={status === "loading"}/>
-            <SponsorTheShowForm email={session?.user?.email}/>
+            <Waiting message="loading" open={session.isPending || session.isRefetching}/>
+            <SponsorTheShowForm email={session.data?.user.email}/>
           </Paper>
         </Grid>
       </Grid>

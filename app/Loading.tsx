@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faAlignJustify, faHorse } from "@fortawesome/free-solid-svg-icons"
-import { Box, Grid, Paper, Stack, Typography } from '@mui/material'
+import { faHorse } from "@fortawesome/free-solid-svg-icons"
+import { Grid, Paper, Stack, Typography } from '@mui/material'
 
 
 

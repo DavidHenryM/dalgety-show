@@ -4,18 +4,18 @@ import { Button, Divider, FormControl, FormControlLabel, FormLabel, Grid, InputA
 import { useEffect, useState } from "react";
 import { useSponsorshipPackages } from "../lib/queryHooks";
 import Loading from "../Loading";
-import { SponsorshipPackage, SponsorshipPackageTier } from "../generated/prisma/client";
+import type { SponsorshipPackage } from "../generated/prisma/browser";
+import { OfficialRole, SponsorshipPackageTier } from "../generated/prisma/enums";
 import { useForm, Controller } from "react-hook-form";
-import { createOrganisation, createSponsorship, updateUserName } from "../lib/mutations";
+import { createOrganisation, createSponsorship, emailOfficialRole, updateUserName } from "../lib/mutations";
 import { OrganisationCreateInput, SponsorshipCreateInput } from "../generated/prisma/models";
-import { getOrganisation, getShow } from "../lib/queries";
-import { getNextShowDate } from "../utils";
+import { getOrganisation, getNextShow } from "../lib/queries";
 import Waiting from "./Waiting";
 import { AlertDialog } from "./Alert";
 
 export function SponsorTheShowForm(props: {email: string | null | undefined}){
   const [packs, loading] = useSponsorshipPackages()
-  const [pack, setPack] = useState<SponsorshipPackage | undefined>()
+  const [pack, setPack] = useState<Partial<SponsorshipPackage> | undefined>()
   const [selectedTier, setSelectedTier] = useState<SponsorshipPackageTier>("SILVER")
   const [tiers, setTiers] = useState<SponsorshipPackageTier[]>()
   const [dollarAmount, SetDollarAmount] = useState<number>(0)
@@ -25,78 +25,129 @@ export function SponsorTheShowForm(props: {email: string | null | undefined}){
   const [alertTitle, setAlertTitle] = useState("")
   const [alertMessage, setAlertMessage] = useState("")
   
-  let maxDollarAmount = 0
-  let minDollarAmount = 0
+  const [maxDollarAmount, setMaxDollarAmount] = useState(0)
+  const [minDollarAmount, setMinDollarAmount] = useState(0)
 
   useEffect(()=>{
-    if (!loading){
-      let tiersTemp: SponsorshipPackageTier[] = []
-      packs.forEach((thispack)=>{
-        tiersTemp.push(thispack.tier)
-      }) 
-      setTiers(tiersTemp)
-      if (!pack){
-        setPack(packs[2])
-      }
-      if (tiersTemp){
-        setSelectedTier(tiersTemp[0])
-      }
-      maxDollarAmount = Math.max(...packs.map(item => item.maximumAmount))
-      minDollarAmount = Math.min(...packs.map(item => item.minimumAmount))
-    }
-  },[loading])
-  
-  const onSubmit = (data: any) => {
-    setSubmitting(true)
-    let email = props.email ? props.email : ""
-
-    updateUserName(email, data.firstName, data.lastName).then((updatedUser)=>{
-      const organisationData: OrganisationCreateInput = {
-        name: data.organisation,
-        contactPerson: {
-          connect: {
-            id: updatedUser.id
+    async function initializeDefaults(){
+      if (!loading){
+        const tiersTemp: SponsorshipPackageTier[] = []
+        packs.forEach((thispack)=>{
+          if (thispack.tier){
+            tiersTemp.push(thispack.tier)
+          }
+        }) 
+        setTiers(tiersTemp)
+        if (!pack){
+          if (packs[2]){
+            setPack(packs[2] as SponsorshipPackage)
           }
         }
-      }
-      getOrganisation(data.organisation, updatedUser.id).then((organisation)=>{
-        getShow(getNextShowDate().getFullYear()).then((nextShow)=>{
-          console.log(nextShow)
-          if (!organisation){
-            createOrganisation(organisationData).then((createdOrganisation)=>{
-              const selectedPack = packs.find(singlePack => singlePack.tier === selectedTier)
-              console.log(createdOrganisation)
-              const sponsorshipData: SponsorshipCreateInput = {
-                totalAmount: dollarAmount,
-                package: {connect: {id: selectedPack.id}},
-                show: {connect: {id: nextShow?.id}},
-                organisation: {connect: {id: createdOrganisation.id}}
-              }
-              createSponsorship(sponsorshipData).then((createdSponsorship)=>{
-                setAlertTitle("Sponsorship proposal received successfully")
-                setAlertMessage("We now have your information and we'll be in touch shortly to sort out the next steps. Many thanks for your support.")
-                setAlertOpen(true)
-              }).catch((reason)=>console.error(reason))
-            })
-          } else {
-            const selectedPack = packs.find((singlePack) => {
-              return singlePack.tier === selectedTier
-            })
-            const sponsorshipData: SponsorshipCreateInput = {
-              totalAmount: dollarAmount,
-              package: {connect: {id: selectedPack.id}},
-              show: {connect: {id: nextShow?.id}},
-              organisation: {connect: {id: organisation.id}}
-            }
-            createSponsorship(sponsorshipData).then((createdSponsorship)=>{
-              setAlertTitle("Sponsorship proposal received successfully")
-              setAlertMessage("We now have your information and we'll be in touch shortly to sort out the next steps. Many thanks for your support.")
-              setAlertOpen(true)
-          })
+        if (tiersTemp){
+          setSelectedTier(tiersTemp[0])
         }
-      })
+        setMaxDollarAmount(Math.max(...packs.map((item) => {
+          if (item.maximumAmount){
+            return item.maximumAmount
+          } else {
+            return -Infinity
+          }
+        })))
+        
+        setMinDollarAmount(Math.min(...packs.map((item) => {
+          if (item.minimumAmount){
+            return item.minimumAmount
+          } else {
+            return Infinity
+          }
+        })))
+      }
+    }
+    initializeDefaults()
+  },[loading, pack, packs])
+
+  async function notifyOfficials(organisationName: string, contactFirstName: string, contactLastName: string) {
+    const email = props.email ? props.email : ""
+    const message = [
+      `New sponsorship proposal received.`,
+      `Organisation: ${organisationName}`,
+      `Contact: ${contactFirstName} ${contactLastName}`,
+      `Email: ${email}`,
+      `Tier: ${selectedTier}`,
+      `Amount: $${dollarAmount}`
+    ].join("\n")
+
+    await emailOfficialRole({
+      role: OfficialRole.PUBLICITY_OFFICER,
+      subject: "New sponsorship proposal",
+      text: message
     })
-  }).finally(()=>setSubmitting(false))
+  }
+  
+  const onSubmit = (data: unknown) => {
+    setSubmitting(true)
+    const email = props.email ? props.email : ""
+    if (data && typeof data === "object" && "firstName" in data && "lastName" in data && "organisation" in data){
+      updateUserName(email, data.firstName as string, data.lastName as string).then((updatedUser)=>{
+        const organisationData: OrganisationCreateInput = {
+          name: data.organisation as string ? data.organisation as string : "",
+          contactPerson: {
+            connect: {
+              id: updatedUser.id
+            }
+          }
+        }
+        return organisationData
+      }).then((thisOrganisationData)=>{
+        if (thisOrganisationData.contactPerson.connect?.id){
+          getOrganisation(thisOrganisationData.name, thisOrganisationData.contactPerson.connect.id).then((organisation)=>{
+            getNextShow().then((nextShow)=>{
+              console.log(nextShow)
+              if (!nextShow){
+                setAlertTitle("No upcoming show found")
+                setAlertMessage("We couldn't find a future show date. Please try again later or contact the admin.")
+                setAlertOpen(true)
+                return
+              }
+              if (!organisation){
+                createOrganisation(thisOrganisationData).then((createdOrganisation)=>{
+                  const selectedPack = packs.find(singlePack => singlePack.tier === selectedTier)
+                  console.log(createdOrganisation)
+                  const sponsorshipData: SponsorshipCreateInput = {
+                    totalAmount: dollarAmount,
+                    package: {connect: {id: selectedPack?.id}},
+                    show: {connect: {id: nextShow?.id}},
+                    organisation: {connect: {id: createdOrganisation.id}}
+                  }
+                  createSponsorship(sponsorshipData).then(async (createdSponsorship)=>{
+                    await notifyOfficials(thisOrganisationData.name, data.firstName as string, data.lastName as string)
+                    setAlertTitle("Sponsorship proposal received successfully")
+                    setAlertMessage("We now have your information and we'll be in touch shortly to sort out the next steps. Many thanks for your support.")
+                    setAlertOpen(true)
+                  }).catch((reason)=>console.error(reason))
+                })
+              } else {
+                const selectedPack = packs.find((singlePack) => {
+                  return singlePack.tier === selectedTier
+                })
+                const sponsorshipData: SponsorshipCreateInput = {
+                  totalAmount: dollarAmount,
+                  package: {connect: {id: selectedPack?.id}},
+                  show: {connect: {id: nextShow?.id}},
+                  organisation: {connect: {id: organisation.id}}
+                }
+                createSponsorship(sponsorshipData).then(async (createdSponsorship)=>{
+                  await notifyOfficials(thisOrganisationData.name, data.firstName as string, data.lastName as string)
+                  setAlertTitle("Sponsorship proposal received successfully")
+                  setAlertMessage("We now have your information and we'll be in touch shortly to sort out the next steps. Many thanks for your support.")
+                  setAlertOpen(true)
+                })
+              }
+            })
+        })
+      }
+      }).finally(()=>setSubmitting(false))
+    }
   }
 
 
@@ -107,7 +158,7 @@ export function SponsorTheShowForm(props: {email: string | null | undefined}){
       return singlePack.tier === newTier
     })
     setPack(selectedPack)
-    SetDollarAmount(selectedPack.minimumAmount)
+    SetDollarAmount(selectedPack?.minimumAmount || 0)
   }
   
   const handleSlide = (_event: Event, newValue: number) => {
@@ -117,13 +168,15 @@ export function SponsorTheShowForm(props: {email: string | null | undefined}){
   const handleTextDollarAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newAmount = event.target.value === '' ? 0 : Number(event.target.value)
     SetDollarAmount(newAmount)
-    if (pack){
+    if (pack?.maximumAmount && pack?.minimumAmount){
       if ((newAmount > pack.maximumAmount || newAmount < pack.minimumAmount)){
-          const newPack = findNewPack(newAmount)
-          if (newPack){
-            setPack(newPack)
+        const newPack = findNewPack(newAmount)
+        if (newPack){
+          setPack(newPack)
+          if (newPack.tier){
             setSelectedTier(newPack.tier)
           }
+        }
       }
     } else {
       setPack(findNewPack(newAmount))
@@ -131,8 +184,11 @@ export function SponsorTheShowForm(props: {email: string | null | undefined}){
     SetDollarAmount(newAmount)
   }
 
-  const findNewPack = (dollarAmount: number): any => {
+  const findNewPack = (dollarAmount: number): Partial<SponsorshipPackage> | undefined => {
     return packs.find((testPack)=>{
+      if (testPack.minimumAmount === undefined || testPack.maximumAmount === undefined){
+        return false
+      }
       return testPack.minimumAmount <= dollarAmount && testPack.maximumAmount >= dollarAmount
     })
   }

@@ -8,31 +8,28 @@ generator client {
   provider        = "prisma-client"
   output          = "../app/generated/prisma"
   previewFeatures = ["relationJoins"]
+  engineType      = "client"
 }
 
 datasource db {
   provider = "postgresql"
 }
 
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 model User {
-  id                          String          @id @default(cuid())
+  id            String    @id @default(cuid())
+  name          String
+  email         String
+  emailVerified Boolean   @default(false)
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  accounts      Account[]
+  sessions      Session[]
+
   firstName                   String?
   lastName                    String?
   username                    String?         @unique
-  email                       String?         @unique
-  emailVerified               DateTime?
-  image                       String?
-  accounts                    Account[]
-  sessions                    Session[]
   Authenticator               Authenticator[]
-  createdAt                   DateTime        @default(now())
-  updatedAt                   DateTime        @updatedAt
   mobileNumber                String?
   landlineNumber              String?
   billingAddressId            String?         @unique
@@ -47,50 +44,56 @@ model User {
   eventResults                EventResult[]
   memberships                 Membership[]
   officialRole                OfficialRole?
+
+  dataEdits         DataEdit[]
+  stallApplications StallApplication[]
+
+  @@unique([email])
+  @@map("user")
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([identifier])
+  @@map("verification")
 }
 
 model Account {
-  id                       String  @id @default(cuid())
-  userId                   String  @unique
-  type                     String
-  provider                 String
-  providerAccountId        String
-  refresh_token            String? @db.Text
-  access_token             String? @db.Text
-  expires_at               Int?
-  token_type               String?
-  scope                    String?
-  id_token                 String? @db.Text
-  session_state            String?
-  refresh_token_expires_in Int?
-  user                     User?   @relation(fields: [userId], references: [id])
+  id           String    @id @default(cuid())
+  userId       String
+  providerId   String
+  accountId    String
+  accessToken  String?
+  refreshToken String?   @db.Text
+  expiresAt    DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type         String
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@unique([provider, providerAccountId])
-  @@index([userId])
+  @@unique([providerId, accountId])
 }
 
 model Session {
-  id           String   @id @default(cuid())
-  sessionToken String   @unique
-  userId       String
-  expires      DateTime
-  user         User     @relation(fields: [userId], references: [id])
-
+  id        String   @id
+  expiresAt DateTime
+  token     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  @@unique([token])
   @@index([userId])
-}
-
-model VerificationToken {
-  identifier String
-  token      String
-  expires    DateTime
-
-  @@unique([identifier, token])
+  @@map("session")
 }
 
 // Optional for WebAuthn support
@@ -107,6 +110,16 @@ model Authenticator {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([userId, credentialID])
+}
+
+model DataEdit {
+  id         String         @id @default(cuid())
+  table      String
+  field      String
+  operation  DATA_OPERATION
+  editedBy   User           @relation(fields: [editedById], references: [id])
+  editedById String
+  editedAt   DateTime       @default(now())
 }
 
 model Address {
@@ -133,8 +146,10 @@ model Organisation {
   shippingAddress   Address?      @relation(name: "OrgShippingAddress", fields: [shippingAddressId], references: [id])
   shippingAddressId String?       @unique
   contactPerson     User          @relation(fields: [contactPersonId], references: [id])
-  contactPersonId   String        @unique
+  contactPersonId   String
   sponsorships      Sponsorship[]
+
+  stallApplications StallApplication[]
 }
 
 model EventSection {
@@ -206,6 +221,25 @@ model EventSectionSponsorship {
   sponsorships Sponsorship[]
 }
 
+model Schedule {
+  id         String     @id @default(cuid())
+  show       Show       @relation(fields: [showId], references: [id])
+  showId     String     @unique
+  released   DateTime?
+  activities Activity[]
+}
+
+model Activity {
+  id          String   @id @default(cuid())
+  time        DateTime
+  name        String
+  description String?
+  link        String?
+  icon        String?
+  schedule    Schedule @relation(fields: [scheduleId], references: [id])
+  scheduleId  String
+}
+
 model Sponsorship {
   id             String                    @id @default(cuid())
   package        SponsorshipPackage        @relation(fields: [packageId], references: [id])
@@ -229,27 +263,32 @@ model Show {
 
   eventSections EventSection[]
   sponsorships  Sponsorship[]
+  schedule      Schedule?
+
+  stallInformations StallInformation[]
+
+  stallSiteCategories StallSiteCategory[]
 }
 
 model Membership {
-  id        String   @id @default(cuid())
-  member    User     @relation(fields: [memberId], references: [id])
+  id        String         @id @default(cuid())
+  member    User           @relation(fields: [memberId], references: [id])
   memberId  String
   startDate DateTime?
   renewDate DateTime?
-  type MembershipType @default(INDIVIDUAL)
-  cost Float
-  paidDate DateTime?
+  type      MembershipType @default(INDIVIDUAL)
+  cost      Float
+  paidDate  DateTime?
   applyDate DateTime
 }
 
 model MembershipPackage {
-  id        String   @id @default(cuid())
-  type MembershipType
-  cost Float
+  id        String         @id @default(cuid())
+  type      MembershipType
+  cost      Float
   validFrom DateTime
-  validTo DateTime?
-  termDays Int
+  validTo   DateTime?
+  termDays  Int
 }
 
 model SponsorshipPackage {
@@ -258,6 +297,73 @@ model SponsorshipPackage {
   minimumAmount Int
   maximumAmount Int
   sponsorships  Sponsorship[]
+}
+
+model StallApplication {
+  id                           String            @id @default(cuid())
+  applicant                    User              @relation(fields: [applicantId], references: [id])
+  applicantId                  String
+  organisation                 Organisation?     @relation(fields: [organisationId], references: [id])
+  organisationId               String?
+  stallSiteCategory            StallSiteCategory @relation(fields: [stallSiteCategoryId], references: [id])
+  stallSiteCategoryId          String
+  preferredLocation            String            @db.Text
+  itemsToBeSoldOrDisplayed     String            @db.Text
+  layoutOrSpecialFeatures      String?           @db.Text
+  stallSetupImageLink          String?
+  publicLiabilityInsuranceLink String?
+  applicationDate              DateTime          @default(now())
+  approved                     Boolean           @default(false)
+  approvedDate                 DateTime?
+  notes                        String?           @db.Text
+  stallSites StallSite[]
+}
+
+model StallSiteCategory {
+  id          String      @id @default(cuid())
+  show        Show        @relation(fields: [showId], references: [id])
+  showId      String
+  name        String
+  description String?
+  sizeWidth   Float
+  sizeDepth   Float
+  powerSupply Boolean     @default(false)
+  covered     Boolean     @default(false)
+  basePrice   Float
+  stallSites  StallSite[]
+
+  stallApplications StallApplication[]
+}
+
+model StallSite {
+  id             String            @id @default(cuid())
+  siteNumber     Int               @unique
+  siteCategory   StallSiteCategory @relation(fields: [siteCategoryId], references: [id])
+  siteCategoryId String
+  application    StallApplication  @relation(fields: [applicationId], references: [id])
+  applicationId  String
+}
+
+model StallInformation {
+  id                  String    @id @default(cuid())
+  showId              String    @unique
+  show                Show      @relation(fields: [showId], references: [id])
+  welcomeMessage      String?   @db.Text
+  insuranceDetails    String?   @db.Text
+  safetyGuidelines    String?   @db.Text
+  setupInstructions   String?   @db.Text
+  paymentDetails      String?   @db.Text
+  cancellationPolicy  String?   @db.Text
+  siteMap             String?   @db.Text
+  contactInformation  String?   @db.Text
+  thankyouMessage      String?   @db.Text
+  applicationDeadline DateTime?
+}
+
+enum DATA_OPERATION {
+  CREATE
+  UPDATE
+  DELETE
 }
 
 enum State {

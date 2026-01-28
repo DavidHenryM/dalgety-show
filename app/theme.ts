@@ -39,7 +39,16 @@ const typography = {
 
 export const darkTheme = createTheme(
   { 
-    components: components, 
+    components: {
+      ...components,
+      MuiButton: {
+        styleOverrides: {
+          root: ({ theme }) => ({
+            color: theme.palette.secondary.main
+          })
+        }
+      }
+    }, 
     breakpoints: breakpoints,
     typography: typography,
     palette: { 
@@ -56,7 +65,16 @@ export const darkTheme = createTheme(
 
 export const lightTheme = createTheme(
   { 
-    components: components,
+    components: {
+      ...components,
+      MuiButton: {
+        styleOverrides: {
+          root: ({ theme }) => ({
+            color: theme.palette.secondary.main
+          })
+        }
+      }
+    },
     breakpoints: breakpoints,
     typography: typography,
     palette: { 
