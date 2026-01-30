@@ -1,3 +1,5 @@
+"use server"
+
 import { SignupFormSchema, FormState } from '../lib/definitions'
 import { authClient } from "@lib/auth-client"
 
