@@ -52,7 +52,7 @@ export default function SignInPage() {
       if (error?.message) {
         throw new Error(error.message)
       }
-      if (data?.status) {
+      if (data?.user) {
         setEmailSent(false)
       }
     } catch (err: unknown) {
