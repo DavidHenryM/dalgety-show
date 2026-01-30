@@ -117,10 +117,10 @@ describe("/api/queries route", () => {
     process.env.BLOB_STORE_READ_WRITE_TOKEN = "token";
     getSession.mockResolvedValue({ user: { email: "a@example.com" } });
     queries.getUserFromEmail.mockResolvedValue({ role: "OWNER" });
-    list.mockResolvedValue({ blobs: [{ url: "https://blob" }] });
+    list.mockResolvedValue({ blobs: [{ url: "https://blob/image.png" }] });
     const response = await GET(makeRequest("http://localhost/api/queries/getImages?action=getImages&prefix=gallery"), { params: Promise.resolve({ action: "getImages" }) });
     expect(response.status).toBe(200);
     const data = await response.json();
-    expect(data.images).toEqual(["https://blob"]);
+    expect(data.images).toEqual(["https://blob/image.png"]);
   });
 });

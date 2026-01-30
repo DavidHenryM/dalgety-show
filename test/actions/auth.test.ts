@@ -3,6 +3,7 @@ import { signIn } from "@app/actions/auth";
 
 const magicLink = vi.hoisted(() => vi.fn());
 const safeParse = vi.hoisted(() => vi.fn());
+const sendVerificationOtp = vi.hoisted(() => vi.fn());
 
 vi.mock("@app/lib/definitions", () => ({
   SignupFormSchema: { safeParse }
@@ -12,6 +13,9 @@ vi.mock("@lib/auth-client", () => ({
   authClient: {
     signIn: {
       magicLink
+    },
+    emailOtp: {
+      sendVerificationOtp
     }
   }
 }));
@@ -38,6 +42,7 @@ describe("actions/auth signIn", () => {
       data: { name: "Alice", email: "alice@example.com" }
     });
     magicLink.mockResolvedValue({ data: {}, error: null });
+    sendVerificationOtp.mockResolvedValue({ data: {}, error: null });
     const formData = new FormData();
     formData.set("name", "Alice");
     formData.set("email", "alice@example.com");
@@ -45,6 +50,7 @@ describe("actions/auth signIn", () => {
     const result = await signIn(undefined, formData, "/home");
 
     expect(magicLink).toHaveBeenCalled();
+    expect(sendVerificationOtp).toHaveBeenCalled();
     expect(result?.message).toContain("Magic link sent");
   });
 

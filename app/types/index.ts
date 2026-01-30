@@ -209,6 +209,19 @@ export type BetterAuthSignInData = {
     status: boolean;
 } | null
 
+export type BetterAuthSignInOtpData = {
+    token: string;
+    user: {
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
+        email: string;
+        emailVerified: boolean;
+        name: string;
+        image?: string | null | undefined;
+    };
+} | null
+
 export type BetterAuthSignOutData = {
     success: boolean;
 } | null
