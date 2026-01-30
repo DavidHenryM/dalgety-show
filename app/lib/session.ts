@@ -9,7 +9,27 @@ export async function signIn(email: string, callbackURL?: string): Promise<{data
     callbackURL: callbackURL ?? "/home",
     errorCallbackURL: "/signin-error",
   })
+  if (error) {
+    return { data, error }
+  }
+
+  const otpResult = await authClient.emailOtp.sendVerificationOtp({
+    email,
+    type: "sign-in",
+  })
+
+  if (otpResult.error) {
+    return { data, error: otpResult.error }
+  }
   return {data, error}
+}
+
+export async function signInWithOtp(email: string, otp: string): Promise<{data: BetterAuthSignInData, error: BetterAuthError}> {
+  const { data, error } = await authClient.signIn.emailOtp({
+    email,
+    otp,
+  })
+  return { data, error }
 }
 
 export async function signOut(): Promise<{data: BetterAuthSignOutData, error: BetterAuthError}> {

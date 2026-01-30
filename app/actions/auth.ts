@@ -33,6 +33,16 @@ export async function signIn(state: FormState, formData: FormData, callbackURL="
     const message = magicLinkReturn.error.message || 'An unknown error occurred'
     return { errors: { email: [message] } } as FormState
   }
+
+  const otpResult = await authClient.emailOtp.sendVerificationOtp({
+    email,
+    type: "sign-in",
+  })
+
+  if (otpResult.error) {
+    const message = otpResult.error.message || 'An unknown error occurred'
+    return { errors: { email: [message] } } as FormState
+  }
   return {
     message: 'Magic link sent! Please check your email to sign in.'
   } as FormState

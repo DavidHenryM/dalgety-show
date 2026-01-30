@@ -5,6 +5,7 @@ export interface EmailOptions {
   to: string;
   subject: string;
   text: string;
+  name?: string;
 }
 
 export function sendEmail(options: EmailOptions): Promise<SMTPTransport.SentMessageInfo> {
@@ -26,3 +27,4 @@ export function sendEmail(options: EmailOptions): Promise<SMTPTransport.SentMess
   });
   return email;
 }
+
