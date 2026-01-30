@@ -1,4 +1,5 @@
 import nodemailer from "nodemailer";
+import SMTPTransport from "nodemailer/lib/smtp-transport";
 
 export interface EmailOptions {
   to: string;
@@ -6,7 +7,7 @@ export interface EmailOptions {
   text: string;
 }
 
-export function sendEmail(options: EmailOptions) {
+export function sendEmail(options: EmailOptions): Promise<SMTPTransport.SentMessageInfo> {
   const transporter = nodemailer.createTransport({
     host: process.env.EMAIL_HOST,
     port: Number(process.env.EMAIL_PORT),
@@ -16,8 +17,12 @@ export function sendEmail(options: EmailOptions) {
     }
   });
 
-  return transporter.sendMail({
+  const email = transporter.sendMail({
     from: process.env.EMAIL_FROM,
     ...options
+  }).catch((err) => {
+    console.error("Error sending email:", err);
+    throw err;
   });
+  return email;
 }

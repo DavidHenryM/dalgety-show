@@ -35,15 +35,18 @@ export async function GET(request: NextRequest, context: { params: Promise<{ act
     const params = request.nextUrl.searchParams
     const routeParams = await context.params
     const action = routeParams.action || params.get('action')
-    const session = await auth.api.getSession({
+    const publicActions = new Set(["getShowOfInterest", "getImages"])
+    if (!action || !publicActions.has(action)) {
+      const session = await auth.api.getSession({
         headers: await headers()
-    })
-    if (!session?.user?.email){
-      return NextResponse.json({ error: 'unauthenticated' }, { status: 401 })
-    } else {
-      const user = await getUserFromEmail(session.user.email)
-      if(user?.role != Role.SITE_ADMIN && user?.role != Role.OWNER){
-        return NextResponse.json({ error: 'forbidden' }, { status: 403 })
+      })
+      if (!session?.user?.email){
+        return NextResponse.json({ error: 'unauthenticated' }, { status: 401 })
+      } else {
+        const user = await getUserFromEmail(session.user.email)
+        if(user?.role != Role.SITE_ADMIN && user?.role != Role.OWNER){
+          return NextResponse.json({ error: 'forbidden' }, { status: 403 })
+        }
       }
     }
 
@@ -149,8 +152,15 @@ export async function GET(request: NextRequest, context: { params: Promise<{ act
           // Optional: Filter by a specific prefix (e.g., 'gallery/')
           const { blobs } = await list({ prefix: prefix, token });
 
-          // Extract only the URLs
-          const imageUrls = blobs.map(blob => blob.url);
+          // Extract only file URLs (skip folder-like URLs)
+          const imageUrls = blobs
+            .map((blob) => blob.url)
+            .filter((url) => {
+              const pathname = new URL(url).pathname
+              if (pathname.endsWith("/")) return false
+              const lastSegment = pathname.split("/").pop() ?? ""
+              return lastSegment.includes(".")
+            });
 
           return NextResponse.json({ images: imageUrls });
         } catch (error) {
